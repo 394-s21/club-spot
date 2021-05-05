@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout the lastest version
         uses: actions/checkout@v2
+      - name: Lint Action
+        uses: wearerequired/lint-action@v1.9.0
       - name: Install Dependencies
         run: npm install --legacy-peer-deps && sudo npm install -g expo-cli
       - name: Build
