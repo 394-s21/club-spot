@@ -3,7 +3,6 @@ import React from 'react';
 import clubHomePage from './screens/clubHomePage';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-// import DashboardStack froma './navigations/dashboardStack';
 
 const Stack = createStackNavigator();
 
