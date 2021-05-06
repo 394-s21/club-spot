@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
+import CommonCompClubCard from '../components/CommonCompClubCard';
 
 class clubHomePage extends Component{
   constructor(props) {
@@ -9,6 +10,7 @@ class clubHomePage extends Component{
   render(){
     return(
       <View>
+        <CommonCompClubCard/>
       </View>
     ) 
   }
