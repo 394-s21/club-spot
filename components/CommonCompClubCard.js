@@ -1,43 +1,59 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { Card } from 'react-native-paper';
 
-const CommonCompClubCard = () => {
-    const LeftContent = () => <Image style={styles.clubImage} source={{uri: 'https://www.ieee.org/content/dam/ieee-org/ieee/web/org/about/whatis/71858.gif'}}/>
-  
+const CommonCompClubCard = ({clubName, clubDesc}) => {
+    const LeftContent = () => <Image style={styles.clubImage} source={{uri: 'https://www.ieee.org/content/dam/ieee-org/ieee/web/org/about/whatis/71858.gif'}}/>;
+ 
     return(
         <View style={styles.container}>
-            <Card style={{backgroundColor: 'white'}}>
-                <Card.Title style={styles.cardContent}
+            <Card style={styles.card}>
+                <Card.Title
                 left={LeftContent}
                 leftStyle={styles.imageContainer}
-                title="Club Name" 
-                subtitle="Completed: 1/6 w style={styles.container}>
-                <Card style={{backgroundColor: 'green', flexDirection: 'row'}}>
-                    <Card.Title style={styles.cardContent}
-                    left={() => <Image style={styles.clubImage} source={{uri: 'https://www.ieee.org/content/dam/ieee-org/ieee/web/org/about/whatis/71858.gif'}}/>}
-                    title=" 
+                title={clubName}
+                titleStyle={styles.title}
+                subtitle={clubDesc}
+                
+                subtitleStyle={styles.clubDescription}
+                subtitleNumberOfLines={2}
                 />
+                
             </Card>
         </View>
       );
   };
   
   const styles = StyleSheet.create({
+    title: {
+      fontSize: 18,
+      paddingTop: 10
+    },
     container: {
       flex: 1,
       padding: 10,
+      borderRadius: 40
     },
     clubImage: {
       borderRadius: 25,
       borderWidth: 2,
       width: 50,
-      height: 50
+      height: 50,
+      marginTop: 15,
+      alignContent: 'center',
+      justifyContent: 'center'
     },
     imageContainer: {
-      paddingHorizontal: 10,
+      paddingHorizontal: 0,
       //borderWidth: 2,
-      width: 70
+      width: 60
+    },
+    clubDescription: {
+      fontSize: 14,
+      
+    },
+    card: {
+      height: 100
     },
   });
   export default CommonCompClubCard;
