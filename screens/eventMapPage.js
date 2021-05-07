@@ -1,13 +1,14 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import MapView from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
-export default function App() {
+class eventMapPage extends Component{
+  render() {
   return (
     <View style={styles.container}>
       <MapView style={styles.map} />
     </View>
-  );
+  );}
 }
 
 const styles = StyleSheet.create({
@@ -22,3 +23,4 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
   },
 });
+export default eventMapPage;
