@@ -15,9 +15,15 @@ jobs:
           expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
       - run: npm install --legacy-peer-deps && sudo npm install -g expo-cli
-      - run: expo publish --release-channel=pr-${{ github.event.number }}
-      - uses: unsplash/comment-on-pr@master
+      - name: Expo Publish Channel
+        run: expo publish --non-interactive --release-channel pr${{ github.event.number }}
+      - name: Add Comment To PR
+        uses: mshick/add-pr-comment@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXPO_PROJECT: "@yjpei/projects/club-spot" # Put in your own Expo project name here
         with:
-          msg: App is ready for review, you can [see it here](https://expo.io/@bycedric/use-expo?release-channel=pr-${{ github.event.number }}).
+          message: |
+            ## Application
+            ![Expo QR](https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=exp://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }})
+            Published to https://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }}
