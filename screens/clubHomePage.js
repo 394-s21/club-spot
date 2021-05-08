@@ -72,7 +72,7 @@ class clubHomePage extends Component{
                         onChangeText={queryText => this.handleSearch(queryText)} />
            <CommonCompClubCard clubName="Club Name" clubDesc="This is a club about friendship and trust here at Northwestern. To learn more"/>
            <View>
-           {this.state.clubs.map(club => <CommonCompClubCard clubName={club.clubName} clubDesc={club.description}/>)}
+           {this.state.clubs.map(club => <CommonCompClubCard clubName={club.clubName} key={club.clubName} clubDesc={club.description}/>)}
            </View>
           </View>
         </ScrollView>
