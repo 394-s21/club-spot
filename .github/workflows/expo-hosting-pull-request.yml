@@ -24,6 +24,7 @@ jobs:
           EXPO_PROJECT: "@yjpei/projects/club-spot" # Put in your own Expo project name here
         with:
           message: |
-            ## Application (due to Apple's restriction, this only works on Android Devices)
+            ## Application
+            ### The QR code only works for android devices. To test iOS devices, we need to use the "Email a link" section of the website down below. Then, open the link from our iPhones.
             ![Expo QR](https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=exp://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }})
             Published to https://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }}
