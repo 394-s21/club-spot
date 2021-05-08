@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, SafeAreaView, ScrollView} from 'react-native';
 import CommonCompClubCard from '../components/CommonCompClubCard';
-import { firebase }  from '../firebase';
+import { firebase }  from '../utils/firebase';
 import { Provider, TextInput, RadioButton,Text, Subheading,Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 import filter from 'lodash.filter';
 
