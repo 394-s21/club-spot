@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
@@ -15,6 +15,7 @@ class eventMapPage extends Component{
   }
 
   render() {
+    //TODO: to be replaced with real coordinate
     return (
         <MapView
             style={{ flex: 1 }}
@@ -23,8 +24,11 @@ class eventMapPage extends Component{
                 longitude: this.state.initLocation.longitude,
                 latitudeDelta: 0.1,
                 longitudeDelta: 0.1,
-            }}
-        />
+            }}>
+          <Marker coordinate={{ latitude: 42.055984, longitude: -87.675171 }} />
+          <Marker coordinate={{ latitude: 42.014, longitude: -87.675171 }} /> 
+          <Marker coordinate={{ latitude: 42.014, longitude: -87.708 }} /> 
+        </MapView>
     );
   }
 }
