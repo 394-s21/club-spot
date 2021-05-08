@@ -24,6 +24,6 @@ jobs:
           EXPO_PROJECT: "@yjpei/projects/club-spot" # Put in your own Expo project name here
         with:
           message: |
-            ## Application
+            ## Application (due to Apple's restriction, this only works on Android Devices)
             ![Expo QR](https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=exp://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }})
             Published to https://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }}
