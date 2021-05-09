@@ -70,6 +70,7 @@ class clubHomePage extends Component{
       <SafeAreaView>
         <ScrollView>
           <View>
+            <View style={styles.row}>
             <DropDown label={"Club category"} 
             mode={"outlined"}
             value={this.state.query}
@@ -80,6 +81,7 @@ class clubHomePage extends Component{
                         type="outlined" 
                         style = {styles.field}
                         onChangeText={queryText => this.handleSearch(queryText)} />
+           </View>
            <CommonCompClubCard clubName="Club Name" clubDesc="This is a club about friendship and trust here at Northwestern. To learn more"/>
            <View>
            {this.state.clubs.map(club => <CommonCompClubCard clubName={club.clubName} clubDesc={club.description}/>)}
@@ -97,6 +99,9 @@ const styles = StyleSheet.create({
     margin: 12,
     backgroundColor: 'white',
   },
+  row: {
+    flexDirection: "row"
+  }
 })
 
 export default clubHomePage;
