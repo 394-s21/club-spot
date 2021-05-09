@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, SafeAreaView, ScrollView} from 'react-native';
 import CommonCompClubCard from '../components/CommonCompClubCard';
 import { firebase }  from '../firebase';
+import DropDown from 'react-native-paper-dropdown';
 import { Provider, TextInput, RadioButton,Text, Subheading,Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 import filter from 'lodash.filter';
 
@@ -61,10 +62,19 @@ class clubHomePage extends Component{
   
 
   render(){
+    const clubCategories = [
+      {label: "Philanthropy", value: "philanthropy"},
+      {label: "Sports", value: "sports"}
+    ];
     return(
       <SafeAreaView>
         <ScrollView>
           <View>
+            <DropDown label={"Club category"} 
+            mode={"outlined"}
+            value={this.state.query}
+            list={clubCategories}
+            />
               <TextInput label="Search" 
                         value = {this.state.query} 
                         type="outlined" 
@@ -90,3 +100,5 @@ const styles = StyleSheet.create({
 })
 
 export default clubHomePage;
+
+
