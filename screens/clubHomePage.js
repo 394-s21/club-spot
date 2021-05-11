@@ -38,27 +38,29 @@ class clubHomePage extends Component{
       return true;
     }
     else {
+      console.log('club not found')
+      //console.log(club.clubName,query)
       return false;
     }
   }
 
   handleSearch(queryText) {
+    //console.log('query: ',queryText)
+    const formattedQuery = queryText.toLowerCase();
+    this.setState({query: formattedQuery})
+    console.log('query: ',queryText)
     if (queryText === "") {
       this.setState({clubs: this.state.all_clubs})
     }
     else {
-      console.log('query: ',queryText)
-      const formattedQuery = queryText.toLowerCase();
-      this.setState({query: formattedQuery})
-      const all_clubs = this.state.clubs
+      const all_clubs = this.state.all_clubs
       const filteredClubs = filter(all_clubs, club => {
         return this.contains(club,formattedQuery);
       })
-      console.log('filtered clubs: ',filteredClubs)
+      //console.log('filtered clubs: ',filteredClubs)
       this.setState({clubs: filteredClubs})
     }
   }
-  
 
   render(){
     return(
