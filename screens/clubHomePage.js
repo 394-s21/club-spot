@@ -67,13 +67,14 @@ class clubHomePage extends Component{
   render(){
     return(
       <SafeAreaView>
-        <ScrollView>
-          <View>
+        <View>
               <TextInput label="Search" 
                         value = {this.state.query} 
                         type="outlined" 
-                        style = {styles.field}
+                        style = {styles.searchbar}
                         onChangeText={queryText => this.handleSearch(queryText)} />
+        </View>
+        <ScrollView>
            <View>
            {this.state.clubs.map(club => 
            <CommonCompClubCard 
@@ -84,7 +85,6 @@ class clubHomePage extends Component{
               clubEmail = {club.email} 
               navigation={this.props.navigation}/>)}
            </View>
-          </View>
         </ScrollView>
       </SafeAreaView>
     ) 
@@ -97,6 +97,10 @@ const styles = StyleSheet.create({
     margin: 12,
     backgroundColor: 'white',
   },
+  searchbar:{
+    margin:10,
+    backgroundColor: 'white',
+  }
 })
 
 export default clubHomePage;
