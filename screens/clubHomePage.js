@@ -14,8 +14,10 @@ class clubHomePage extends Component{
       all_clubs: [],
       query: ""
     };
-    this.handleSearch = this.handleSearch.bind(this)
-    this.contains = this.contains.bind(this)
+    this.handleSearch = this.handleSearch.bind(this);
+    this.contains = this.contains.bind(this);
+    //console.log(this.props.navigation)
+    //this.navigation = this.props.navigation.setOptions();
   }
 
   componentDidMount() {
@@ -34,11 +36,11 @@ class clubHomePage extends Component{
   };
   contains = (club,query) => {
     if (club.clubName.toLowerCase().includes(query) || club.category.toLowerCase().includes(query)) {
-      console.log('club found')
+      //console.log('club found')
       return true;
     }
     else {
-      console.log('club not found')
+      //console.log('club not found')
       //console.log(club.clubName,query)
       return false;
     }
@@ -57,7 +59,7 @@ class clubHomePage extends Component{
       const filteredClubs = filter(all_clubs, club => {
         return this.contains(club,formattedQuery);
       })
-      //console.log('filtered clubs: ',filteredClubs)
+      console.log('filtered clubs: ',filteredClubs)
       this.setState({clubs: filteredClubs})
     }
   }
@@ -65,18 +67,24 @@ class clubHomePage extends Component{
   render(){
     return(
       <SafeAreaView>
-        <ScrollView>
-          <View>
+        <View>
               <TextInput label="Search" 
                         value = {this.state.query} 
                         type="outlined" 
-                        style = {styles.field}
+                        style = {styles.searchbar}
                         onChangeText={queryText => this.handleSearch(queryText)} />
-           <CommonCompClubCard clubName="Club Name" clubDesc="This is a club about friendship and trust here at Northwestern. To learn more"/>
+        </View>
+        <ScrollView>
            <View>
-           {this.state.clubs.map(club => <CommonCompClubCard clubName={club.clubName} key={club.clubName} clubDesc={club.description}/>)}
+           {this.state.clubs.map(club => 
+           <CommonCompClubCard 
+              clubName={club.clubName} 
+              key={club.clubName} 
+              clubDesc={club.description} 
+              clubCategory= {club.category} 
+              clubEmail = {club.email} 
+              navigation={this.props.navigation}/>)}
            </View>
-          </View>
         </ScrollView>
       </SafeAreaView>
     ) 
@@ -89,6 +97,10 @@ const styles = StyleSheet.create({
     margin: 12,
     backgroundColor: 'white',
   },
+  searchbar:{
+    margin:10,
+    backgroundColor: 'white',
+  }
 })
 
 export default clubHomePage;
