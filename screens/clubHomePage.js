@@ -125,8 +125,6 @@ class clubHomePage extends Component{
                 />
                 
            </View>
-           
-           <CommonCompClubCard clubName="Club Name" clubDesc="This is a club about friendship and trust here at Northwestern. To learn more"/>
            <View>
            {this.state.clubs.map(club => 
            <CommonCompClubCard 
