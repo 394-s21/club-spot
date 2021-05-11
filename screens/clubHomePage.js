@@ -3,6 +3,7 @@ import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity} from 'rea
 import CommonCompClubCard from '../components/CommonCompClubCard';
 import { firebase }  from '../firebase';
 import DropDownPicker from 'react-native-dropdown-picker';
+import DropDown from "react-native-paper-dropdown";
 import { Provider, TextInput, RadioButton,Text, Subheading,Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 import filter from 'lodash.filter';
 
@@ -45,6 +46,8 @@ class clubHomePage extends Component{
             clubDict[childSnap.category].push(childSnap);
           }
         });
+      clubDict['All'] = clubArray
+      clubCategories.push({label: "All", value: "All"})
       this.setState({clubs: clubArray, all_clubs: clubArray, clubDict: clubDict, clubCategories: clubCategories});
       }
     })
@@ -90,37 +93,12 @@ class clubHomePage extends Component{
   
 
   render(){
-    const clubCategories = [
-      {label: "Identity-Based", value: "Identity-Based"},
-      {label: "Sports", value: "Sports"},
-      {label: "Academic", value: "Academic"},
-      {label: "Religious & Spiritual", value: "Religious & Spiritual"},
-      {label: "Advocacy & Philanthropy", value: "Advocacy & Philanthropy"},
-      {label: "Arts/Performance", value: "Arts/Performance"},
-      {label: "Media & Journalism", value: "Media & Journalism"},
-      {label: "Pre-Professional / Networking", value: "Pre-Professional / Networking"},
-      {label: "Miscellaneous", value: "Miscellaneous"},
-      {label: "Government", value: "Government"},
-      {label: "Greek Life", value: "Greek Life"},
-      {label: "Health & Wellness", value: "Health & Wellness"},
-      {label: "Entertainment", value: "Entertainment"},
-      {label: "Music", value: "Music"},
-      {label: "Vocal Performance", value: "Vocal Performance"},
-      {label: "Dance", value: "Dance"},
-      {label: "Environmental", value: "Environmental"},
-      {label: "Advocacy & Community Service", value: "Advocacy & Community Service"},
-      {label: "Department-Sponsored Program", value: "Department-Sponsored Program"},
-      {label: "Sports & Recreation", value: "Sports & Recreation"},
-    ];
     return(
-        
+      <Provider > 
       <SafeAreaView>
         <ScrollView>
-        
           <View>
             <View style={styles.row}>
-
-
             <TextInput label="Search" 
                        value = {this.state.query} 
                        type = "flat" 
@@ -128,12 +106,23 @@ class clubHomePage extends Component{
                        placeholder = "Search for group"
                        onChangeText={queryText => this.handleSearch(queryText)} 
             />
-                     
-            <TouchableOpacity onPress={() => this.filter("Music")}>
-              click to filter for music only clubs
-            </TouchableOpacity>
-           
+              <DropDown
+                label={'Select club category'}
+                mode={'outlined'}
+                value={this.state.clubCat}
+                setValue={(item) => this.filter(item) }
+                list={this.state.clubCategories}
+                visible={this.state.showDropDown}
+                showDropDown={() =>  this.setState({showDropDown: true})}
+                onDismiss={() =>  this.setState({showDropDown: false})}
+                inputProps={{
+                right:  <TextInput.Icon  name={'menu-down'}  />,
+                }}
+
+                />
+                
            </View>
+           
            <CommonCompClubCard clubName="Club Name" clubDesc="This is a club about friendship and trust here at Northwestern. To learn more"/>
            <View>
            {this.state.clubs.map(club => <CommonCompClubCard clubName={club.clubName} clubDesc={club.description}/>)}
@@ -142,7 +131,7 @@ class clubHomePage extends Component{
           
         </ScrollView>
       </SafeAreaView>
-      
+      </Provider>
     ) 
   }
 }
@@ -150,6 +139,7 @@ class clubHomePage extends Component{
 const styles = StyleSheet.create({
   field: {
     height: 55,
+    width: 200,
     margin: 12,
     backgroundColor: 'white',
   },
@@ -163,13 +153,7 @@ const styles = StyleSheet.create({
  /*
  dropdown 
 
- <DropDownPicker
-                items={clubCategories}
-                defaultIndex={0}
-                containerStyle={{height: 40, textAlign: 'center', color:'#FFFFFF'}}
-                onChangeItem={(item) => this.filter(item)}
-            />
-
+ 
  */
 export default clubHomePage;
 
