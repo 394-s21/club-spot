@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView} from 'react-native';
+import React, { Component, useState } from 'react';
+import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity} from 'react-native';
 import CommonCompClubCard from '../components/CommonCompClubCard';
+//import { firebase }  from '../firebase';
+import DropDown from "react-native-paper-dropdown";
 import { firebase }  from '../utils/firebase';
 import { Provider, TextInput, RadioButton,Text, Subheading,Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 import filter from 'lodash.filter';
@@ -9,15 +11,20 @@ class clubHomePage extends Component{
   constructor(props) {
     super(props);
 
+
     this.state = {
       clubs: [],
       all_clubs: [],
-      query: ""
+      clubCategories: [{label: "ya", value: "ya"}],
+      clubDict: {},
+      query: "",
+      showDropDown: false,
+      clubCat: "All",
+      dropDownOpen: false
     };
-    this.handleSearch = this.handleSearch.bind(this);
-    this.contains = this.contains.bind(this);
-    //console.log(this.props.navigation)
-    //this.navigation = this.props.navigation.setOptions();
+    this.handleSearch = this.handleSearch.bind(this)
+    this.contains = this.contains.bind(this)
+    this.filter = this.filter.bind(this)
   }
 
   componentDidMount() {
@@ -26,11 +33,21 @@ class clubHomePage extends Component{
     db.on('value', (snapshot) => {
       if (snapshot.exists()) {
         const clubArray = [];
+        const clubCategories = [];
+        let clubDict = {};
         snapshot.forEach(function (childSnapshot) {
-          clubArray.push(childSnapshot.toJSON());
+          let childSnap = childSnapshot.toJSON();
+          clubArray.push(childSnap);
+          if (!(childSnap.category in clubDict)) {
+            clubDict[childSnap.category] = [childSnap];
+            clubCategories.push({label: childSnap.category, value: childSnap.category});
+          } else {
+            clubDict[childSnap.category].push(childSnap);
+          }
         });
-      this.setState({clubs: clubArray,
-                    all_clubs: clubArray});
+      clubDict['All'] = clubArray
+      clubCategories.unshift({label: "All", value: "All"})
+      this.setState({clubs: clubArray, all_clubs: clubArray, clubDict: clubDict, clubCategories: clubCategories});
       }
     })
   };
@@ -46,6 +63,15 @@ class clubHomePage extends Component{
     }
   }
 
+
+  filter(category) {
+    this.setState({clubCat: category,
+                  clubs: this.state.clubDict[category]})
+    console.log(this.state)
+
+  }
+
+
   handleSearch(queryText) {
     //console.log('query: ',queryText)
     const formattedQuery = queryText.toLowerCase();
@@ -60,21 +86,45 @@ class clubHomePage extends Component{
         return this.contains(club,formattedQuery);
       })
       console.log('filtered clubs: ',filteredClubs)
+      console.log(this.state.clubDict)
       this.setState({clubs: filteredClubs})
     }
   }
 
+
+  
+
   render(){
     return(
-      <SafeAreaView>
-        <View>
-              <TextInput label="Search" 
-                        value = {this.state.query} 
-                        type="outlined" 
-                        style = {styles.searchbar}
-                        onChangeText={queryText => this.handleSearch(queryText)} />
-        </View>
+      <Provider > 
+      <SafeAreaView style={styles.container}>
         <ScrollView>
+          <View>
+            <View style={styles.row}>
+            <TextInput label="Search" 
+                       value = {this.state.query} 
+                       type = "flat" 
+                       style = {styles.field}
+                       placeholder = "Search for group"
+                       onChangeText={queryText => this.handleSearch(queryText)} 
+            />
+              <DropDown
+                style={styles.field}
+                label={'Filter category'}
+                placeholder="Category"
+                mode={'outlined'}
+                value={this.state.clubCat}
+                setValue={(item) => this.filter(item) }
+                list={this.state.clubCategories}
+                visible={this.state.showDropDown}
+                showDropDown={() =>  this.setState({showDropDown: true})}
+                onDismiss={() =>  this.setState({showDropDown: false})}
+                inputProps={{
+                right:  <TextInput.Icon  name={'menu-down'}  />,
+                }}
+                />
+                
+           </View>
            <View>
            {this.state.clubs.map(club => 
            <CommonCompClubCard 
@@ -85,8 +135,11 @@ class clubHomePage extends Component{
               clubEmail = {club.email} 
               navigation={this.props.navigation}/>)}
            </View>
+          </View>
+          
         </ScrollView>
       </SafeAreaView>
+      </Provider>
     ) 
   }
 }
@@ -94,13 +147,37 @@ class clubHomePage extends Component{
 const styles = StyleSheet.create({
   field: {
     height: 55,
+    width: 200,
     margin: 12,
     backgroundColor: 'white',
   },
+  row: {
+    marginTop: 10,
+    flexDirection: "row"
+  },
+  container: {
+
+    flex:  1,
+      
+    marginHorizontal:  20,
+      
+    justifyContent:  'center',
+      
+  },
+
   searchbar:{
     margin:10,
     backgroundColor: 'white',
   }
 })
 
+
+
+ /*
+ dropdown 
+
+ 
+ */
 export default clubHomePage;
+
+
