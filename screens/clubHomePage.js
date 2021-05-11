@@ -128,16 +128,9 @@ class clubHomePage extends Component{
                        placeholder = "Search for group"
                        onChangeText={queryText => this.handleSearch(queryText)} 
             />
-            
-            <DropDownPicker
-                items={clubCategories}
-                defaultIndex={0}
-                containerStyle={{height: 40, textAlign: 'center', color:'#FFFFFF'}}
-                onChangeItem={item => this.filter(item)}
-            />
-
-            <TouchableOpacity onPress={() => this.filter("Dance")}>
-              hi
+                     
+            <TouchableOpacity onPress={() => this.filter("Music")}>
+              click to filter for music only clubs
             </TouchableOpacity>
            
            </View>
@@ -165,6 +158,19 @@ const styles = StyleSheet.create({
   }
 })
 
+
+
+ /*
+ dropdown 
+
+ <DropDownPicker
+                items={clubCategories}
+                defaultIndex={0}
+                containerStyle={{height: 40, textAlign: 'center', color:'#FFFFFF'}}
+                onChangeItem={(item) => this.filter(item)}
+            />
+
+ */
 export default clubHomePage;
 
 
