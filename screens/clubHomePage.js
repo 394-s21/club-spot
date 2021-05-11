@@ -14,6 +14,7 @@ class clubHomePage extends Component{
     this.state = {
       clubs: [],
       all_clubs: [],
+      clubCategories: [{label: "ya", value: "ya"}],
       clubDict: {},
       query: "",
       showDropDown: false,
@@ -32,21 +33,19 @@ class clubHomePage extends Component{
     db.on('value', (snapshot) => {
       if (snapshot.exists()) {
         const clubArray = [];
+        const clubCategories = [];
         let clubDict = {};
         snapshot.forEach(function (childSnapshot) {
           let childSnap = childSnapshot.toJSON();
           clubArray.push(childSnap);
-          console.log(childSnapshot.toJSON().category);
           if (!(childSnap.category in clubDict)) {
             clubDict[childSnap.category] = [childSnap];
+            clubCategories.push({label: childSnap.category, value: childSnap.category});
           } else {
             clubDict[childSnap.category].push(childSnap);
           }
-
         });
-      this.setState({clubs: clubArray,
-                    all_clubs: clubArray,
-                    clubDict: clubDict});
+      this.setState({clubs: clubArray, all_clubs: clubArray, clubDict: clubDict, clubCategories: clubCategories});
       }
     })
   };
@@ -64,6 +63,7 @@ class clubHomePage extends Component{
   filter(category) {
     this.setState({clubCat: category,
                   clubs: this.state.clubDict[category]})
+    console.log(this.state)
 
   }
 
@@ -91,19 +91,35 @@ class clubHomePage extends Component{
 
   render(){
     const clubCategories = [
-      {label: "Philanthropy", value: "philanthropy"},
-      {label: "Sports", value: "sports"}
+      {label: "Identity-Based", value: "Identity-Based"},
+      {label: "Sports", value: "Sports"},
+      {label: "Academic", value: "Academic"},
+      {label: "Religious & Spiritual", value: "Religious & Spiritual"},
+      {label: "Advocacy & Philanthropy", value: "Advocacy & Philanthropy"},
+      {label: "Arts/Performance", value: "Arts/Performance"},
+      {label: "Media & Journalism", value: "Media & Journalism"},
+      {label: "Pre-Professional / Networking", value: "Pre-Professional / Networking"},
+      {label: "Miscellaneous", value: "Miscellaneous"},
+      {label: "Government", value: "Government"},
+      {label: "Greek Life", value: "Greek Life"},
+      {label: "Health & Wellness", value: "Health & Wellness"},
+      {label: "Entertainment", value: "Entertainment"},
+      {label: "Music", value: "Music"},
+      {label: "Vocal Performance", value: "Vocal Performance"},
+      {label: "Dance", value: "Dance"},
+      {label: "Environmental", value: "Environmental"},
+      {label: "Advocacy & Community Service", value: "Advocacy & Community Service"},
+      {label: "Department-Sponsored Program", value: "Department-Sponsored Program"},
+      {label: "Sports & Recreation", value: "Sports & Recreation"},
     ];
     return(
-      
+        
       <SafeAreaView>
         <ScrollView>
         
           <View>
             <View style={styles.row}>
-            <TouchableOpacity onPress={() => this.filter("Dance")}>
-              hi
-            </TouchableOpacity>
+
 
             <TextInput label="Search" 
                        value = {this.state.query} 
@@ -112,6 +128,18 @@ class clubHomePage extends Component{
                        placeholder = "Search for group"
                        onChangeText={queryText => this.handleSearch(queryText)} 
             />
+            
+            <DropDownPicker
+                items={clubCategories}
+                defaultIndex={0}
+                containerStyle={{height: 40, textAlign: 'center', color:'#FFFFFF'}}
+                onChangeItem={item => this.filter(item)}
+            />
+
+            <TouchableOpacity onPress={() => this.filter("Dance")}>
+              hi
+            </TouchableOpacity>
+           
            </View>
            <CommonCompClubCard clubName="Club Name" clubDesc="This is a club about friendship and trust here at Northwestern. To learn more"/>
            <View>
