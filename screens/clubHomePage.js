@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView} from 'react-native';
+import React, { Component, useState } from 'react';
+import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity} from 'react-native';
 import CommonCompClubCard from '../components/CommonCompClubCard';
 import { firebase }  from '../firebase';
-import DropDown from 'react-native-paper-dropdown';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { Provider, TextInput, RadioButton,Text, Subheading,Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 import filter from 'lodash.filter';
 
@@ -10,13 +10,20 @@ class clubHomePage extends Component{
   constructor(props) {
     super(props);
 
+
     this.state = {
       clubs: [],
       all_clubs: [],
-      query: ""
+      clubDict: {},
+      query: "",
+      showDropDown: false,
+      clubCat: "all",
+      setCat: "all",
+      dropDownOpen: false
     };
     this.handleSearch = this.handleSearch.bind(this)
     this.contains = this.contains.bind(this)
+    this.filter = this.filter.bind(this)
   }
 
   componentDidMount() {
@@ -25,11 +32,21 @@ class clubHomePage extends Component{
     db.on('value', (snapshot) => {
       if (snapshot.exists()) {
         const clubArray = [];
+        let clubDict = {};
         snapshot.forEach(function (childSnapshot) {
-          clubArray.push(childSnapshot.toJSON());
+          let childSnap = childSnapshot.toJSON();
+          clubArray.push(childSnap);
+          console.log(childSnapshot.toJSON().category);
+          if (!(childSnap.category in clubDict)) {
+            clubDict[childSnap.category] = [childSnap];
+          } else {
+            clubDict[childSnap.category].push(childSnap);
+          }
+
         });
       this.setState({clubs: clubArray,
-                    all_clubs: clubArray});
+                    all_clubs: clubArray,
+                    clubDict: clubDict});
       }
     })
   };
@@ -42,6 +59,14 @@ class clubHomePage extends Component{
       return false;
     }
   }
+
+
+  filter(category) {
+    this.setState({clubCat: category,
+                  clubs: this.state.clubDict[category]})
+
+  }
+
 
   handleSearch(queryText) {
     if (queryText === "") {
@@ -56,9 +81,12 @@ class clubHomePage extends Component{
         return this.contains(club,formattedQuery);
       })
       console.log('filtered clubs: ',filteredClubs)
+      console.log(this.state.clubDict)
       this.setState({clubs: filteredClubs})
     }
   }
+
+
   
 
   render(){
@@ -67,28 +95,33 @@ class clubHomePage extends Component{
       {label: "Sports", value: "sports"}
     ];
     return(
+      
       <SafeAreaView>
         <ScrollView>
+        
           <View>
             <View style={styles.row}>
-            <DropDown label={"Club category"} 
-            mode={"outlined"}
-            value={this.state.query}
-            list={clubCategories}
+            <TouchableOpacity onPress={() => this.filter("Dance")}>
+              hi
+            </TouchableOpacity>
+
+            <TextInput label="Search" 
+                       value = {this.state.query} 
+                       type = "flat" 
+                       style = {styles.field}
+                       placeholder = "Search for group"
+                       onChangeText={queryText => this.handleSearch(queryText)} 
             />
-              <TextInput label="Search" 
-                        value = {this.state.query} 
-                        type="outlined" 
-                        style = {styles.field}
-                        onChangeText={queryText => this.handleSearch(queryText)} />
            </View>
            <CommonCompClubCard clubName="Club Name" clubDesc="This is a club about friendship and trust here at Northwestern. To learn more"/>
            <View>
            {this.state.clubs.map(club => <CommonCompClubCard clubName={club.clubName} clubDesc={club.description}/>)}
            </View>
           </View>
+          
         </ScrollView>
       </SafeAreaView>
+      
     ) 
   }
 }
