@@ -14,8 +14,10 @@ class clubHomePage extends Component{
       all_clubs: [],
       query: ""
     };
-    this.handleSearch = this.handleSearch.bind(this)
-    this.contains = this.contains.bind(this)
+    this.handleSearch = this.handleSearch.bind(this);
+    this.contains = this.contains.bind(this);
+    //console.log(this.props.navigation)
+    //this.navigation = this.props.navigation.setOptions();
   }
 
   componentDidMount() {
@@ -72,9 +74,8 @@ class clubHomePage extends Component{
                         type="outlined" 
                         style = {styles.field}
                         onChangeText={queryText => this.handleSearch(queryText)} />
-           <CommonCompClubCard clubName="Club Name" clubDesc="This is a club about friendship and trust here at Northwestern. To learn more"/>
            <View>
-           {this.state.clubs.map(club => <CommonCompClubCard clubName={club.clubName} key={club.clubName} clubDesc={club.description}/>)}
+           {this.state.clubs.map(club => <CommonCompClubCard clubName={club.clubName} key={club.clubName} clubDesc={club.description} navigation={this.props.navigation}/>)}
            </View>
           </View>
         </ScrollView>

@@ -5,6 +5,7 @@ import { Entypo, FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import clubHomePage from '../screens/clubHomePage';
 import eventMapPage from '../screens/eventMapPage';
+import clubHomePageStack from '../navigations/clubHomePageStack';
 
 
 const Tab = createBottomTabNavigator();
@@ -12,13 +13,13 @@ const Tab = createBottomTabNavigator();
 export default function homeTab() {
   return (
     <Tab.Navigator
-      initialRouteName="clubHomePage"
+      initialRouteName="clubHomePageStack"
       tabBarOptions={{
         activeTintColor: '#3DD5F4',
       }}>
       <Tab.Screen
-        name="clubHomePage"
-        component={clubHomePage}
+        name="clubHomePageStack"
+        component={clubHomePageStack}
         options={{
           tabBarLabel: 'Dashboard',
           tabBarIcon: ({ color, size }) => (
