@@ -9,7 +9,9 @@ class clubDetailsPage extends Component{
         super(props);
         this.state = {
             clubName : this.props.route.params.clubName,
-            clubDesc : this.props.route.params.clubDesc
+            clubDesc : this.props.route.params.clubDesc,
+            clubCategory: this.props.route.params.clubCategory,
+            clubEmail: this.props.route.params.clubEmail
         }
     }
 
@@ -18,10 +20,25 @@ class clubDetailsPage extends Component{
         return(
             <SafeAreaView>
                 <ScrollView>
-                    <Text style = {styles.title}>{this.state.clubName}
+                    <Text style = {styles.title}>
+                    {this.state.clubName}
                     {'\n'}
                     </Text>
-                    <Text style = {styles.clubDescription}>{this.state.clubDesc}</Text>
+                    <Text style = {styles.clubDescription}>
+                        Category:
+                        {'\n'}
+                        {this.state.clubCategory}
+                        {'\n'}
+                        {'\n'}
+                        Email:
+                        {'\n'}
+                        {this.state.clubEmail}
+                        {'\n'}
+                        {'\n'}
+                        Description:
+                        {'\n'}
+                        {this.state.clubDesc}
+                        </Text>
                 </ScrollView>
             </SafeAreaView>
         )

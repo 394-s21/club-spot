@@ -2,18 +2,18 @@ import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { Card } from 'react-native-paper';
 
-const CommonCompClubCard = ({clubName, clubDesc, navigation}) => {
+const CommonCompClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navigation}) => {
     const LeftContent = () => <Image style={styles.clubImage} source={{uri: 'https://www.ieee.org/content/dam/ieee-org/ieee/web/org/about/whatis/71858.gif'}}/>;
     
-    const viewClub = (navigation,name,desc)=>{
-      navigation.navigate('Club Details',{clubName:name, clubDesc:desc})
+    const viewClub = (navigation,name,desc,category,email)=>{
+      navigation.navigate('Club Details',{clubName:name, clubDesc:desc, clubCategory:category, clubEmail:email })
     }
 
     return(
         <View style={styles.container}>
             <Card 
             style={styles.card}
-            onPress={()=>{viewClub(navigation,clubName,clubDesc)}}>
+            onPress={()=>{viewClub(navigation,clubName,clubDesc,clubCategory,clubEmail)}}>
                 <Card.Title
                 left={LeftContent}
                 leftStyle={styles.imageContainer}

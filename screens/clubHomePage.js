@@ -36,11 +36,11 @@ class clubHomePage extends Component{
   };
   contains = (club,query) => {
     if (club.clubName.toLowerCase().includes(query) || club.category.toLowerCase().includes(query)) {
-      console.log('club found')
+      //console.log('club found')
       return true;
     }
     else {
-      console.log('club not found')
+      //console.log('club not found')
       //console.log(club.clubName,query)
       return false;
     }
@@ -59,7 +59,7 @@ class clubHomePage extends Component{
       const filteredClubs = filter(all_clubs, club => {
         return this.contains(club,formattedQuery);
       })
-      //console.log('filtered clubs: ',filteredClubs)
+      console.log('filtered clubs: ',filteredClubs)
       this.setState({clubs: filteredClubs})
     }
   }
@@ -75,7 +75,14 @@ class clubHomePage extends Component{
                         style = {styles.field}
                         onChangeText={queryText => this.handleSearch(queryText)} />
            <View>
-           {this.state.clubs.map(club => <CommonCompClubCard clubName={club.clubName} key={club.clubName} clubDesc={club.description} navigation={this.props.navigation}/>)}
+           {this.state.clubs.map(club => 
+           <CommonCompClubCard 
+              clubName={club.clubName} 
+              key={club.clubName} 
+              clubDesc={club.description} 
+              clubCategory= {club.category} 
+              clubEmail = {club.email} 
+              navigation={this.props.navigation}/>)}
            </View>
           </View>
         </ScrollView>
