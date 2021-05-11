@@ -18,29 +18,38 @@ class clubDetailsPage extends Component{
 
     render(){
         return(
+            <View style={styles.backcover}>
             <SafeAreaView>
                 <ScrollView>
+                    <View style = {styles.view}>
                     <Text style = {styles.title}>
                     {this.state.clubName}
-                    {'\n'}
+                        {'\n'}
+                    </Text>
+                    <Text style = {styles.subtitle}>
+                        Category:
                     </Text>
                     <Text style = {styles.clubDescription}>
-                        Category:
-                        {'\n'}
                         {this.state.clubCategory}
                         {'\n'}
-                        {'\n'}
+                    </Text>
+                    <Text style = {styles.subtitle}>
                         Email:
-                        {'\n'}
+                    </Text>
+                    <Text style = {styles.email}>
                         {this.state.clubEmail}
                         {'\n'}
-                        {'\n'}
+                    </Text>
+                    <Text style = {styles.subtitle}>
                         Description:
-                        {'\n'}
+                    </Text>
+                    <Text style = {styles.clubDescription}>
                         {this.state.clubDesc}
-                        </Text>
+                    </Text>
+                    </View>
                 </ScrollView>
             </SafeAreaView>
+            </View>
         )
     }
 
@@ -49,8 +58,14 @@ class clubDetailsPage extends Component{
 const styles = StyleSheet.create({
     title: {
       fontSize: 22,
-      paddingTop: 10
+      paddingTop: 10,
+      fontWeight: 'bold'
     },
+    subtitle:{
+      fontSize: 16,
+      fontWeight: 'bold'
+    },
+
     container: {
       flex: 1,
       padding: 10,
@@ -77,6 +92,17 @@ const styles = StyleSheet.create({
     card: {
       height: 100
     },
+    email:{
+    color:'blue',
+    textDecorationLine:'underline'
+    },
+    view:{
+        padding:20,
+        backgroundColor: 'white'
+    },
+    backcover:{
+        backgroundColor: 'white'
+    }
   });
 
 export default clubDetailsPage;
