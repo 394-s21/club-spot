@@ -19,8 +19,7 @@ class clubHomePage extends Component{
       clubDict: {},
       query: "",
       showDropDown: false,
-      clubCat: "all",
-      setCat: "all",
+      clubCat: "All",
       dropDownOpen: false
     };
     this.handleSearch = this.handleSearch.bind(this)
@@ -98,7 +97,7 @@ class clubHomePage extends Component{
   render(){
     return(
       <Provider > 
-      <SafeAreaView>
+      <SafeAreaView style={styles.container}>
         <ScrollView>
           <View>
             <View style={styles.row}>
@@ -109,8 +108,9 @@ class clubHomePage extends Component{
                        placeholder = "Search for group"
                        onChangeText={queryText => this.handleSearch(queryText)} 
             />
-              <DropDown style={styles.field}
-                label={'Select club category'}
+              <DropDown
+                style={styles.field}
+                label={'Filter category'}
                 placeholder="Category"
                 mode={'outlined'}
                 value={this.state.clubCat}
@@ -122,7 +122,6 @@ class clubHomePage extends Component{
                 inputProps={{
                 right:  <TextInput.Icon  name={'menu-down'}  />,
                 }}
-
                 />
                 
            </View>
@@ -155,9 +154,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   row: {
+    marginTop: 10,
     flexDirection: "row"
-
   },
+  container: {
+
+    flex:  1,
+      
+    marginHorizontal:  20,
+      
+    justifyContent:  'center',
+      
+  },
+
   searchbar:{
     margin:10,
     backgroundColor: 'white',
