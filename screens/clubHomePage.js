@@ -149,7 +149,7 @@ class clubHomePage extends Component{
 const styles = StyleSheet.create({
   field: {
     height: 55,
-    width: 150,
+    width: 200,
     margin: 12,
     backgroundColor: 'white',
   },
