@@ -91,41 +91,37 @@ class clubHomePage extends Component{
     }
   }
 
-
-  
-
   render(){
     return(
       <Provider > 
       <SafeAreaView style={styles.container}>
+        <View style={styles.dropdown}>
+          <DropDown
+            label={'Filter category'}
+            placeholder="Category"
+            mode={'outlined'}
+            value={this.state.clubCat}
+            setValue={(item) => this.filter(item) }
+            list={this.state.clubCategories}
+            visible={this.state.showDropDown}
+            showDropDown={() =>  this.setState({showDropDown: true})}
+            onDismiss={() =>  this.setState({showDropDown: false})}
+            inputProps={{
+            right:  <TextInput.Icon  name={'menu-down'}/>,
+            }}
+            dropDownContainerMaxHeight={500}
+            /> 
+        </View>
+        <View>
+          <TextInput label="Search" 
+                    value = {this.state.query} 
+                    type = "flat" 
+                    style = {styles.searchbar}
+                    placeholder = "Search for group"
+                    onChangeText={queryText => this.handleSearch(queryText)} />    
+        </View>
         <ScrollView>
           <View>
-            <View style={styles.row}>
-            <TextInput label="Search" 
-                       value = {this.state.query} 
-                       type = "flat" 
-                       style = {styles.field}
-                       placeholder = "Search for group"
-                       onChangeText={queryText => this.handleSearch(queryText)} 
-            />
-              <DropDown
-                style={styles.field}
-                label={'Filter category'}
-                placeholder="Category"
-                mode={'outlined'}
-                value={this.state.clubCat}
-                setValue={(item) => this.filter(item) }
-                list={this.state.clubCategories}
-                visible={this.state.showDropDown}
-                showDropDown={() =>  this.setState({showDropDown: true})}
-                onDismiss={() =>  this.setState({showDropDown: false})}
-                inputProps={{
-                right:  <TextInput.Icon  name={'menu-down'}  />,
-                }}
-                />
-                
-           </View>
-           <View>
            {this.state.clubs.map(club => 
            <CommonCompClubCard 
               clubName={club.clubName} 
@@ -134,9 +130,7 @@ class clubHomePage extends Component{
               clubCategory= {club.category} 
               clubEmail = {club.email} 
               navigation={this.props.navigation}/>)}
-           </View>
           </View>
-          
         </ScrollView>
       </SafeAreaView>
       </Provider>
@@ -147,7 +141,7 @@ class clubHomePage extends Component{
 const styles = StyleSheet.create({
   field: {
     height: 55,
-    width: 200,
+    //width: 400,
     margin: 12,
     backgroundColor: 'white',
   },
@@ -156,18 +150,24 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   container: {
-
-    flex:  1,
-      
-    marginHorizontal:  20,
-      
+    //flex:  1,
+    marginHorizontal:  15,
     justifyContent:  'center',
-      
   },
 
   searchbar:{
-    margin:10,
+    //width:200,
+    height:70,
+    marginTop:10,
+    margin:0,
     backgroundColor: 'white',
+  },
+  dropdown:{
+    //flexDirection:'row',
+    //height:255,
+    //marginBottom:5,
+    backgroundColor:'white'
+
   }
 })
 
