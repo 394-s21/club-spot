@@ -19,7 +19,7 @@ class eventMapPage extends Component {
     }
 
     componentDidMount() {
-        const testEvents = [{ title: "clubName", description: "awesome event", latlng: { latitude: 42.055984, longitude: -87.675171 } }, { title: "2Club", description: "beach event", latlng: { latitude: 42.014, longitude: -87.675171 } }]
+        const testEvents = [{ title: "clubName", description: "awesome event", isClub: true, latlng: { latitude: 42.055984, longitude: -87.675171 } }, { title: "2Club", description: "beach event", isClub: false, latlng: { latitude: 42.014, longitude: -87.675171 } }]
         this.setState({ events: testEvents })
         this.getLocation()
     }
@@ -45,7 +45,7 @@ class eventMapPage extends Component {
         return (
             <View style={{ flex: 1 }}>
             <View style={{height: 200, position: "absolute", elevation: 2, top: 50, left: 0, right: 0}}>
-                <View style={{ backgroundColor: "white", width: "90%", marginLeft:"5%", height: 200}}>
+                <View style={{ backgroundColor: "white", width: "90%", marginLeft:"5%", height: 200, borderRadius: 10}}>
                     <Text>{this.state.dispEventInfo ? this.state.currentEvent.title : "test"}</Text>
                 </View>
             </View>
@@ -66,6 +66,7 @@ class eventMapPage extends Component {
                         title={curMarker.title}
                         description={curMarker.description}
                         onCalloutPress={() => {this.eventInfo(curMarker)}}
+                        pinColor={curMarker.isClub ? "red" : "blue"}
                     />
                 ))}
                 <Marker coordinate={{ latitude: 42.014, longitude: -87.708 }} />
