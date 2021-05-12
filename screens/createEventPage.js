@@ -11,6 +11,7 @@ class eventMapPage extends Component{
       clubName: "",
       address: "",
       activity: "",
+      date: "",
     }
   }
   render(){
@@ -36,6 +37,13 @@ class eventMapPage extends Component{
           
           style={styles.field}
           onChangeText={text => this.setState({address:text})} />
+
+        <TextInput label='Date' 
+          value={this.state.date} 
+          type="outlined"
+          
+          style={styles.field}
+          onChangeText={text => this.setState({date:text})} />
       </View>
     )
   }
