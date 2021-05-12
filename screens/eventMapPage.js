@@ -44,7 +44,7 @@ class eventMapPage extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-            <View style={{height: 200, position: "absolute", elevation: 2, top: 50, left: 0, right: 0}}>
+            <View style={{height: 200, position: "absolute", elevation: (this.state.dispEventInfo ? 2: 0), top: 50, left: 0, right: 0}}>
                 <View style={{ backgroundColor: "white", width: "90%", marginLeft:"5%", height: 200, borderRadius: 10}}>
                     <Text>{this.state.dispEventInfo ? this.state.currentEvent.title : "test"}</Text>
                 </View>
