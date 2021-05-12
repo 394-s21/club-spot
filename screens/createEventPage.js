@@ -8,25 +8,34 @@ class eventMapPage extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      groupName: "",
+      clubName: "",
+      address: "",
+      activity: "",
     }
   }
   render(){
     return(
       <View>
         <TextInput label='Club Name' 
-          value={this.state.groupName} 
+          value={this.state.clubName} 
           type="outlined"
           
           style={styles.field}
-          onChangeText={text => this.setState({groupName:text})} />
+          onChangeText={text => this.setState({clubName:text})} />
+
+        <TextInput label='Activity' 
+          value={this.state.activity} 
+          type="outlined"
+          
+          style={styles.field}
+          onChangeText={text => this.setState({activity:text})} />
 
         <TextInput label='Address' 
-          value={this.state.groupName} 
+          value={this.state.address} 
           type="outlined"
           
           style={styles.field}
-          onChangeText={text => this.setState({groupName:text})} />
+          onChangeText={text => this.setState({address:text})} />
       </View>
     )
   }
