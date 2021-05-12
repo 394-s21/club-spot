@@ -1,11 +1,9 @@
 import 'react-native-gesture-handler';
-import { NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import clubHomePage from '../screens/clubHomePage';
-import eventMapPage from '../screens/eventMapPage';
 import clubHomePageStack from '../navigations/clubHomePageStack';
+import eventMapPageStack from '../navigations/eventMapPageStack';
 
 
 const Tab = createBottomTabNavigator();
@@ -28,8 +26,8 @@ export default function homeTab() {
         }}
       />
       <Tab.Screen
-        name="eventMapPage"
-        component={eventMapPage}
+        name="eventMapPageStack"
+        component={eventMapPageStack}
         options={{
           tabBarLabel: 'Event Map',
           tabBarIcon: ({ color, size }) => (

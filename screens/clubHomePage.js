@@ -1,7 +1,6 @@
 import React, { Component, useState } from 'react';
 import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity} from 'react-native';
 import CommonCompClubCard from '../components/CommonCompClubCard';
-//import { firebase }  from '../firebase';
 import DropDown from "react-native-paper-dropdown";
 import { firebase }  from '../utils/firebase';
 import { Provider, TextInput, RadioButton,Text, Subheading,Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
@@ -10,8 +9,6 @@ import filter from 'lodash.filter';
 class clubHomePage extends Component{
   constructor(props) {
     super(props);
-
-
     this.state = {
       clubs: [],
       all_clubs: [],
@@ -53,12 +50,9 @@ class clubHomePage extends Component{
   };
   contains = (club,query) => {
     if (club.clubName.toLowerCase().includes(query) || club.category.toLowerCase().includes(query)) {
-      //console.log('club found')
       return true;
     }
     else {
-      //console.log('club not found')
-      //console.log(club.clubName,query)
       return false;
     }
   }
@@ -73,7 +67,6 @@ class clubHomePage extends Component{
 
 
   handleSearch(queryText) {
-    //console.log('query: ',queryText)
     const formattedQuery = queryText.toLowerCase();
     this.setState({query: formattedQuery})
     console.log('query: ',queryText)
@@ -122,8 +115,8 @@ class clubHomePage extends Component{
         </View>
         <ScrollView>
           <View>
-           {this.state.clubs.map(club => 
-           <CommonCompClubCard 
+          {this.state.clubs.map(club => 
+          <CommonCompClubCard 
               clubName={club.clubName} 
               key={club.clubName} 
               clubDesc={club.description} 
@@ -170,14 +163,4 @@ const styles = StyleSheet.create({
 
   }
 })
-
-
-
- /*
- dropdown 
-
- 
- */
 export default clubHomePage;
-
-
