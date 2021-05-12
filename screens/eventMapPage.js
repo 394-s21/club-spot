@@ -11,11 +11,14 @@ class eventMapPage extends Component{
         latitude: 42.055984,
         longitude: -87.675171,
       },
-      currentLocation: {"coords": {"latitude": 42.055984, "longitude": -87.708}}
+      currentLocation: {"coords": {"latitude": 42.055984, "longitude": -87.708}},
+      events: []
     }
   }
 
   componentDidMount() {
+    const testEvents = [{title: "clubName", description: "awesome event", latlng: {latitude: 42.055984, longitude: -87.675171}}, {title: "2Club", description: "beach event", latlng: {latitude: 42.014, longitude: -87.675171}}]
+    this.setState({events: testEvents})
     this.getLocation()
   }
 
@@ -42,8 +45,14 @@ class eventMapPage extends Component{
             }}>
         
           <Marker pinColor="blue" coordinate={{ latitude: this.state.currentLocation.coords.latitude, longitude: this.state.currentLocation.coords.longitude }} />
-          <Marker coordinate={{ latitude: 42.055984, longitude: -87.675171 }} />
-          <Marker coordinate={{ latitude: 42.014, longitude: -87.675171 }} /> 
+          {this.state.events.map((marker, index) => (
+    <Marker
+      key={index}
+      coordinate={marker.latlng}
+      title={marker.title}
+      description={marker.description}
+    />
+  ))} 
           <Marker coordinate={{ latitude: 42.014, longitude: -87.708 }} /> 
         </MapView>
     );
