@@ -60,9 +60,10 @@ class clubHomePage extends Component{
 
   filter(category) {
     this.setState({clubCat: category,
-                  clubs: this.state.clubDict[category]})
-    console.log(this.state)
-
+                  clubs: filter(this.state.clubDict[category], club => {
+                    return this.contains(club, this.state.query);}) }, function () {
+                      console.log(this.state.clubs);
+                      console.log(this.state.query)});
   }
 
 
