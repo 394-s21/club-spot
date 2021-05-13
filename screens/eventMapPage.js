@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { StyleSheet, Text, View, Dimensions, Button, TouchableOpacity } from 'react-native';
 
 class eventMapPage extends Component{
   constructor(props) {
@@ -30,8 +31,10 @@ class eventMapPage extends Component{
       this.setState({currentLocation: location});
   };
 
+  navigateToCreateEvent = () => {this.props.navigation.navigate('Create Event')}
   render() {
     return (
+      <View style={{ flex: 1 }}>
         <MapView
             style={{ flex: 1 }}
             region={{
@@ -46,20 +49,22 @@ class eventMapPage extends Component{
           <Marker coordinate={{ latitude: 42.014, longitude: -87.675171 }} /> 
           <Marker coordinate={{ latitude: 42.014, longitude: -87.708 }} /> 
         </MapView>
+        <View style={styles.buttonView}>
+          <TouchableOpacity onPress = {this.navigateToCreateEvent}>
+            <AntDesign name="pluscircleo" size={36} color="black" />
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+  buttonView: {
+    position: 'absolute',//use absolute position to show button on top of the map
+    top: '90%', //for center align
+    right: '5%', // for right align
+    alignSelf: 'flex-end' //for align to right
   },
 });
 export default eventMapPage;
