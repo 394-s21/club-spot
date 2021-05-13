@@ -39,7 +39,7 @@ class eventMapPage extends Component {
         this.setState({ currentLocation: location });
     };
 
-
+    
     eventInfo(marker){
         this.setState({dispEventInfo: true})
         this.setState({currentEvent: marker})
@@ -72,8 +72,8 @@ class eventMapPage extends Component {
                     longitudeDelta: 0.1,
                 }}>
 
-                <Marker pinColor="blue" coordinate={{ latitude: this.state.currentLocation.coords.latitude, longitude: this.state.currentLocation.coords.longitude }} />
-                {this.state.events.map((curMarker, index) => (
+                <Marker image={require('../assets/currentMarker.png')} coordinate={{ latitude: this.state.currentLocation.coords.latitude, longitude: this.state.currentLocation.coords.longitude }} />
+          {this.state.events.map((curMarker, index) => (
                     <Marker
                         key={index}
                         coordinate={curMarker.latlng}
