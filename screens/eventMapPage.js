@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 
 class eventMapPage extends Component {
     constructor(props) {
@@ -41,9 +41,14 @@ class eventMapPage extends Component {
         console.log(this.state.currentEvent)
     }
 
+    closeInfo(){
+        this.setState({dispEventInfo: false})
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
+            <TouchableOpacity onPress={() => this.closeInfo()} style={{height: 20, width: 20, borderRadius: 4, backgroundColor: "black", alignItems: "center", position: "absolute", elevation: (this.state.dispEventInfo ? 3: 0),  zIndex: (this.state.dispEventInfo ? 1: 0), top: 60, right: 30}}><Text style={{color: "white"}}>X</Text></TouchableOpacity>
             <View style={{height: 200, position: "absolute", elevation: (this.state.dispEventInfo ? 2: 0), top: 50, left: 0, right: 0}}>
                 <View style={{ backgroundColor: "white", width: "90%", marginLeft:"5%", height: 200, borderRadius: 10}}>
                     <Text>{this.state.dispEventInfo ? this.state.currentEvent.title : "test"}</Text>
