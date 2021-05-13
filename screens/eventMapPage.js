@@ -39,26 +39,7 @@ class eventMapPage extends Component {
         this.setState({ currentLocation: location });
     };
 
-
-  navigateToCreateEvent = () => {this.props.navigation.navigate('Create Event')}
-  render() {
-    return (
-      <View style={{ flex: 1 }}>
-        <MapView
-            style={{ flex: 1 }}
-            region={{
-                latitude: this.state.initLocation.latitude,
-                longitude: this.state.initLocation.longitude,
-                latitudeDelta: 0.1,
-                longitudeDelta: 0.1,
-            }}>
-        
-          <Marker image={require('../assets/currentMarker.png')} coordinate={{ latitude: this.state.currentLocation.coords.latitude, longitude: this.state.currentLocation.coords.longitude }} />
-          <Marker coordinate={{ latitude: 42.055984, longitude: -87.675171 }} />
-          <Marker coordinate={{ latitude: 42.014, longitude: -87.675171 }} /> 
-          <Marker coordinate={{ latitude: 42.014, longitude: -87.708 }} /> 
-        </MapView>
-        <View style={styles.buttonView}>
+    
     eventInfo(marker){
         this.setState({dispEventInfo: true})
         this.setState({currentEvent: marker})
