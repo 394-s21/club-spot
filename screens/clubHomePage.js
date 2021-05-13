@@ -60,9 +60,10 @@ class clubHomePage extends Component{
 
   filter(category) {
     this.setState({clubCat: category,
-                  clubs: this.state.clubDict[category]})
-    console.log(this.state)
-
+                  clubs: filter(this.state.clubDict[category], club => {
+                    return this.contains(club, this.state.query);}) }, function () {
+                      console.log(this.state.clubs);
+                      console.log(this.state.query)});
   }
 
 
@@ -71,10 +72,10 @@ class clubHomePage extends Component{
     this.setState({query: formattedQuery})
     console.log('query: ',queryText)
     if (queryText === "") {
-      this.setState({clubs: this.state.all_clubs})
+      this.setState({clubs: this.state.clubDict[this.state.clubCat]})
     }
     else {
-      const all_clubs = this.state.all_clubs
+      const all_clubs = this.state.clubDict[this.state.clubCat]
       const filteredClubs = filter(all_clubs, club => {
         return this.contains(club,formattedQuery);
       })
@@ -89,14 +90,7 @@ class clubHomePage extends Component{
       <Provider > 
       <SafeAreaView style={styles.container}>
         
-        <View>
-          <TextInput label="Search" 
-                    value = {this.state.query} 
-                    type = "flat" 
-                    style = {styles.searchbar}
-                    placeholder = "Search for group"
-                    onChangeText={queryText => this.handleSearch(queryText)} />    
-        </View>
+        
         <View style={styles.dropdown}>
           <DropDown
             label={'Filter category'}
@@ -113,6 +107,14 @@ class clubHomePage extends Component{
             }}
             dropDownContainerMaxHeight={500}
             /> 
+        </View>
+        <View>
+          <TextInput label="Search" 
+                    value = {this.state.query} 
+                    type = "flat" 
+                    style = {styles.searchbar}
+                    placeholder = "Search for group"
+                    onChangeText={queryText => this.handleSearch(queryText)} />    
         </View>
         <ScrollView>
           <View>
