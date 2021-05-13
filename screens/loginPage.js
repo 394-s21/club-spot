@@ -1,6 +1,5 @@
-
 import React, { Component } from 'react';
-import { View, Text, Image, styles, StyleSheet, SafeAreaView } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import firebase from 'firebase';
 import SocialButton from "../components/CommonCompGoogleSignIn"
 import {firebaseConfig} from '../config';
@@ -120,9 +119,9 @@ class loginPage extends Component {
       function(user) {
         console.log('AUTH STATE CHANGED CALLED ')
         if (user) {
-          this.props.navigation.replace('Dashboard');
+          this.props.navigation.replace('homeTab');
         } else {
-          this.props.navigation.navigate('Login');
+          this.props.navigation.navigate('loginPage');
         }
       }.bind(this)
     );
@@ -132,7 +131,6 @@ class loginPage extends Component {
     return (
     <SafeAreaView style={{ backgroundColor: "#3DD5F4", flex: 1 }}>
       <View style={{justifyContent: "center", alignItems: "center",}}>
-      <Image style={{height: "50%", width: "65%", resizeMode: "center"}} source={require("../assets/Cosava.png")}></Image>
       </View>
       <SocialButton
         buttonTitle='Sign In With Google'
