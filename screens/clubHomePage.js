@@ -88,6 +88,15 @@ class clubHomePage extends Component{
     return(
       <Provider > 
       <SafeAreaView style={styles.container}>
+        
+        <View>
+          <TextInput label="Search" 
+                    value = {this.state.query} 
+                    type = "flat" 
+                    style = {styles.searchbar}
+                    placeholder = "Search for group"
+                    onChangeText={queryText => this.handleSearch(queryText)} />    
+        </View>
         <View style={styles.dropdown}>
           <DropDown
             label={'Filter category'}
@@ -104,14 +113,6 @@ class clubHomePage extends Component{
             }}
             dropDownContainerMaxHeight={500}
             /> 
-        </View>
-        <View>
-          <TextInput label="Search" 
-                    value = {this.state.query} 
-                    type = "flat" 
-                    style = {styles.searchbar}
-                    placeholder = "Search for group"
-                    onChangeText={queryText => this.handleSearch(queryText)} />    
         </View>
         <ScrollView>
           <View>
