@@ -27,7 +27,7 @@ class loginPage extends Component {
   };
 
   onSignIn = googleUser => {
-    console.log('Google Auth Response', googleUser);
+    // console.log('Google Auth Response', googleUser);
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
     var unsubscribe = firebase.auth().onAuthStateChanged(
       function(firebaseUser) {
@@ -91,12 +91,12 @@ class loginPage extends Component {
       const result = await Google.logInAsync({
         behavior: 'web',
         iosClientId: "466909196535-dggm9cf6srskpkam9c178l6iv6dsei5m.apps.googleusercontent.com",
-        androidClientId: "547778785940-c4auvl9ajnaba4omhbgrqgkp7aaun0uh.apps.googleusercontent.com",
+        // androidClientId: "547778785940-c4auvl9ajnaba4omhbgrqgkp7aaun0uh.apps.googleusercontent.com",
         scopes: ['profile', 'email']
       });
+      console.log(`result is ${result.type}`)
       if (result.type === 'success') {
         this.onSignIn(result);
-        // userAuth = await result.user.refreshAuth();
         console.log(`successful sign in with userId ${firebase.auth().currentUser.uid}`)
         return result.accessToken;
       } else {
@@ -118,8 +118,9 @@ class loginPage extends Component {
     firebase.auth().onAuthStateChanged(
       function(user) {
         console.log('AUTH STATE CHANGED CALLED ')
+        console.log(`user is ${user}`)
         if (user) {
-          this.props.navigation.replace('homeTab');
+          this.props.navigation.navigate('homeTab');
         } else {
           this.props.navigation.navigate('loginPage');
         }
