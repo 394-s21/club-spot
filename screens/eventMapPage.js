@@ -22,7 +22,7 @@ class eventMapPage extends Component {
 
     componentDidMount() {
         //TODO get data from firebase
-        const testEvents = [{ title: "eventName", description: "awesome event", address: "12345 Sheridan Rd, Evanston, IL", isClub: true, latlng: { latitude: 42.055984, longitude: -87.675171 } }, { title: "Chess Club", description: "chess tourney", address: "12345 Sheridan Rd, Evanston, IL", isClub: false, latlng: { latitude: 42.014, longitude: -87.675171 } }]
+        const testEvents = [{ title: "Social fun", description: "pick up basketball", address: "12345 Sheridan Rd, Evanston, IL", isClub: false, latlng: { latitude: 42.055984, longitude: -87.675171 } }, { title: "Chess Club", description: "chess tourney", address: "12345 Sheridan Rd, Evanston, IL", isClub: true, latlng: { latitude: 42.014, longitude: -87.675171 } }]
         
         this.setState({ events: testEvents })
         this.getLocation()
@@ -55,8 +55,8 @@ class eventMapPage extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-            <TouchableOpacity onPress={() => this.closeInfo()} style={{height: 20, width: 20, borderRadius: 4, backgroundColor: "black", alignItems: "center", position: "absolute", elevation: (this.state.dispEventInfo ? 3: 0),  zIndex: (this.state.dispEventInfo ? 1: 0), top: 60, right: 30}}><Text style={{color: "white"}}>X</Text></TouchableOpacity>
-            <View style={{height: 200, position: "absolute", elevation: (this.state.dispEventInfo ? 2: 0), top: 50, left: 0, right: 0}}>
+            <TouchableOpacity onPress={() => this.closeInfo()} style={{height: 20, width: 20, borderRadius: 4, backgroundColor: "black", alignItems: "center", position: "absolute", elevation: (this.state.dispEventInfo ? 3: 0),  zIndex: (this.state.dispEventInfo ? 1: 0), top: "7%", right: "9%"}}><Text style={{color: "white"}}>X</Text></TouchableOpacity>
+            <View style={{height: 200, position: "absolute", elevation: (this.state.dispEventInfo ? 2: 0), top: "5%", left: 0, right: 0}}>
                 <View style={{ backgroundColor: "white", width: "90%", marginLeft:"5%", height: 200, borderRadius: 10, padding: 5}}>
                     <Text style={{margin: 15, marginBottom: 0, fontSize: 25, fontWeight: "bold"}} >{this.state.dispEventInfo ? this.state.currentEvent.title : ""}</Text>
                     <Text style={{fontSize: 12, marginLeft: 15}} >{this.state.dispEventInfo ? this.state.currentEvent.address : ""}</Text>
@@ -83,7 +83,6 @@ class eventMapPage extends Component {
                         pinColor={curMarker.isClub ? "red" : "blue"}
                     />
                 ))}
-                <Marker coordinate={{ latitude: 42.014, longitude: -87.708 }} />
             </MapView>
              <View style={styles.buttonView}>
           <TouchableOpacity onPress = {this.navigateToCreateEvent}>
