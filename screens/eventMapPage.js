@@ -20,7 +20,7 @@ class eventMapPage extends Component {
 
     componentDidMount() {
         //TODO get data from firebase
-        const testEvents = [{ title: "clubName", description: "awesome event", address: "12345 Sheridan Rd, Evanston, IL", isClub: true, latlng: { latitude: 42.055984, longitude: -87.675171 } }, { title: "Chess Club", description: "chess tourney", address: "12345 Sheridan Rd, Evanston, IL", isClub: false, latlng: { latitude: 42.014, longitude: -87.675171 } }]
+        const testEvents = [{ title: "eventName", description: "awesome event", address: "12345 Sheridan Rd, Evanston, IL", isClub: true, latlng: { latitude: 42.055984, longitude: -87.675171 } }, { title: "Chess Club", description: "chess tourney", address: "12345 Sheridan Rd, Evanston, IL", isClub: false, latlng: { latitude: 42.014, longitude: -87.675171 } }]
         
         this.setState({ events: testEvents })
         this.getLocation()
@@ -47,6 +47,7 @@ class eventMapPage extends Component {
         this.setState({dispEventInfo: false})
     }
 
+    //TODO decide what to display on event info popup
     render() {
         return (
             <View style={{ flex: 1 }}>
