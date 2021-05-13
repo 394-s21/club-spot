@@ -44,7 +44,7 @@ class eventMapPage extends Component{
                 longitudeDelta: 0.1,
             }}>
         
-          <Marker pinColor="blue" coordinate={{ latitude: this.state.currentLocation.coords.latitude, longitude: this.state.currentLocation.coords.longitude }} />
+          <Marker image={require('../assets/currentMarker.png')} coordinate={{ latitude: this.state.currentLocation.coords.latitude, longitude: this.state.currentLocation.coords.longitude }} />
           <Marker coordinate={{ latitude: 42.055984, longitude: -87.675171 }} />
           <Marker coordinate={{ latitude: 42.014, longitude: -87.675171 }} /> 
           <Marker coordinate={{ latitude: 42.014, longitude: -87.708 }} /> 
