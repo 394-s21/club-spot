@@ -16,6 +16,7 @@ class eventMapPage extends Component {
             currentLocation: { "coords": { "latitude": 42.055984, "longitude": -87.708 } },
             events: [],
             dispEventInfo: false,
+            zIndex: 0,
             currentEvent: {}
         }
     }
@@ -52,15 +53,16 @@ class eventMapPage extends Component {
 
     navigateToCreateEvent = () => {this.props.navigation.navigate('Create Event')}
     //TODO decide what to display on event info popup
+    //TODO style event info popup text
     render() {
         return (
             <View style={{ flex: 1 }}>
-            <TouchableOpacity onPress={() => this.closeInfo()} style={{height: 20, width: 20, borderRadius: 4, backgroundColor: "black", alignItems: "center", position: "absolute", elevation: (this.state.dispEventInfo ? 3: 0),  zIndex: (this.state.dispEventInfo ? 1: 0), top: "7%", right: "9%"}}><Text style={{color: "white"}}>X</Text></TouchableOpacity>
-            <View style={{height: 200, position: "absolute", elevation: (this.state.dispEventInfo ? 2: 0), top: "5%", left: 0, right: 0}}>
-                <View style={{ backgroundColor: "white", width: "90%", marginLeft:"5%", height: 200, borderRadius: 10, padding: 5}}>
-                    <Text style={{margin: 15, marginBottom: 0, fontSize: 25, fontWeight: "bold"}} >{this.state.dispEventInfo ? this.state.currentEvent.title : ""}</Text>
-                    <Text style={{fontSize: 12, marginLeft: 15}} >{this.state.dispEventInfo ? this.state.currentEvent.address : ""}</Text>
-                    <Text style={{margin: 15,fontSize: 15}} >{this.state.dispEventInfo ? this.state.currentEvent.description : ""}</Text>
+            <TouchableOpacity onPress={() => this.closeInfo()} style={styles(this.state.dispEventInfo).exitButton}><Text style={{color: "white"}}>X</Text></TouchableOpacity>
+            <View style={styles(this.state.dispEventInfo).infoContainer}>
+                <View style={styles(this.state.dispEventInfo).infoView}>
+                    <Text style={styles(this.state.dispEventInfo).titleText} >{this.state.dispEventInfo ? this.state.currentEvent.title : ""}</Text>
+                    <Text style={styles(this.state.dispEventInfo).addressText} >{this.state.dispEventInfo ? this.state.currentEvent.address : ""}</Text>
+                    <Text style={styles(this.state.dispEventInfo).descriptText} >{this.state.dispEventInfo ? this.state.currentEvent.description : ""}</Text>
                 </View>
             </View>
             <MapView
@@ -78,13 +80,13 @@ class eventMapPage extends Component {
                         key={index}
                         coordinate={curMarker.latlng}
                         title={curMarker.title}
-                        description={curMarker.description}
+                        description="Click for more info"
                         onCalloutPress={() => {this.eventInfo(curMarker)}}
                         pinColor={curMarker.isClub ? "red" : "blue"}
                     />
                 ))}
             </MapView>
-             <View style={styles.buttonView}>
+             <View style={styles(this.state.dispEventInfo).buttonView}>
           <TouchableOpacity onPress = {this.navigateToCreateEvent}>
             <AntDesign name="pluscircleo" size={36} color="black" />
           </TouchableOpacity>
@@ -94,7 +96,10 @@ class eventMapPage extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = (dispEventInfo) => {
+    var infoDisplayHeight = dispEventInfo ? 2: 0
+    var closeInfoDisplayHeight = dispEventInfo ? 3: 0
+    return (StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
@@ -111,5 +116,50 @@ const styles = StyleSheet.create({
     right: '5%', // for right align
     alignSelf: 'flex-end' //for align to right
   },
-});
+  titleText: {
+    margin: 15, 
+    marginBottom: 0, 
+    fontSize: 25, 
+    fontWeight: "bold"
+  },
+  addressText: {
+    fontSize: 12, 
+    marginLeft: 15
+  },
+  descriptText: {
+    fontSize: 15, 
+    margin: 15
+  },
+  exitButton: {
+    height: 20,
+    width: 20,
+    borderRadius: 4,
+    backgroundColor: "black",
+    alignItems: "center",
+    position: "absolute", 
+    elevation: closeInfoDisplayHeight,
+    zIndex: closeInfoDisplayHeight,
+    top: "7%", 
+    right: "9%"
+},
+  infoContainer: {
+    height: 200,
+    position: "absolute",
+    elevation: infoDisplayHeight,
+    zIndex: infoDisplayHeight,
+    top: "5%",
+    left: 0,
+    right: 0
+  },
+  infoView: {
+    backgroundColor: "white",
+    width: "90%",
+    marginLeft:"5%", 
+    height: 200, 
+    borderRadius: 10, 
+    padding: 5
+  }
+}))
+}
+
 export default eventMapPage;
