@@ -44,6 +44,9 @@ class loginPage extends Component {
             .signInAndRetrieveDataWithCredential(credential)
             .then(function(result) {
               if (result.additionalUserInfo.isNewUser) {
+                year = result.user.email.split('@')[0]
+                year = year.substring(year.length-4,year.length);
+                console.log('year: ',year)
                 firebase
                   .database()
                   .ref('/users/' + result.user.uid)
@@ -52,7 +55,10 @@ class loginPage extends Component {
                     profile_picture: result.additionalUserInfo.profile.picture,
                     first_name: result.additionalUserInfo.profile.given_name,
                     last_name: result.additionalUserInfo.profile.family_name,
-                    created_at: Date.now()
+                    created_at: Date.now(),
+                    graduation_year: year,
+                    major: 'Undecided'
+                    
                   })
                   .then(function(snapshot) {
                   });
@@ -126,7 +132,7 @@ class loginPage extends Component {
     return (
     <SafeAreaView style={{ backgroundColor: "#3DD5F4", flex: 1 }}>
       <View style={{justifyContent: "center", alignItems: "center",}}>
-      </View>
+      
       <SocialButton
         buttonTitle='Sign In With Google'
         btnType='google'
@@ -134,6 +140,7 @@ class loginPage extends Component {
         backgroundColor='#f5e7ea' 
         onPress = {() => this.signInWithGoogleAsync()}
         ></SocialButton>
+        </View>
     </SafeAreaView>);
   }
 }
