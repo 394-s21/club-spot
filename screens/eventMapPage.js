@@ -60,9 +60,9 @@ class eventMapPage extends Component {
             <TouchableOpacity onPress={() => this.closeInfo()} style={styles(this.state.dispEventInfo).exitButton}><Text style={{color: "white"}}>X</Text></TouchableOpacity>
             <View style={styles(this.state.dispEventInfo).infoContainer}>
                 <View style={styles(this.state.dispEventInfo).infoView}>
-                    <Text style={{margin: 15, marginBottom: 0, fontSize: 25, fontWeight: "bold"}} >{this.state.dispEventInfo ? this.state.currentEvent.title : ""}</Text>
-                    <Text style={{fontSize: 12, marginLeft: 15}} >{this.state.dispEventInfo ? this.state.currentEvent.address : ""}</Text>
-                    <Text style={{margin: 15,fontSize: 15}} >{this.state.dispEventInfo ? this.state.currentEvent.description : ""}</Text>
+                    <Text style={styles(this.state.dispEventInfo).titleText} >{this.state.dispEventInfo ? this.state.currentEvent.title : ""}</Text>
+                    <Text style={styles(this.state.dispEventInfo).addressText} >{this.state.dispEventInfo ? this.state.currentEvent.address : ""}</Text>
+                    <Text style={styles(this.state.dispEventInfo).descriptText} >{this.state.dispEventInfo ? this.state.currentEvent.description : ""}</Text>
                 </View>
             </View>
             <MapView
@@ -80,7 +80,7 @@ class eventMapPage extends Component {
                         key={index}
                         coordinate={curMarker.latlng}
                         title={curMarker.title}
-                        description={curMarker.description}
+                        description="Click for more info"
                         onCalloutPress={() => {this.eventInfo(curMarker)}}
                         pinColor={curMarker.isClub ? "red" : "blue"}
                     />
@@ -115,6 +115,20 @@ const styles = (dispEventInfo) => {
     top: '90%', //for center align
     right: '5%', // for right align
     alignSelf: 'flex-end' //for align to right
+  },
+  titleText: {
+    margin: 15, 
+    marginBottom: 0, 
+    fontSize: 25, 
+    fontWeight: "bold"
+  },
+  addressText: {
+    fontSize: 12, 
+    marginLeft: 15
+  },
+  descriptText: {
+    fontSize: 15, 
+    margin: 15
   },
   exitButton: {
     height: 20,
