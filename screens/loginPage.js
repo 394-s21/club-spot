@@ -120,7 +120,7 @@ class loginPage extends Component {
         console.log('AUTH STATE CHANGED CALLED ')
         console.log(`user is ${user}`)
         if (user) {
-          this.props.navigation.navigate('homeTab');
+          this.props.navigation.replace('homeTab');
         } else {
           this.props.navigation.navigate('loginPage');
         }

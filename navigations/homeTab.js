@@ -4,6 +4,7 @@ import { Entypo, FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import clubHomePageStack from '../navigations/clubHomePageStack';
 import eventMapPageStack from '../navigations/eventMapPageStack';
+import profilePage from '../screens'
 
 
 const Tab = createBottomTabNavigator();
