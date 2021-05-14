@@ -47,10 +47,10 @@ class profilePage extends Component{
       db.child('/'+userId +'/major').set(new_major)
       new_userInfo.major = new_major
     }
-    if (this.state.new_year !== new_userInfo.year) {
+    if (this.state.new_year !== new_userInfo.graduation_year) {
       const new_year = this.state.new_year
-      db.child('/'+userId +'/year').set(new_year)
-      new_userInfo.year = new_year
+      db.child('/'+userId +'/graduation_year').set(new_year)
+      new_userInfo.graduation_year = new_year
     }
     this.setState({userInfo: new_userInfo})
 
@@ -74,7 +74,7 @@ class profilePage extends Component{
         console.log('user: ',user)
       }
       this.setState({userInfo: user,
-                    new_year: user.year,
+                    new_year: user.graduation_year,
                   new_major: user.major,
                   new_name: user.first_name+' '+user.last_name
                   })
@@ -103,7 +103,7 @@ class profilePage extends Component{
     //console.log('user: ',user)
     const email = user.gmail;
     const full_name = user.first_name+' '+user.last_name;
-    const year = user.year
+    const year = user.graduation_year
     const major = user.major
     const edit = this.state.edit
    
@@ -127,7 +127,7 @@ class profilePage extends Component{
             <Card style={styles.card}>
                 <Card.Content>
                   <TextInput mode="flat"
-                              label="Grad Year"
+                              label="Graduation Year"
                               value={this.state.new_year}
                               dense="true"
                               onChangeText={text => this.setState({new_year:text})} />
@@ -174,7 +174,7 @@ class profilePage extends Component{
             </Card>
             <Card style={styles.card}>
                 <Card.Content>
-                  <Text>Grad Year: {year}</Text>
+                  <Text>Graduation Year: {year}</Text>
                     {/*TODO: CHECK FOR PHONE NUMBER AND DISPLAY IF PRESENT */}
                 </Card.Content>
             </Card>

@@ -56,7 +56,7 @@ class loginPage extends Component {
                     first_name: result.additionalUserInfo.profile.given_name,
                     last_name: result.additionalUserInfo.profile.family_name,
                     created_at: Date.now(),
-                    year: year,
+                    graduation_year: year,
                     major: 'Undecided'
                     
                   })
