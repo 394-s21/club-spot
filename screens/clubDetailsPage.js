@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import clubHomePage from './clubHomePage';
 import { StyleSheet, View, Text, Image, SafeAreaView, ScrollView } from 'react-native';
-
-
 
 class clubDetailsPage extends Component{
     constructor(props){
