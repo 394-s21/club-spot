@@ -137,8 +137,6 @@ const styles = (dispEventInfo) => {
     backgroundColor: "black",
     alignItems: "center",
     position: "absolute", 
-    //elevation: this.state.dispEventInfo ? 3: 0,
-    //zIndex: this.state.dispEventInfo ? 2: 0,
     elevation: closeInfoDisplayHeight,
     zIndex: closeInfoDisplayHeight,
     top: "7%", 
@@ -147,8 +145,6 @@ const styles = (dispEventInfo) => {
   infoContainer: {
     height: 200,
     position: "absolute",
-    //elevation: this.state.dispEventInfo ? 2: 0,
-    //zIndex: this.state.dispEventInfo ? 2: 0,
     elevation: infoDisplayHeight,
     zIndex: infoDisplayHeight,
     top: "5%",
