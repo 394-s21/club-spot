@@ -91,7 +91,7 @@ class loginPage extends Component {
       const result = await Google.logInAsync({
         behavior: 'web',
         iosClientId: "466909196535-dggm9cf6srskpkam9c178l6iv6dsei5m.apps.googleusercontent.com",
-        // androidClientId: "547778785940-c4auvl9ajnaba4omhbgrqgkp7aaun0uh.apps.googleusercontent.com",
+        androidClientId: "466909196535-36phdgnp6t0n65dc8isvj8e7veap29nv.apps.googleusercontent.com",
         scopes: ['profile', 'email']
       });
       console.log(`result is ${result.type}`)
