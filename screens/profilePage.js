@@ -42,12 +42,12 @@ class profilePage extends Component{
       new_userInfo.first_name = first
       new_userInfo.last_name = last
     }
-    if (this.state.new_major !== null) {
+    if (this.state.new_major !== new_userInfo.major) {
       const new_major = this.state.new_major
       db.child('/'+userId +'/major').set(new_major)
       new_userInfo.major = new_major
     }
-    if (this.state.new_year !== null) {
+    if (this.state.new_year !== new_userInfo.year) {
       const new_year = this.state.new_year
       db.child('/'+userId +'/year').set(new_year)
       new_userInfo.year = new_year
@@ -73,7 +73,11 @@ class profilePage extends Component{
         user = snapshot.toJSON()
         console.log('user: ',user)
       }
-      this.setState({userInfo: user})
+      this.setState({userInfo: user,
+                    new_year: user.year,
+                  new_major: user.major,
+                  new_name: user.first_name+' '+user.last_name
+                  })
       console.log('userInfo: ',this.state.userInfo)
       });
   };
