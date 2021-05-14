@@ -1,10 +1,10 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { Entypo, FontAwesome } from '@expo/vector-icons';
+import { Entypo, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import clubHomePageStack from '../navigations/clubHomePageStack';
 import eventMapPageStack from '../navigations/eventMapPageStack';
-import profilePage from '../screens'
+import profilePage from '../screens/profilePage';
 
 
 const Tab = createBottomTabNavigator();
@@ -33,6 +33,16 @@ export default function homeTab() {
           tabBarLabel: 'Event Map',
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="map-marker" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="profilePage"
+        component={profilePage}
+        options={{
+          tabBarLabel: 'profile',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" size={24} color="black" />
           ),
         }}
       />
