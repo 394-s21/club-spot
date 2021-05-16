@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView } from 'react-native';
+import { View, SafeAreaView, Alert } from 'react-native';
 import firebase from 'firebase';
 import SocialButton from "../components/CommonCompGoogleSignIn"
 import {firebaseConfig} from '../config';
@@ -9,6 +9,16 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig)
 }
 class loginPage extends Component {
+  loginFailed() {
+      Alert.alert(
+          "Login In Failed",
+          "Please try again with your Northwestern Email.",
+          [
+              { text: "OK", onPress: () => console.log("OK Pressed") }
+          ]
+      );
+  }
+
   isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
       var providerData = firebaseUser.providerData;
@@ -101,8 +111,7 @@ class loginPage extends Component {
         console.log(`successful sign in with userId ${firebase.auth().currentUser.uid}`)
         return result.accessToken;
       } else {
-        console.log("cancelled sign in")
-        this.props.navigation.navigate('Login');
+        this.loginFailed();
         return { cancelled: true };
       }
     } catch (e) {
