@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
 import { Button } from 'react-native-paper';
 import {firebase} from '../utils/firebase'
 
@@ -15,12 +15,48 @@ class clubDetailsPage extends Component{
         }
     }
 
+    joinFailed() {
+        Alert.alert(
+            "Join Group Failed",
+            "You have already joined this group.",
+            [
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+        );
+    }
+
+    joinSuccessfully() {
+        Alert.alert(
+            "Join Group Successfully",
+            "You are now part of the group.",
+            [
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+        );
+    }
+
     joinClub = () => {
         const clubId = this.state.clubId; // save a local copy of clubId
         const userId = firebase.auth().currentUser.uid; // find current userId
-        console.log(userId)
-        const userRef = firebase.database().ref('/users/' + userId); // create a user db reference
-        userRef.child('/clubs/' + clubId).set(1); // set user's clubId ref to be 1 (indicate the user is joined)
+        // check if the user has already joined in club
+        const clubRef = firebase.database().ref('/users/' + userId + '/clubs');
+        clubRef.once("value")
+        .then(snapshot => {
+            if(snapshot === null || snapshot.val() === null){ // user's first time join a club
+                console.log(`user's first time`)
+                this.joinSuccessfully()
+                clubRef.child(clubId).set(1); // set user's clubId ref to be 1 (indicate the user is joined)
+            } else {
+                if(snapshot.val().hasOwnProperty(clubId)){
+                    console.log(`found the club ${clubId}`);
+                    this.joinFailed()
+                } else{
+                    console.log(`not found the club ${clubId}`);
+                    this.joinSuccessfully()
+                    clubRef.child(clubId).set(1);
+                }
+            } 
+        })
     }
 
     render(){
