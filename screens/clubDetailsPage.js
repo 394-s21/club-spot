@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Image, SafeAreaView, ScrollView } from 'react-native';
+import { Button } from 'react-native-paper';
+import {firebase} from '../utils/firebase'
 
 class clubDetailsPage extends Component{
     constructor(props){
@@ -8,10 +10,18 @@ class clubDetailsPage extends Component{
             clubName : this.props.route.params.clubName,
             clubDesc : this.props.route.params.clubDesc,
             clubCategory: this.props.route.params.clubCategory,
-            clubEmail: this.props.route.params.clubEmail
+            clubEmail: this.props.route.params.clubEmail,
+            clubId: this.props.route.params.clubId,
         }
     }
 
+    joinClub = () => {
+        const clubId = this.state.clubId; // save a local copy of clubId
+        const userId = firebase.auth().currentUser.uid; // find current userId
+        console.log(userId)
+        const userRef = firebase.database().ref('/users/' + userId); // create a user db reference
+        userRef.child('/clubs/' + clubId).set(1); // set user's clubId ref to be 1 (indicate the user is joined)
+    }
 
     render(){
         return(
@@ -44,6 +54,7 @@ class clubDetailsPage extends Component{
                         {this.state.clubDesc}
                     </Text>
                     </View>
+                    <Button onPress = {this.joinClub}> Join This Club </Button> 
                 </ScrollView>
             </SafeAreaView>
             </View>

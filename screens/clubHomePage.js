@@ -90,8 +90,6 @@ class clubHomePage extends Component{
     return(
       <Provider > 
       <SafeAreaView style={styles.container}>
-        
-        
         <View style={styles.dropdown}>
           <DropDown
             label={'Filter category'}
@@ -126,6 +124,7 @@ class clubHomePage extends Component{
               clubDesc={club.description} 
               clubCategory= {club.category} 
               clubEmail = {club.email} 
+              clubId = {club.id}
               navigation={this.props.navigation}/>)}
           </View>
         </ScrollView>
