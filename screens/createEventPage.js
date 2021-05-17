@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Provider, TextInput, RadioButton,Text, Subheading,Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import Geocoder from 'react-native-geocoding'; 
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import * as Location from 'expo-location';
+import { firebase }  from '../utils/firebase';
 
 class eventMapPage extends Component{
   constructor(props) {
@@ -60,6 +60,10 @@ class eventMapPage extends Component{
       const coords = await Location.geocodeAsync(this.state.address)
       let event = {title: this.state.clubName, description: this.state.description, address: this.state.address, isCLub: this.state.isClub, date: this.state.date, time: this.state.time, latlng: { latitude: coords[0].latitude, longitude: coords[0].longitude }}
       console.log(event)
+      const db = firebase.database().ref();
+      db.child('/events/'+event.title).set(event).then(
+            this.props.navigation.navigate('Event Map')
+          )
   }
 
   render(){
