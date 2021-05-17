@@ -3,6 +3,7 @@ import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity} from 'rea
 import CommonCompClubCard from '../components/CommonCompClubCard';
 import DropDown from "react-native-paper-dropdown";
 import { firebase }  from '../utils/firebase';
+import 'firebase/database';
 import { Provider, TextInput, RadioButton,Text, Subheading,Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 import filter from 'lodash.filter';
 
