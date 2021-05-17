@@ -19,7 +19,8 @@ class eventMapPage extends Component{
       date: "",
       time: "",
       datePickerVisibility: false,
-      mode: "date"
+      mode: "date",
+      isClub: true
     }
   }
 
@@ -41,6 +42,11 @@ class eventMapPage extends Component{
     this.setState({datePickerVisibility: false})
   };
 
+  toggleType = () => {
+    let toggle = !this.state.isClub;
+    this.setState({isClub: toggle})
+  };
+
   handleConfirm = (dateTime) => {
     if(this.state.mode == "date"){
         this.setState({date: dateTime})
@@ -52,7 +58,7 @@ class eventMapPage extends Component{
 
   async handleCreate (){
       const coords = await Location.geocodeAsync(this.state.address)
-      let event = {title: this.state.clubName, description: this.state.description, address: this.state.address, date: this.state.date, time: this.state.time, latlng: { latitude: coords[0].latitude, longitude: coords[0].longitude }}
+      let event = {title: this.state.clubName, description: this.state.description, address: this.state.address, isCLub: this.state.isClub, date: this.state.date, time: this.state.time, latlng: { latitude: coords[0].latitude, longitude: coords[0].longitude }}
       console.log(event)
   }
 
@@ -60,11 +66,17 @@ class eventMapPage extends Component{
     return(
         <View style={styles.container}>
             <View style={{ height: "100%", width: "100%", backgroundColor: "grey", alignItems: "center", padding: 20}}>
+            <View style={{ flexDirection: "row", width: "100%" }}>       
                 <TextInput label='Event Name'
                     value={this.state.clubName}
                     type="outlined"
                     style={styles.field}
                     onChangeText={text => this.setState({ clubName: text })} />
+                    <TouchableOpacity style={{height: 65, width: 100, backgroundColor: this.state.isClub ? "lightblue": "#cec1e7", margin: 15, marginBottom: 0, borderRadius: 10, justifyContent: "center", alignItems: "center"}} onPress={() => this.toggleType()} >
+                        <Text style={styles.OBtext}>{this.state.isClub ? "CLUB" : "SOCIAL"}</Text>
+                        <Text style={styles.OBtext}>EVENT</Text>
+                    </TouchableOpacity>
+                </View>
                 <TextInput label='Description'
                     value={this.state.description}
                     multiline={true}
@@ -121,7 +133,7 @@ const styles = StyleSheet.create({
   field: {
     marginTop: 15,
     height: 55,
-    width: 350,
+    width: 250,
     padding: 5,
     backgroundColor: 'white',
   },
