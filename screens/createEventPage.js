@@ -5,6 +5,7 @@ import Geocoder from 'react-native-geocoding';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import * as Location from 'expo-location';
 
 class eventMapPage extends Component{
   constructor(props) {
@@ -49,8 +50,9 @@ class eventMapPage extends Component{
     this.hideDatePicker();
   };
 
-  handleCreate = () => {
-      let event = {title: this.state.clubName, address: this.state.address, date: this.state.date, time: this.state.time}
+  async handleCreate (){
+      const coords = await Location.geocodeAsync(this.state.address)
+      let event = {title: this.state.clubName, description: this.state.description, address: this.state.address, date: this.state.date, time: this.state.time, latlng: { latitude: coords[0].latitude, longitude: coords[0].longitude }}
       console.log(event)
   }
 
@@ -73,6 +75,8 @@ class eventMapPage extends Component{
                 <DateTimePickerModal
                     isVisible={this.state.datePickerVisibility}
                     mode={this.state.mode}
+                    minimumDate={new Date(2021,5,16)}
+                    minuteInterval={5}
                     onConfirm={(x) => this.handleConfirm(x)}
                     onCancel={(x) => this.hideDatePicker(x)}
                 />
@@ -82,7 +86,7 @@ class eventMapPage extends Component{
                         onPress={(data, details = null) => {
                             // 'details' is provided when fetchDetails = true
                             this.setState({ address: data.description })
-                            console.log(data, details);
+                            console.log(data, details); 
                         }}
                         query={{
                             key: 'AIzaSyBgcyM5Rx3Egi0ICUC_EF81gUWiKWr0Df4',
