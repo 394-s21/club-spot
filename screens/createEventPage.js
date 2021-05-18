@@ -54,7 +54,7 @@ class eventMapPage extends Component{
 
   async handleCreate (){
       const coords = await Location.geocodeAsync(this.state.address)
-      let event = {title: this.state.clubName, description: this.state.description, address: this.state.address, isCLub: this.state.isClub, date: this.state.date, time: this.state.time, latlng: { latitude: coords[0].latitude, longitude: coords[0].longitude }}
+      let event = {title: this.state.clubName, description: this.state.description, address: this.state.address, isCLub: this.state.isClub, date: this.state.date, time: this.state.time, coords: { latitude: coords[0].latitude, longitude: coords[0].longitude }}
       console.log(event)
       const db = firebase.database().ref();
       db.child('/events/'+event.title).set(event).then(
