@@ -24,10 +24,6 @@ class eventMapPage extends Component{
     }
   }
 
-  translateAddress = () => {
-    console.log(`hello`)
-  }
-
   showDatePicker = () => {
       this.setState({datePickerVisibility: true})
       this.setState({mode: "date"})
