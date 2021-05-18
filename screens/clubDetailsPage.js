@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
 import { Button } from 'react-native-paper';
-import {firebase} from '../utils/firebase'
+import {firebase} from '../utils/firebase';
+import { Linking } from 'react-native'
 
 class clubDetailsPage extends Component{
     constructor(props){
@@ -13,6 +14,7 @@ class clubDetailsPage extends Component{
             clubEmail: this.props.route.params.clubEmail,
             clubId: this.props.route.params.clubId,
         }
+        this.handleEmailClick = this.handleEmailClick.bind(this)
     }
 
     joinFailed() {
@@ -59,6 +61,12 @@ class clubDetailsPage extends Component{
         })
     }
 
+    handleEmailClick() {
+        const str = 'mailto:'+this.state.clubEmail
+        console.log('str: ',str)
+        Linking.openURL(str)
+    }
+
     render(){
         return(
             <View style={styles.backcover}>
@@ -89,8 +97,10 @@ class clubDetailsPage extends Component{
                     <Text style = {styles.clubDescription}>
                         {this.state.clubDesc}
                     </Text>
+                    <Button style={styles.button} mode="outlined" compact="true" onPress = {this.handleEmailClick}>CONTACT CLUB</Button>
+                    <Button style={styles.button} mode="outlined" onPress = {this.joinClub}> Join This Club </Button> 
                     </View>
-                    <Button onPress = {this.joinClub}> Join This Club </Button> 
+                    
                 </ScrollView>
             </SafeAreaView>
             </View>
@@ -100,6 +110,9 @@ class clubDetailsPage extends Component{
 }
 
 const styles = StyleSheet.create({
+    button: {
+        marginTop: 10
+    },
     title: {
       fontSize: 22,
       paddingTop: 10,
@@ -131,7 +144,7 @@ const styles = StyleSheet.create({
     },
     clubDescription: {
       fontSize: 14,
-      
+      marginBottom: 5
     },
     card: {
       height: 100
