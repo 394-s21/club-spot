@@ -13,14 +13,20 @@ class clubDetailsPage extends Component{
             clubCategory: this.props.route.params.clubCategory,
             clubEmail: this.props.route.params.clubEmail,
             clubId: this.props.route.params.clubId,
+            userInfo: {},
+            clubmember: false,
+            userId: firebase.auth().currentUser.uid
         }
         this.handleEmailClick = this.handleEmailClick.bind(this)
+        this.groupButton = this.groupButton.bind(this)
+        this.leaveClub = this.leaveClub.bind(this)
+        this.leaveSuccessfully = this.leaveSuccessfully.bind(this)
     }
 
     joinFailed() {
         Alert.alert(
-            "Join Group Failed",
-            "You have already joined this group.",
+            "Join Club Failed",
+            "You have already joined this club.",
             [
                 { text: "OK", onPress: () => console.log("OK Pressed") }
             ]
@@ -29,8 +35,8 @@ class clubDetailsPage extends Component{
 
     joinSuccessfully() {
         Alert.alert(
-            "Join Group Successfully",
-            "You are now part of the group.",
+            "Joined Club Successfully",
+            "You are now part of this club.",
             [
                 { text: "OK", onPress: () => console.log("OK Pressed") }
             ]
@@ -48,6 +54,7 @@ class clubDetailsPage extends Component{
                 console.log(`user's first time`)
                 this.joinSuccessfully()
                 clubRef.child(clubId).set(1); // set user's clubId ref to be 1 (indicate the user is joined)
+                this.setState({clubMember: true})
             } else {
                 if(snapshot.val().hasOwnProperty(clubId)){
                     console.log(`found the club ${clubId}`);
@@ -56,15 +63,90 @@ class clubDetailsPage extends Component{
                     console.log(`not found the club ${clubId}`);
                     this.joinSuccessfully()
                     clubRef.child(clubId).set(1);
+                    this.setState({clubMember: true})
                 }
             } 
         })
     }
 
+
+    leaveFailed() {
+        Alert.alert(
+            "Failed to Leave Club",
+            "Unable to leave club due to error.",
+            [
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+        );
+    }
+
+    leaveSuccessfully() {
+        Alert.alert(
+            "Left Club Successfully",
+            "You have now left the club.",
+            [
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+        );
+    }
+
+    leaveClub() {
+        const clubId = this.state.clubId;
+        const userId = this.state.userId;
+        const userClub = firebase.database().ref('/users/'+userId+'/clubs/'+clubId);
+        userClub.remove()
+        const user = this.state.userInfo
+        console.log('old user: ',user)
+        delete user.clubs[clubId]
+        this.setState({userInfo: user, clubMember: false});
+        console.log('new user: ',user)
+        console.log('club removed from user')
+        this.leaveSuccessfully()
+    }
+
+
+
     handleEmailClick() {
         const str = 'mailto:'+this.state.clubEmail
         console.log('str: ',str)
         Linking.openURL(str)
+    }
+
+    componentDidMount() {
+        const userId = firebase.auth().currentUser.uid;
+        const clubId = this.state.clubId;
+        const db = firebase.database().ref('/users/'+userId);
+        var user = {}
+        db.on('value', (snapshot) => {
+        if (snapshot.exists()) {
+            user = snapshot.toJSON();
+            console.log('user: ',user);
+            if (Object.keys(user).includes("clubs") && Object.keys(user.clubs).includes(clubId)) {
+                this.setState({clubMember: true})
+                console.log('member of this club')
+            }
+            else {
+                this.setState({clubMember: false})
+                console.log('NOT a member of this club')
+            }
+        }
+        this.setState({userInfo: user
+                    })
+        //console.log('userInfo: ',this.state.userInfo)
+        });
+    }
+    
+
+    groupButton() {
+        const mem = this.state.clubMember
+        if (mem === true) {
+            return (
+                <Button style={styles.button} mode="outlined" onPress = {this.leaveClub} > Leave This Club </Button>
+            )
+        }
+        else {
+            return (<Button style={styles.button} mode="outlined" onPress = {this.joinClub}> Join This Club </Button>)
+        }
     }
 
     render(){
@@ -98,7 +180,7 @@ class clubDetailsPage extends Component{
                         {this.state.clubDesc}
                     </Text>
                     <Button style={styles.button} mode="outlined" compact="true" onPress = {this.handleEmailClick}>CONTACT CLUB</Button>
-                    <Button style={styles.button} mode="outlined" onPress = {this.joinClub}> Join This Club </Button> 
+                    {this.groupButton()}
                     </View>
                     
                 </ScrollView>
