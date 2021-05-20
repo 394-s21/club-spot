@@ -4,6 +4,7 @@ import { Entypo, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import clubHomePageStack from '../navigations/clubHomePageStack';
 import eventMapPageStack from '../navigations/eventMapPageStack';
+import myClubsPageStack from '../navigations/myClubsPageStack';
 import profilePage from '../screens/profilePage';
 
 
@@ -23,6 +24,16 @@ export default function homeTab() {
           tabBarLabel: 'Dashboard',
           tabBarIcon: ({ color, size }) => (
             <Entypo name="home" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="myClubsPageStack"
+        component={myClubsPageStack}
+        options={{
+          tabBarLabel: 'My Clubs',
+          tabBarIcon: ({ color, size }) => (
+            <Entypo name="star" size={24} color="black" />
           ),
         }}
       />
