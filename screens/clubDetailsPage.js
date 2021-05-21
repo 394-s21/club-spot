@@ -16,7 +16,7 @@ class clubDetailsPage extends Component{
             clubId: this.props.route.params.clubId,
             userInfo: {},
             clubmember: false,
-            userId: firebase.auth().currentUser.uid,
+            userId: firebase.auth().currentUser ? firebase.auth().currentUser.uid : "testAdminId", //backdoor token (remove in production)
             edit: false,
             newCat: this.props.route.params.clubCategory,
             newDescription: this.props.route.params.clubDesc,
@@ -107,11 +107,8 @@ class clubDetailsPage extends Component{
         const userClub = firebase.database().ref('/users/'+userId+'/clubs/'+clubId);
         userClub.remove()
         const user = this.state.userInfo
-        console.log('old user: ',user)
         delete user.clubs[clubId]
         this.setState({userInfo: user, clubMember: false});
-        console.log('new user: ',user)
-        console.log('club removed from user')
         this.leaveSuccessfully()
     }
 
@@ -119,7 +116,6 @@ class clubDetailsPage extends Component{
 
     handleEmailClick() {
         const str = 'mailto:'+this.state.clubEmail
-        console.log('str: ',str)
         Linking.openURL(str)
     }
 
@@ -190,8 +186,8 @@ class clubDetailsPage extends Component{
         const admin = this.state.userInfo.admin
         const clubAdmin = this.state.userInfo.clubAdminId
         const currClub = this.state.clubId
-        console.log('clubAdminId: ',clubAdmin)
-        console.log('currClub: ',currClub)
+        //console.log('clubAdminId: ',clubAdmin)
+        //console.log('currClub: ',currClub)
         if (currClub === clubAdmin) {
             return (
                 <Button style={styles.button} mode="outlined" onPress = {this.edit} > Edit Club Description</Button>
@@ -210,8 +206,8 @@ class clubDetailsPage extends Component{
         const admin = this.state.userInfo.admin
         const clubAdmin = this.state.userInfo.clubAdminId
         const currClub = this.state.clubId
-        console.log('clubAdminId: ',clubAdmin)
-        console.log('currClub: ',currClub)
+        //console.log('clubAdminId: ',clubAdmin)
+        //console.log('currClub: ',currClub)
         if (currClub !== clubAdmin) {
             return (
                 <Button style={styles.button} mode="outlined" compact="true" onPress = {this.handleEmailClick}>CONTACT CLUB</Button>
@@ -361,11 +357,6 @@ const styles = StyleSheet.create({
       fontWeight: 'bold'
     },
 
-    //container: {
-    //  flex: 1,
-    //  padding: 10,
-    //  borderRadius: 40
-    //},
     clubImage: {
       borderRadius: 25,
       borderWidth: 2,

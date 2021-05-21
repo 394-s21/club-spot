@@ -60,25 +60,17 @@ class loginPage extends Component {
             googleUser.idToken,
             googleUser.accessToken
           );
-          console.log('clubEmails state: ',this.state.clubEmailsDict["clobel88@gmail.com"])
           // Sign in with credential from the Google user.
           firebase
             .auth()
             .signInAndRetrieveDataWithCredential(credential)
             .then(function(result) {
-              //console.log('doing check of admin email')
-              //console.log('user email: ',result.user.email)
-              //console.log('result.additionalUserInfo.isNewUser: ',result.additionalUserInfo.isNewUser)
-              //console.log('includes: ',this.state.clubEmailsArr.includes(result.user.email))
-             
+              
               
               if (result.additionalUserInfo.isNewUser && admin) {
                 
                 year = 'NA'
 
-                //const emails = this.state.clubEmailsArr
-                //console.log('emails: ',this.state.clubEmailsArr.slice(0,20))
-                
                 console.log('making admin account')
                 firebase
                   .database()
@@ -177,7 +169,6 @@ class loginPage extends Component {
 
   componentDidMount() {
     this.checkIfLoggedIn();
-    console.log('in componentDidMount')
     this.setState({clubEmails: []});
     const db = firebase.database().ref('/clubs');
     
@@ -192,7 +183,6 @@ class loginPage extends Component {
           clubEmailsArray.push(childSnap.email)
           
         });
-      console.log('clubEmailsDict:\n',clubEmailsDictionary["clobel88@gmail.com"])
       this.setState({clubEmailsDict: clubEmailsDictionary, clubEmailsArr: clubEmailsArray});
       }
     })
