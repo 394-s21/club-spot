@@ -147,16 +147,17 @@ class loginPage extends Component {
         androidClientId: "466909196535-36phdgnp6t0n65dc8isvj8e7veap29nv.apps.googleusercontent.com",
         scopes: ['profile', 'email']
       });
-      if (result.type === 'success' && result.user.email.includes('@u.northwestern.edu') ) {
-        this.onSignIn(result,false,null);
-        console.log(`successful sign in with userId ${firebase.auth().currentUser.uid}`)
-        return result.accessToken;
-      } 
-      else if (result.type === 'success' && this.state.clubEmailsArr.includes(result.user.email)) {
+      if (result.type === 'success' && this.state.clubEmailsArr.includes(result.user.email)) {
         this.onSignIn(result,true,this.state.clubEmailsDict[result.user.email]);
         console.log(`successful sign in with userId ${firebase.auth().currentUser.uid}`)
         return result.accessToken;
       }
+      else if (result.type === 'success' && result.user.email.includes('@u.northwestern.edu') ) {
+        this.onSignIn(result,false,null);
+        console.log(`successful sign in with userId ${firebase.auth().currentUser.uid}`)
+        return result.accessToken;
+      } 
+      
       else {
         this.loginFailed();
         return { cancelled: true };
