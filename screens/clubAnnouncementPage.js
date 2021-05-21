@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
 import {firebase} from '../utils/firebase';
 import { StyleSheet, View, Text, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
+import { Title } from 'react-native-paper';
 
 class clubAnnouncementPage extends Component{
   constructor(props){
@@ -22,11 +22,11 @@ class clubAnnouncementPage extends Component{
       <SafeAreaView>
         <ScrollView>
           <View>
-            <View>
-              <Text>Announcements</Text>
+            <View style={styles.titleContainer}>
+              <Title style={styles.title}>Announcements</Title>
             </View>
-            <View>
-              <Text>Events</Text>
+            <View style={styles.titleContainer}>
+              <Title style={styles.title}>Events</Title>
             </View>
           </View>
         </ScrollView>
@@ -35,4 +35,19 @@ class clubAnnouncementPage extends Component{
   }
   
 }
+
+const styles = StyleSheet.create({
+  titleContainer: {
+    backgroundColor: 'blue',
+    height: 50,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    justifyContent: 'center',
+    margin: 16
+  },
+  title: {
+    color: 'white',
+    padding: 10
+  }
+})
 export default clubAnnouncementPage;

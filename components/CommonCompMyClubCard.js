@@ -7,7 +7,7 @@ const CommonCompMyClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navi
     
     //TODO: to implement later
     const viewClub = (navigation,name,desc,category,email,id)=>{
-      navigation.navigate('Club Annoucement',{clubName:name, clubDesc:desc, clubCategory:category, clubEmail:email, clubId: id })
+      navigation.navigate('Club Announcement',{clubName:name, clubDesc:desc, clubCategory:category, clubEmail:email, clubId: id })
     }
 
     return(

@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 export default function myClubPageStack(){
     return(
         <Stack.Navigator
-        initialRouteName = 'clubHomePage'>
+        initialRouteName = 'My Clubs'>
             <Stack.Screen
             name='My Clubs'
             component={myClubPage}
