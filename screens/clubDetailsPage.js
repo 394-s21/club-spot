@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
-import { Button } from 'react-native-paper';
+import { StyleSheet, View, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
+import { Avatar,Provider, TextInput, RadioButton,Text, Subheading,Title, Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
+
 import {firebase} from '../utils/firebase';
 import { Linking } from 'react-native'
 
@@ -15,12 +16,22 @@ class clubDetailsPage extends Component{
             clubId: this.props.route.params.clubId,
             userInfo: {},
             clubmember: false,
-            userId: firebase.auth().currentUser.uid
+            userId: firebase.auth().currentUser.uid,
+            edit: false,
+            newCat: this.props.route.params.clubCategory,
+            newDescription: this.props.route.params.clubDesc,
+            newName: this.props.route.params.clubName
         }
         this.handleEmailClick = this.handleEmailClick.bind(this)
         this.groupButton = this.groupButton.bind(this)
         this.leaveClub = this.leaveClub.bind(this)
         this.leaveSuccessfully = this.leaveSuccessfully.bind(this)
+        this.editButton = this.editButton.bind(this)
+        this.edit = this.edit.bind(this)
+        this.save = this.save.bind(this)
+        this.cancel = this.cancel.bind(this)
+        this.contactClubButton = this.contactClubButton.bind(this)
+        this.descriptionDisplay = this.descriptionDisplay.bind(this)
     }
 
     joinFailed() {
@@ -122,16 +133,18 @@ class clubDetailsPage extends Component{
             user = snapshot.toJSON();
             console.log('user: ',user);
             if (Object.keys(user).includes("clubs") && Object.keys(user.clubs).includes(clubId)) {
-                this.setState({clubMember: true})
+                this.setState({clubMember: true,
+                userInfo: user})
                 console.log('member of this club')
             }
             else {
-                this.setState({clubMember: false})
+                this.setState({clubMember: false,
+                userInfo: user})
                 console.log('NOT a member of this club')
             }
         }
-        this.setState({userInfo: user
-                    })
+        //this.setState({userInfo: user
+         //           })
         //console.log('userInfo: ',this.state.userInfo)
         });
     }
@@ -139,59 +152,202 @@ class clubDetailsPage extends Component{
 
     groupButton() {
         const mem = this.state.clubMember
+        const admin = this.state.userInfo.admin
+        const clubAdmin = this.state.userInfo.clubAdminId
+        const currClub = this.state.clubId
         if (mem === true) {
             return (
                 <Button style={styles.button} mode="outlined" onPress = {this.leaveClub} > Leave This Club </Button>
             )
+        }
+
+        else if (currClub === clubAdmin) {
+            return (null)
         }
         else {
             return (<Button style={styles.button} mode="outlined" onPress = {this.joinClub}> Join This Club </Button>)
         }
     }
 
+    edit = () => {
+        this.setState({edit: true})
+    }
+
+    save = () => {
+        this.setState({edit: false})
+        const db = firebase.database().ref('/clubs/'+this.state.clubId)
+        const newDesc = this.state.newDescription
+        db.child('/description').set(newDesc)
+        this.setState({clubDesc: newDesc})
+    }
+    cancel = () => {
+        const oldDesc = this.state.clubDesc
+        this.setState({edit: false,
+                        newDescription: oldDesc})
+    }
+
+    editButton() {
+        const admin = this.state.userInfo.admin
+        const clubAdmin = this.state.userInfo.clubAdminId
+        const currClub = this.state.clubId
+        console.log('clubAdminId: ',clubAdmin)
+        console.log('currClub: ',currClub)
+        if (currClub === clubAdmin) {
+            return (
+                <Button style={styles.button} mode="outlined" onPress = {this.edit} > Edit Club Description</Button>
+            )
+        }
+        else {
+            return (null)
+        }
+    }
+
+    saveButton() {
+
+    }
+
+    contactClubButton() {
+        const admin = this.state.userInfo.admin
+        const clubAdmin = this.state.userInfo.clubAdminId
+        const currClub = this.state.clubId
+        console.log('clubAdminId: ',clubAdmin)
+        console.log('currClub: ',currClub)
+        if (currClub !== clubAdmin) {
+            return (
+                <Button style={styles.button} mode="outlined" compact="true" onPress = {this.handleEmailClick}>CONTACT CLUB</Button>
+            )
+        }
+        else {
+            return (null)
+        }
+    }
+
+    descriptionDisplay() {
+        if (this.state.clubDesc !== "") {
+            return (
+                <Card style={styles.card}>
+                        <Card.Content>
+                        <Text>{this.state.clubDesc}</Text>
+                        </Card.Content>
+                    </Card>
+            )
+        }
+        else {
+            return (
+                <Card style={styles.card}>
+                        <Card.Content>
+                        <Text>No description available.</Text>
+                        </Card.Content>
+                    </Card>
+            )
+        }
+    }
+
+
     render(){
-        return(
-            <View style={styles.backcover}>
-            <SafeAreaView>
+
+        const edit = this.state.edit
+
+
+        if (edit) {
+            return (
+                
+                <SafeAreaView style={styles.container}>
+                    <ScrollView>
+                        <Text style = {styles.title}>
+                        {this.state.clubName}
+                            {'\n'}
+                        </Text>
+
+                        <Card style={styles.card}>
+                            <Card.Content>
+                            <Text>Category: {this.state.clubCategory}</Text>
+                               
+                            </Card.Content>
+                        </Card>
+                        <Card style={styles.card}>
+                            <Card.Content>
+                            <Text>Email: {this.state.clubEmail}</Text>
+                               
+                            </Card.Content>
+                        </Card>
+                        <Card style={styles.card}>
+                            <Card.Content>
+                            <TextInput mode="flat"
+                                        label="Description"
+                                        value={this.state.newDescription}
+                                        dense="true"
+                                        multiline="true"
+                                        onChangeText={text => this.setState({newDescription:text})} />
+                            </Card.Content>
+                        </Card>
+                        <Button style={styles.button} mode="outlined" onPress = {this.save} > Save </Button>
+                        <Button style={styles.button} mode="outlined" onPress = {this.cancel} > Cancel </Button>
+                        
+
+                        
+                    </ScrollView>
+                </SafeAreaView>
+
+            )
+        }
+        else {
+
+            return(
+                <SafeAreaView style={styles.container}>
                 <ScrollView>
-                    <View style = {styles.view}>
-                    <Text style = {styles.title}>
-                    {this.state.clubName}
-                        {'\n'}
-                    </Text>
-                    <Text style = {styles.subtitle}>
-                        Category:
-                    </Text>
-                    <Text style = {styles.clubDescription}>
-                        {this.state.clubCategory}
-                        {'\n'}
-                    </Text>
-                    <Text style = {styles.subtitle}>
-                        Email:
-                    </Text>
-                    <Text style = {styles.email}>
-                        {this.state.clubEmail}
-                        {'\n'}
-                    </Text>
-                    <Text style = {styles.subtitle}>
-                        Description:
-                    </Text>
-                    <Text style = {styles.clubDescription}>
-                        {this.state.clubDesc}
-                    </Text>
-                    <Button style={styles.button} mode="outlined" compact="true" onPress = {this.handleEmailClick}>CONTACT CLUB</Button>
-                    {this.groupButton()}
+                    <View style={styles.container}>
+                    <Title style={styles.subheading}>{this.state.clubName}</Title>
                     </View>
-                    
+                    <Subheading>CATEGORY</Subheading>
+                    <Card style={styles.card}>
+                        <Card.Content>
+                        <Text>{this.state.clubCategory}</Text>
+                        </Card.Content>
+                    </Card>
+                    <Subheading>EMAIL</Subheading>
+                    <Card style={styles.card}>
+                        <Card.Content>
+                        <Text>{this.state.clubEmail}</Text>
+                        </Card.Content>
+                    </Card>
+                    <Subheading>DESCRIPTION</Subheading>
+                    {this.descriptionDisplay()}
+                    {this.contactClubButton()}
+                    {this.groupButton()}
+                    {this.editButton()}
                 </ScrollView>
-            </SafeAreaView>
-            </View>
-        )
+                </SafeAreaView>
+
+
+            ) }
     }
 
 }
 
 const styles = StyleSheet.create({
+    subheading: {
+        fontWeight: "600",
+        height: 35,
+        marginTop: 20,
+        marginBottom: 10,
+        width: 350,
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center'
+      },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#ecf0f1'
+    },
+    card: {
+        marginTop: 5,
+        marginBottom: 5,
+        backgroundColor:'white',
+        width: 350
+    },
     button: {
         marginTop: 10
     },
@@ -205,11 +361,11 @@ const styles = StyleSheet.create({
       fontWeight: 'bold'
     },
 
-    container: {
-      flex: 1,
-      padding: 10,
-      borderRadius: 40
-    },
+    //container: {
+    //  flex: 1,
+    //  padding: 10,
+    //  borderRadius: 40
+    //},
     clubImage: {
       borderRadius: 25,
       borderWidth: 2,
@@ -228,9 +384,7 @@ const styles = StyleSheet.create({
       fontSize: 14,
       marginBottom: 5
     },
-    card: {
-      height: 100
-    },
+    
     email:{
     color:'blue',
     textDecorationLine:'underline'

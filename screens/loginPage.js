@@ -9,6 +9,18 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig)
 }
 class loginPage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      clubEmailsDict: {},
+      clubEmailsArr: []
+      
+    };
+  }
+
+
+
   loginFailed() {
       Alert.alert(
           "Login In Failed",
@@ -36,7 +48,7 @@ class loginPage extends Component {
     return false;
   };
 
-  onSignIn = googleUser => {
+  onSignIn = (googleUser,admin,club) => {
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
     var unsubscribe = firebase.auth().onAuthStateChanged(
       function(firebaseUser) {
@@ -48,15 +60,48 @@ class loginPage extends Component {
             googleUser.idToken,
             googleUser.accessToken
           );
+          console.log('clubEmails state: ',this.state.clubEmailsDict["clobel88@gmail.com"])
           // Sign in with credential from the Google user.
           firebase
             .auth()
             .signInAndRetrieveDataWithCredential(credential)
             .then(function(result) {
-              if (result.additionalUserInfo.isNewUser) {
+              //console.log('doing check of admin email')
+              //console.log('user email: ',result.user.email)
+              //console.log('result.additionalUserInfo.isNewUser: ',result.additionalUserInfo.isNewUser)
+              //console.log('includes: ',this.state.clubEmailsArr.includes(result.user.email))
+             
+              
+              if (result.additionalUserInfo.isNewUser && admin) {
+                
+                year = 'NA'
+
+                //const emails = this.state.clubEmailsArr
+                //console.log('emails: ',this.state.clubEmailsArr.slice(0,20))
+                
+                console.log('making admin account')
+                firebase
+                  .database()
+                  .ref('/users/' + result.user.uid)
+                  .set({
+                    gmail: result.user.email,
+                    profile_picture: result.additionalUserInfo.profile.picture,
+                    first_name: result.additionalUserInfo.profile.given_name,
+                    last_name: result.additionalUserInfo.profile.family_name,                      created_at: Date.now(),
+                    graduation_year: year,
+                    major: 'NA',
+                    admin: true,
+                    clubAdminId: club
+                    
+                  })
+                  .then(function(snapshot) {
+                  }); }
+              else if (result.additionalUserInfo.isNewUser){
                 year = result.user.email.split('@')[0]
                 year = year.substring(year.length-4,year.length);
                 console.log('year: ',year)
+
+                console.log('making normal account')
                 firebase
                   .database()
                   .ref('/users/' + result.user.uid)
@@ -67,20 +112,24 @@ class loginPage extends Component {
                     last_name: result.additionalUserInfo.profile.family_name,
                     created_at: Date.now(),
                     graduation_year: year,
-                    major: 'Undecided'
+                    major: 'Undecided',
+                    admin: false,
+                    clubAdminId: ""
                     
                   })
                   .then(function(snapshot) {
-                  });
-              } else {
-                firebase
-                  .database()
-                  .ref('/users/' + result.user.uid)
-                  .update({
-                    last_logged_in: Date.now()
-                  });
-              }
-            })
+                  }); 
+              
+              }   
+              else {
+              firebase
+                .database()
+                .ref('/users/' + result.user.uid)
+                .update({
+                  last_logged_in: Date.now()
+                });
+            }
+          })
             .catch(function(error) {
               // Handle Errors here.
               var errorCode = error.code;
@@ -106,11 +155,17 @@ class loginPage extends Component {
         androidClientId: "466909196535-36phdgnp6t0n65dc8isvj8e7veap29nv.apps.googleusercontent.com",
         scopes: ['profile', 'email']
       });
-      if (result.type === 'success' && result.user.email.includes('@u.northwestern.edu')) {
-        this.onSignIn(result);
+      if (result.type === 'success' && result.user.email.includes('@u.northwestern.edu') ) {
+        this.onSignIn(result,false,null);
         console.log(`successful sign in with userId ${firebase.auth().currentUser.uid}`)
         return result.accessToken;
-      } else {
+      } 
+      else if (result.type === 'success' && this.state.clubEmailsArr.includes(result.user.email)) {
+        this.onSignIn(result,true,this.state.clubEmailsDict[result.user.email]);
+        console.log(`successful sign in with userId ${firebase.auth().currentUser.uid}`)
+        return result.accessToken;
+      }
+      else {
         this.loginFailed();
         return { cancelled: true };
       }
@@ -122,6 +177,26 @@ class loginPage extends Component {
 
   componentDidMount() {
     this.checkIfLoggedIn();
+    console.log('in componentDidMount')
+    this.setState({clubEmails: []});
+    const db = firebase.database().ref('/clubs');
+    
+    db.on('value', (snapshot) => {
+      if (snapshot.exists()) {
+        
+        const clubEmailsArray = []
+        const clubEmailsDictionary = {}
+        snapshot.forEach(function (childSnapshot) {
+          let childSnap = childSnapshot.toJSON();
+          clubEmailsDictionary[childSnap.email] = childSnap.id.toString()
+          clubEmailsArray.push(childSnap.email)
+          
+        });
+      console.log('clubEmailsDict:\n',clubEmailsDictionary["clobel88@gmail.com"])
+      this.setState({clubEmailsDict: clubEmailsDictionary, clubEmailsArr: clubEmailsArray});
+      }
+    })
+   
   }
 
   checkIfLoggedIn = () => {
@@ -132,6 +207,7 @@ class loginPage extends Component {
           this.props.navigation.replace('homeTab');
         } else {
           this.props.navigation.navigate('loginPage');
+
         }
       }.bind(this)
     );

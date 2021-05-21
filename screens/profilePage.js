@@ -13,7 +13,9 @@ class profilePage extends Component{
       edit: false,
       new_name: null,
       new_major: null,
-      new_year: null
+      new_year: null,
+      admin: false,
+      clubInfo: {}
     }
     this.get_profile_comp = this.get_profile_comp.bind(this);
     this.edit = this.edit.bind(this)
@@ -76,15 +78,32 @@ class profilePage extends Component{
       this.setState({userInfo: user,
                     new_year: user.graduation_year,
                   new_major: user.major,
-                  new_name: user.first_name+' '+user.last_name
+                  new_name: user.first_name+' '+user.last_name,
+                  admin: user.admin
                   })
+      if (user.admin) {
+        clubDb = firebase.database().ref('/clubs/'+user.clubAdminId)
+        var club = {}
+        clubDb.on('value', (snapshot) => {
+          if (snapshot.exists()) {
+            club = snapshot.toJSON()
+            console.log('clubInfo: ',club)
+          }
+          this.setState({
+            clubInfo: club
+                      })
+          
+          });
+      }
       console.log('userInfo: ',this.state.userInfo)
       });
+
+
   };
 
   get_profile_comp = () => {
     const user = firebase.auth().currentUser
-    console.log('user: ',user)
+    //console.log('user: ',user)
     if (user.photoURL === '..') {
       return <Avatar.Image size={65} source={user.profile_picture} style={styles.prof_pic}/>
     }
@@ -106,10 +125,13 @@ class profilePage extends Component{
     const year = user.graduation_year
     const major = user.major
     const edit = this.state.edit
-   
-    if (edit) {
-      return (
+    const admin = user.admin
 
+
+
+    if (admin) {
+      const clubName = this.state.clubInfo.clubName
+      return (
 
         <SafeAreaView style={styles.container}>
           <ScrollView>
@@ -117,36 +139,17 @@ class profilePage extends Component{
               {this.get_profile_comp()}
               <Title style={styles.subheading}>{full_name}</Title>
             </View>
-            <Subheading>PERSONAL INFORMATION</Subheading>
+            <Subheading>ADMIN ACCOUNT INFORMATION</Subheading>
             <Card style={styles.card}>
                 <Card.Content>
-                  <Text>Email: {email}</Text>
-                    {/*TODO: CHECK FOR PHONE NUMBER AND DISPLAY IF PRESENT */}
+                  <Text>Club Email: {email}</Text>
                 </Card.Content>
             </Card>
             <Card style={styles.card}>
                 <Card.Content>
-                  <TextInput mode="flat"
-                              label="Graduation Year"
-                              value={this.state.new_year}
-                              dense="true"
-                              onChangeText={text => this.setState({new_year:text})} />
-                    {/*TODO: CHECK FOR PHONE NUMBER AND DISPLAY IF PRESENT */}
+                  <Text>Club Name: {clubName}</Text>
                 </Card.Content>
             </Card>
-            <Card style={styles.card}>
-                <Card.Content>
-                <TextInput mode="flat"
-                              label="Major"
-                              value={this.state.new_major}
-                              dense="true"
-                              onChangeText={text => this.setState({new_major:text})} />
-                </Card.Content>
-            </Card>
-            <View style={styles.row}>
-            <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.save}>SAVE </Button>
-            <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.cancel_edit}>CANCEL </Button>
-            </View>
             
             <View style={styles.row}>
               <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.logout}>logout </Button>
@@ -154,47 +157,100 @@ class profilePage extends Component{
         </ScrollView>
         </SafeAreaView>
         
-      )
-    }
-    else {
-      return (
-
-        <SafeAreaView style={styles.container}>
-          <ScrollView>
-            <View style={styles.container}>
-              {this.get_profile_comp()}
-              <Title style={styles.subheading}>{full_name}</Title>
-            </View>
-            <Subheading>PERSONAL INFORMATION</Subheading>
-            <Card style={styles.card}>
-                <Card.Content>
-                  <Text>Email: {email}</Text>
-                    {/*TODO: CHECK FOR PHONE NUMBER AND DISPLAY IF PRESENT */}
-                </Card.Content>
-            </Card>
-            <Card style={styles.card}>
-                <Card.Content>
-                  <Text>Graduation Year: {year}</Text>
-                    {/*TODO: CHECK FOR PHONE NUMBER AND DISPLAY IF PRESENT */}
-                </Card.Content>
-            </Card>
-            <Card style={styles.card}>
-                <Card.Content>
-                  <Text>Major: {major}</Text>
-                    {/*TODO: CHECK FOR PHONE NUMBER AND DISPLAY IF PRESENT */}
-                </Card.Content>
-            </Card>
-            <View style={styles.row}>
-            <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.edit}>EDIT </Button>
-            </View>
-            <View style={styles.row}>
-              <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.logout}>logout </Button>
-            </View>
-        </ScrollView>
-        </SafeAreaView>
-        
       ) }
-  }
+    
+
+
+    else {
+      if (edit) {
+        return (
+
+
+          <SafeAreaView style={styles.container}>
+            <ScrollView>
+              <View style={styles.container}>
+                {this.get_profile_comp()}
+                <Title style={styles.subheading}>{full_name}</Title>
+              </View>
+              <Subheading>PERSONAL INFORMATION</Subheading>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <Text>Email: {email}</Text>
+                      {/*TODO: CHECK FOR PHONE NUMBER AND DISPLAY IF PRESENT */}
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <TextInput mode="flat"
+                                label="Graduation Year"
+                                value={this.state.new_year}
+                                dense="true"
+                                onChangeText={text => this.setState({new_year:text})} />
+                      {/*TODO: CHECK FOR PHONE NUMBER AND DISPLAY IF PRESENT */}
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
+                  <TextInput mode="flat"
+                                label="Major"
+                                value={this.state.new_major}
+                                dense="true"
+                                onChangeText={text => this.setState({new_major:text})} />
+                  </Card.Content>
+              </Card>
+              <View style={styles.row}>
+              <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.save}>SAVE </Button>
+              <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.cancel_edit}>CANCEL </Button>
+              </View>
+              
+              <View style={styles.row}>
+                <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.logout}>logout </Button>
+              </View>
+          </ScrollView>
+          </SafeAreaView>
+          
+        )
+      }
+      else {
+        return (
+
+          <SafeAreaView style={styles.container}>
+            <ScrollView>
+              <View style={styles.container}>
+                {this.get_profile_comp()}
+                <Title style={styles.subheading}>{full_name}</Title>
+              </View>
+              <Subheading>PERSONAL INFORMATION</Subheading>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <Text>Email: {email}</Text>
+                      {/*TODO: CHECK FOR PHONE NUMBER AND DISPLAY IF PRESENT */}
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <Text>Graduation Year: {year}</Text>
+                      {/*TODO: CHECK FOR PHONE NUMBER AND DISPLAY IF PRESENT */}
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <Text>Major: {major}</Text>
+                      {/*TODO: CHECK FOR PHONE NUMBER AND DISPLAY IF PRESENT */}
+                  </Card.Content>
+              </Card>
+              <View style={styles.row}>
+              <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.edit}>EDIT </Button>
+              </View>
+              <View style={styles.row}>
+                <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.logout}>logout </Button>
+              </View>
+          </ScrollView>
+          </SafeAreaView>
+          
+        ) }
+  } 
+}
 }
 
 const styles = StyleSheet.create({
