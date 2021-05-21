@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import {firebase} from '../utils/firebase';
-class clubAnnoucementPage extends Component{
+import { StyleSheet, View, Text, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
+
+class clubAnnouncementPage extends Component{
   constructor(props){
       super(props);
       this.state = {
@@ -17,11 +19,20 @@ class clubAnnoucementPage extends Component{
   }
   render() {
     return(
-      <View>
-        <Text>Club Annoucement here!</Text>
-      </View>
+      <SafeAreaView>
+        <ScrollView>
+          <View>
+            <View>
+              <Text>Announcements</Text>
+            </View>
+            <View>
+              <Text>Events</Text>
+            </View>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     )
   }
   
 }
-export default clubAnnoucementPage;
+export default clubAnnouncementPage;
