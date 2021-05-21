@@ -23,10 +23,14 @@ class clubAnnouncementPage extends Component{
         <ScrollView>
           <View>
             <View style={styles.titleContainer}>
-              <Title style={styles.title}>Announcements</Title>
+              <Title style={styles.title}>
+                  Announcements
+              </Title>
             </View>
             <View style={styles.titleContainer}>
-              <Title style={styles.title}>Events</Title>
+              <Title style={styles.title}>
+                Events
+              </Title>
             </View>
           </View>
         </ScrollView>
@@ -47,7 +51,9 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    padding: 10
+    padding: 10,
+    fontFamily: 'Helvetica',
+    fontWeight: '500',
   }
 })
 export default clubAnnouncementPage;

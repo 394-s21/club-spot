@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 import { Card } from 'react-native-paper';
 
 const CommonCompMyClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navigation, clubId}) => {
-    const LeftContent = () => <Image style={styles.clubImage} source={{uri: 'https://www.ieee.org/content/dam/ieee-org/ieee/web/org/about/whatis/71858.gif'}}/>;
+    const LeftContent = () => <Image style={styles.clubImage} source={require('../assets/clubLogo.png')}/>;
     
     //TODO: to implement later
     const viewClub = (navigation,name,desc,category,email,id)=>{
