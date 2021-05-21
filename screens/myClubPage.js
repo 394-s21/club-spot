@@ -22,21 +22,24 @@ class myHomePage extends Component{
     var myUserId = firebase.auth().currentUser ? firebase.auth().currentUser.uid : "testAdminId"
     
     db.ref('/users/' + myUserId).on('value', (snapshot) => {
-      // console.log(`my club dict is ${snapshot.val().clubs}`)
-      myClubIdDict = snapshot.val().clubs
-    })
-
-    // step 2: find my club from the club database
-    db.ref('/clubs').on('value', (snapshot) => {
-      const clubArray = [];
-      snapshot.forEach(function (childSnapshot) {
-        if(childSnapshot.val().id in myClubIdDict){
-          console.log(`I am in clubID ${childSnapshot.val().id}`)
-          let childSnap = childSnapshot.toJSON()
-          clubArray.push(childSnap)
-        }
-      })
-      this.setState({clubs: clubArray})
+      if(snapshot.exists()){
+        console.log(`my club dict is ${snapshot.val().clubs}`)
+        myClubIdDict = snapshot.val().clubs
+        // step 2: find my club from the club database
+        db.ref('/clubs').on('value', (snapshot) => {
+          if(snapshot.exists()){
+            const clubArray = [];
+            snapshot.forEach(function (childSnapshot) {
+              if(childSnapshot.val().id in myClubIdDict){
+                console.log(`I am in clubID ${childSnapshot.val().id}`)
+                let childSnap = childSnapshot.toJSON()
+                clubArray.push(childSnap)
+              }
+            })
+            this.setState({clubs: clubArray})
+          }
+        })
+      }
     })
   }
 
