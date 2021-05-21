@@ -199,10 +199,6 @@ class clubDetailsPage extends Component{
         }
     }
 
-    saveButton() {
-
-    }
-
     contactClubButton() {
         const admin = this.state.userInfo.admin
         const clubAdmin = this.state.userInfo.clubAdminId
