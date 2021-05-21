@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   },
   container: {
     //flex:  1,
-    marginHorizontal:  15,
+    marginHorizontal:  18,
     justifyContent:  'center',
   },
 
