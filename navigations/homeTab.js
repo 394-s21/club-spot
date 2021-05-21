@@ -4,7 +4,9 @@ import { Entypo, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import clubHomePageStack from '../navigations/clubHomePageStack';
 import eventMapPageStack from '../navigations/eventMapPageStack';
+import myClubPageStack from '../navigations/myClubPageStack';
 import profilePage from '../screens/profilePage';
+import myClubPage from '../screens/myClubPage';
 
 
 const Tab = createBottomTabNavigator();
@@ -17,12 +19,22 @@ export default function homeTab() {
         activeTintColor: '#3DD5F4',
       }}>
       <Tab.Screen
+        name="myClubPageStack"
+        component={myClubPageStack}
+        options={{
+          tabBarLabel: 'my club',
+          tabBarIcon: ({ color, size }) => (
+            <Entypo name="home" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="clubHomePageStack"
         component={clubHomePageStack}
         options={{
-          tabBarLabel: 'Dashboard',
+          tabBarLabel: 'Find Clubs',
           tabBarIcon: ({ color, size }) => (
-            <Entypo name="home" size={24} color="black" />
+            <FontAwesome name="search" size={24} color="black" />
           ),
         }}
       />
@@ -46,6 +58,7 @@ export default function homeTab() {
           ),
         }}
       />
+      
     </Tab.Navigator>
   );
 }
