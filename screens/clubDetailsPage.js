@@ -16,11 +16,12 @@ class clubDetailsPage extends Component{
             clubId: this.props.route.params.clubId,
             userInfo: {},
             clubmember: false,
-            userId: firebase.auth().currentUser.uid,
+            userId: firebase.auth().currentUser ? firebase.auth().currentUser.uid : "testAdminId" //backdoor token (remove in production),
             edit: false,
             newCat: this.props.route.params.clubCategory,
             newDescription: this.props.route.params.clubDesc,
             newName: this.props.route.params.clubName
+
         }
         this.handleEmailClick = this.handleEmailClick.bind(this)
         this.groupButton = this.groupButton.bind(this)
@@ -56,7 +57,7 @@ class clubDetailsPage extends Component{
 
     joinClub = () => {
         const clubId = this.state.clubId; // save a local copy of clubId
-        const userId = firebase.auth().currentUser.uid; // find current userId
+        const userId = this.state.userId; // find current userId
         // check if the user has already joined in club
         const clubRef = firebase.database().ref('/users/' + userId + '/clubs');
         clubRef.once("value")
@@ -124,7 +125,7 @@ class clubDetailsPage extends Component{
     }
 
     componentDidMount() {
-        const userId = firebase.auth().currentUser.uid;
+        const userId = this.state.userId;
         const clubId = this.state.clubId;
         const db = firebase.database().ref('/users/'+userId);
         var user = {}

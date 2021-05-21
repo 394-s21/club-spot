@@ -9,7 +9,7 @@ class profilePage extends Component{
     super(props);
     this.state = {
       userInfo: {},
-      userId: firebase.auth().currentUser.uid,
+      userId: firebase.auth().currentUser ? firebase.auth().currentUser.uid : "testAdminId",
       edit: false,
       new_name: null,
       new_major: null,
@@ -102,8 +102,12 @@ class profilePage extends Component{
   };
 
   get_profile_comp = () => {
-    const user = firebase.auth().currentUser
-    //console.log('user: ',user)
+
+    const user = firebase.auth().currentUser 
+    console.log('user: ',user)
+    if (!user) { //TODO: backdoor token
+      return <Avatar.Text size={65} label={"TA"} style={styles.prof_pic}/>
+    }
     if (user.photoURL === '..') {
       return <Avatar.Image size={65} source={user.profile_picture} style={styles.prof_pic}/>
     }
