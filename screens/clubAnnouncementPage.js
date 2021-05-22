@@ -19,7 +19,8 @@ class clubAnnouncementPage extends Component{
     }
   }
   createEvent = () => {
-    this.props.navigation.navigate('Create Event', {clubName: this.state.clubName})
+    this.props.navigation.navigate('Create Event', 
+      {clubName: this.state.clubName, clubId: this.state.clubId})
   }
   render() {
     return(

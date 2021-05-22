@@ -14,6 +14,7 @@ class eventMapPage extends Component{
     super(props);
     this.state = {
       clubName: this.props.route.params.clubName,
+      clubId: this.props.route.params.clubId,
       latitude: 0,
       longitude: 0,
       eventName: "",
@@ -65,7 +66,8 @@ class eventMapPage extends Component{
       date: this.state.date, 
       time: this.state.time, 
       coordinate: { latitude: coordinate[0].latitude, longitude: coordinate[0].longitude },
-      clubName: this.state.clubName
+      clubName: this.state.clubName,
+      clubId: this.state.clubId,
     }
     console.log(event)
     const db = firebase.database().ref();

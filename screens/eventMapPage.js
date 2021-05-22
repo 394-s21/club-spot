@@ -22,34 +22,32 @@ class eventMapPage extends Component {
 
     componentDidMount() {
         // const testEvents = [
-            // { 
-            //     title: "Social fun", 
-            //     description: "pick up basketball", 
-            //     address: "12345 Sheridan Rd, Evanston, IL", 
-            //     isPublic: false, 
-            //     coordinate: { latitude: 42.055984, longitude: -87.675171 }}, 
-            // { 
-            //     title: "Chess Club", 
-            //     description: "chess tourney", 
-            //     address: "12345 Sheridan Rd, Evanston, IL", 
-            //     isPublic: true, 
-            //     coordinate: { latitude: 42.014, longitude: -87.675171 } }]
+        //     { 
+        //         title: "Social fun", 
+        //         description: "pick up basketball", 
+        //         address: "12345 Sheridan Rd, Evanston, IL", 
+        //         isPublic: false, 
+        //         coordinate: { latitude: 42.055984, longitude: -87.675171 }}, 
+        //     { 
+        //         title: "Chess Club", 
+        //         description: "chess tourney", 
+        //         address: "12345 Sheridan Rd, Evanston, IL", 
+        //         isPublic: true, 
+        //         coordinate: { latitude: 42.014, longitude: -87.675171 } }]
         // this.setState({ events: testEvents })
+        // console.log("test event ", testEvents)
         // 2) fetch from firebase
         const db = firebase.database()
         db.ref('/events/').on('value', (snapshot) => {
             const myEvents = []
             if(snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
-                    if(childSnapshot.exists()){
-                        console.log(`event is ${childSnapshot.val().address}`)
-                        myEvents.push(childSnapshot)
-                    }
-                    
+                    let childSnap = childSnapshot.toJSON();
+                    myEvents.push(childSnap)
                 })
             }
             this.setState({ events: myEvents })
-            console.log(myEvents)
+            console.log("my events ", myEvents)
         })
     }
 
