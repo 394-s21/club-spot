@@ -3,17 +3,16 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { AntDesign } from '@expo/vector-icons';
 import { StyleSheet, Text, View, Dimensions, Button, TouchableOpacity } from 'react-native';
+import { firebase }  from '../utils/firebase';
+import 'firebase/database';
 
 
 class eventMapPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            initLocation: {
-                latitude: 42.055984,
-                longitude: -87.675171,
-            },
-            currentLocation: { "coords": { "latitude": 42.055984, "longitude": -87.708 } },
+            initLocation: {latitude: 42.055984,longitude: -87.675171}, // always set the init location to Northwestern
+            currentLocation: { "coordinate": { "latitude": 42.055984, "longitude": -87.708 } },
             events: [],
             dispEventInfo: false,
             zIndex: 0,
@@ -22,23 +21,48 @@ class eventMapPage extends Component {
     }
 
     componentDidMount() {
-        //TODO get data from firebase
-        const testEvents = [{ title: "Social fun", description: "pick up basketball", address: "12345 Sheridan Rd, Evanston, IL", isClub: false, latlng: { latitude: 42.055984, longitude: -87.675171 } }, { title: "Chess Club", description: "chess tourney", address: "12345 Sheridan Rd, Evanston, IL", isClub: true, latlng: { latitude: 42.014, longitude: -87.675171 } }]
-        
-        this.setState({ events: testEvents })
-        this.getLocation()
+        // const testEvents = [
+            // { 
+            //     title: "Social fun", 
+            //     description: "pick up basketball", 
+            //     address: "12345 Sheridan Rd, Evanston, IL", 
+            //     isPublic: false, 
+            //     coordinate: { latitude: 42.055984, longitude: -87.675171 }}, 
+            // { 
+            //     title: "Chess Club", 
+            //     description: "chess tourney", 
+            //     address: "12345 Sheridan Rd, Evanston, IL", 
+            //     isPublic: true, 
+            //     coordinate: { latitude: 42.014, longitude: -87.675171 } }]
+        // this.setState({ events: testEvents })
+        // 2) fetch from firebase
+        const db = firebase.database()
+        db.ref('/events/').on('value', (snapshot) => {
+            const myEvents = []
+            if(snapshot.exists()) {
+                snapshot.forEach(function (childSnapshot) {
+                    if(childSnapshot.exists()){
+                        console.log(`event is ${childSnapshot.val().address}`)
+                        myEvents.push(childSnapshot)
+                    }
+                    
+                })
+            }
+            this.setState({ events: myEvents })
+            console.log(myEvents)
+        })
     }
 
-    async getLocation() {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            console.log('Permission to access location was denied');
-            return;
-        }
+    // async getLocation() {
+    //     let { status } = await Location.requestForegroundPermissionsAsync();
+    //     if (status !== 'granted') {
+    //         console.log('Permission to access location was denied');
+    //         return;
+    //     }
 
-        let location = await Location.getCurrentPositionAsync({});
-        this.setState({ currentLocation: location });
-    };
+    //     let location = await Location.getCurrentPositionAsync({});
+    //     this.setState({ currentLocation: location });
+    // };
 
     
     eventInfo(marker){
@@ -51,9 +75,7 @@ class eventMapPage extends Component {
         this.setState({dispEventInfo: false})
     }
 
-    navigateToCreateEvent = () => {this.props.navigation.navigate('Create Event')}
-    //TODO decide what to display on event info popup
-    //TODO style event info popup text
+
     render() {
         return (
             <View style={{ flex: 1 }}>
@@ -74,22 +96,23 @@ class eventMapPage extends Component {
                     longitudeDelta: 0.1,
                 }}>
 
-                <Marker image={require('../assets/currentMarker.png')} coordinate={{ latitude: this.state.currentLocation.coords.latitude, longitude: this.state.currentLocation.coords.longitude }} />
-          {this.state.events.map((curMarker, index) => (
+                <Marker 
+                    image={require('../assets/currentMarker.png')} 
+                    coordinate={{ 
+                        latitude: this.state.currentLocation.coordinate.latitude, 
+                        longitude: this.state.currentLocation.coordinate.longitude }} />
+                    {this.state.events.map((curMarker, index) => (
                     <Marker
                         key={index}
-                        coordinate={curMarker.latlng}
+                        coordinate={curMarker.coordinate}
                         title={curMarker.title}
                         description="Click for more info"
                         onCalloutPress={() => {this.eventInfo(curMarker)}}
-                        pinColor={curMarker.isClub ? "red" : "blue"}
+                        pinColor={curMarker.isPublic ? "red" : "blue"}
                     />
                 ))}
             </MapView>
-             <View style={styles(this.state.dispEventInfo).buttonView}>
-          <TouchableOpacity onPress = {this.navigateToCreateEvent}>
-            <AntDesign name="pluscircleo" size={36} color="black" />
-          </TouchableOpacity>
+            <View style={styles(this.state.dispEventInfo).buttonView}>
         </View>
             </View>
         );

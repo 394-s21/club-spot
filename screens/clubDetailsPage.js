@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center'
-      },
+    },
     container: {
         flex: 1,
         alignItems: 'center',
@@ -345,32 +345,32 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     title: {
-      fontSize: 22,
-      paddingTop: 10,
-      fontWeight: 'bold'
+        fontSize: 22,
+        paddingTop: 10,
+        fontWeight: 'bold'
     },
     subtitle:{
-      fontSize: 16,
-      fontWeight: 'bold'
+        fontSize: 16,
+        fontWeight: 'bold'
     },
 
     clubImage: {
-      borderRadius: 25,
-      borderWidth: 2,
-      width: 50,
-      height: 50,
-      marginTop: 15,
-      alignContent: 'center',
-      justifyContent: 'center'
+        borderRadius: 25,
+        borderWidth: 2,
+        width: 50,
+        height: 50,
+        marginTop: 15,
+        alignContent: 'center',
+        justifyContent: 'center'
     },
     imageContainer: {
-      paddingHorizontal: 0,
-      //borderWidth: 2,
-      width: 60
+        paddingHorizontal: 0,
+        //borderWidth: 2,
+        width: 60
     },
     clubDescription: {
-      fontSize: 14,
-      marginBottom: 5
+        fontSize: 14,
+        marginBottom: 5
     },
     
     email:{
@@ -384,6 +384,6 @@ const styles = StyleSheet.create({
     backcover:{
         backgroundColor: 'white'
     }
-  });
+});
 
 export default clubDetailsPage;

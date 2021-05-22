@@ -13,10 +13,6 @@ export default function eventMapPageStack(){
             name='Event Map'
             component={eventMapPage}
             />
-            <Stack.Screen
-            name='Create Event'
-            component={createEventPage}
-            />
         </Stack.Navigator>
     )
 }

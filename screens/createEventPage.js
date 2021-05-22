@@ -7,20 +7,23 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import * as Location from 'expo-location';
 import { firebase }  from '../utils/firebase';
 
+//TODO: add verification to make sure all fields are filled.
+//TODO: revamp this page while retaining backend functionality.
 class eventMapPage extends Component{
   constructor(props) {
     super(props);
     this.state = {
+      clubName: this.props.route.params.clubName,
       latitude: 0,
       longitude: 0,
-      clubName: "",
+      eventName: "",
       address: "",
       description: "",
       date: "",
       time: "",
       datePickerVisibility: false,
       mode: "date",
-      isClub: true
+      isPublic: true
     }
   }
 
@@ -39,8 +42,8 @@ class eventMapPage extends Component{
   };
 
   toggleType = () => {
-    let toggle = !this.state.isClub;
-    this.setState({isClub: toggle})
+    let toggle = !this.state.isPublic;
+    this.setState({isPublic: toggle})
   };
 
   handleConfirm = (dateTime) => {
@@ -53,13 +56,20 @@ class eventMapPage extends Component{
   };
 
   async handleCreate (){
-      const coords = await Location.geocodeAsync(this.state.address)
-      let event = {title: this.state.clubName, description: this.state.description, address: this.state.address, isCLub: this.state.isClub, date: this.state.date, time: this.state.time, coords: { latitude: coords[0].latitude, longitude: coords[0].longitude }}
-      console.log(event)
-      const db = firebase.database().ref();
-      db.child('/events/'+event.title).set(event).then(
-            this.props.navigation.navigate('Event Map')
-          )
+    const coordinate = await Location.geocodeAsync(this.state.address)
+    let event = {
+      title: this.state.eventName, 
+      description: this.state.description, 
+      address: this.state.address, 
+      isPublic: this.state.isPublic, 
+      date: this.state.date, 
+      time: this.state.time, 
+      coordinate: { latitude: coordinate[0].latitude, longitude: coordinate[0].longitude },
+      clubName: this.state.clubName
+    }
+    console.log(event)
+    const db = firebase.database().ref();
+    db.child('/events/'+event.title).set(event)
   }
 
   render(){
@@ -68,12 +78,12 @@ class eventMapPage extends Component{
             <View style={{ height: "100%", width: "100%", backgroundColor: "grey", alignItems: "center", padding: 20}}>
             <View style={{ flexDirection: "row", width: "100%" }}>       
                 <TextInput label='Event Name'
-                    value={this.state.clubName}
+                    value={this.state.eventName}
                     type="outlined"
                     style={styles.field}
-                    onChangeText={text => this.setState({ clubName: text })} />
-                    <TouchableOpacity style={{height: 65, width: 100, backgroundColor: this.state.isClub ? "lightblue": "#cec1e7", margin: 15, marginBottom: 0, borderRadius: 10, justifyContent: "center", alignItems: "center"}} onPress={() => this.toggleType()} >
-                        <Text style={styles.OBtext}>{this.state.isClub ? "CLUB" : "SOCIAL"}</Text>
+                    onChangeText={text => this.setState({ eventName: text })} />
+                    <TouchableOpacity style={{height: 65, width: 100, backgroundColor: this.state.isPublic ? "lightblue": "#cec1e7", margin: 15, marginBottom: 0, borderRadius: 10, justifyContent: "center", alignItems: "center"}} onPress={() => this.toggleType()} >
+                        <Text style={styles.OBtext}>{this.state.isPublic ? "PUBLIC" : "MEMBER"}</Text>
                         <Text style={styles.OBtext}>EVENT</Text>
                     </TouchableOpacity>
                 </View>
@@ -150,13 +160,13 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   OptionButton: {
-     width: 150, 
-     height: 50, 
-     backgroundColor: "lightblue", 
-     margin: 8, 
-     borderRadius: 10, 
-     justifyContent:"center",
-     alignItems: "center" 
+    width: 150, 
+    height: 50, 
+    backgroundColor: "lightblue", 
+    margin: 8, 
+    borderRadius: 10, 
+    justifyContent:"center",
+    alignItems: "center" 
   },
   OBtext: {
       fontSize: 20,
