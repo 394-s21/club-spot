@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import clubAnnouncementPage from "../screens/clubAnnouncementPage";
 import myClubPage from "../screens/myClubPage";
 import createEventPage from "../screens/createEventPage";
+import groupChatPage from "../screens/groupChatPage";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,10 @@ export default function myClubPageStack(){
             <Stack.Screen
             name='Create Event'
             component={createEventPage}
+            />
+            <Stack.Screen
+            name='Chat'
+            component={groupChatPage}
             />
         </Stack.Navigator>
     )
