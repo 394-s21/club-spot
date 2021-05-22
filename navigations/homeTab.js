@@ -6,7 +6,6 @@ import clubHomePageStack from '../navigations/clubHomePageStack';
 import eventMapPageStack from '../navigations/eventMapPageStack';
 import myClubPageStack from '../navigations/myClubPageStack';
 import profilePage from '../screens/profilePage';
-import myClubPage from '../screens/myClubPage';
 
 
 const Tab = createBottomTabNavigator();
