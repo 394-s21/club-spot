@@ -21,22 +21,7 @@ class eventMapPage extends Component {
     }
 
     componentDidMount() {
-        // const testEvents = [
-        //     { 
-        //         title: "Social fun", 
-        //         description: "pick up basketball", 
-        //         address: "12345 Sheridan Rd, Evanston, IL", 
-        //         isPublic: false, 
-        //         coordinate: { latitude: 42.055984, longitude: -87.675171 }}, 
-        //     { 
-        //         title: "Chess Club", 
-        //         description: "chess tourney", 
-        //         address: "12345 Sheridan Rd, Evanston, IL", 
-        //         isPublic: true, 
-        //         coordinate: { latitude: 42.014, longitude: -87.675171 } }]
-        // this.setState({ events: testEvents })
-        // console.log("test event ", testEvents)
-        // 2) fetch from firebase
+        this.setState({ events: [] })
         const db = firebase.database()
         db.ref('/events/').on('value', (snapshot) => {
             const myEvents = []
@@ -51,18 +36,6 @@ class eventMapPage extends Component {
         })
     }
 
-    // async getLocation() {
-    //     let { status } = await Location.requestForegroundPermissionsAsync();
-    //     if (status !== 'granted') {
-    //         console.log('Permission to access location was denied');
-    //         return;
-    //     }
-
-    //     let location = await Location.getCurrentPositionAsync({});
-    //     this.setState({ currentLocation: location });
-    // };
-
-    
     eventInfo(marker){
         this.setState({dispEventInfo: true})
         this.setState({currentEvent: marker})
