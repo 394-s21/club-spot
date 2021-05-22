@@ -48,7 +48,7 @@ class clubAnnouncementPage extends Component{
                 Events
               </Title>
             </View>
-            <Button style={styles.button} mode="outlined" onPress = {this.goToChat()} > Save </Button>
+            <Button style={styles.button} mode="outlined" onPress = {this.goToChat()} > Go To Group Chat </Button>
           </View>
         </ScrollView>
       </SafeAreaView>
