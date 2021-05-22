@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {firebase} from '../utils/firebase';
 import { StyleSheet, View, Text, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
-import { Button } from 'react-native-paper';
-import { Title } from 'react-native-paper';
+import { Button, Title } from 'react-native-paper';
 
 class clubAnnouncementPage extends Component{
   constructor(props){
@@ -18,6 +17,12 @@ class clubAnnouncementPage extends Component{
         userId: firebase.auth().currentUser ? firebase.auth().currentUser.uid : "testAdminId" //backdoor token (remove in production)
     }
   }
+
+  createEvent = () => {
+    this.props.navigation.navigate('Create Event', 
+      {clubName: this.state.clubName, clubId: this.state.clubId})
+  }
+
   goToChat = () => {
     console.log(`transition to ${this.state.clubId}`)
       const userId = firebase.auth().currentUser ? firebase.auth().currentUser.uid : "testAdminId"
@@ -48,7 +53,8 @@ class clubAnnouncementPage extends Component{
                 Events
               </Title>
             </View>
-            <Button style={styles.button} mode="outlined" onPress = {this.goToChat()} > Go To Group Chat </Button>
+            <Button style={styles.button} mode="outlined" onPress = {this.createEvent} > Create Event </Button>
+            <Button style={styles.button} mode="outlined" onPress = {this.goToChat} > Go To Group Chat </Button>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -73,7 +79,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   button: {
-    marginTop: 10 
+    marginTop: 10
   },
 })
 export default clubAnnouncementPage;

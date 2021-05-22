@@ -3,17 +3,16 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { AntDesign } from '@expo/vector-icons';
 import { StyleSheet, Text, View, Dimensions, Button, TouchableOpacity } from 'react-native';
+import { firebase }  from '../utils/firebase';
+import 'firebase/database';
 
 
 class eventMapPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            initLocation: {
-                latitude: 42.055984,
-                longitude: -87.675171,
-            },
-            currentLocation: { "coords": { "latitude": 42.055984, "longitude": -87.708 } },
+            initLocation: {latitude: 42.055984,longitude: -87.675171}, // always set the init location to Northwestern
+            currentLocation: { "coordinate": { "latitude": 42.055984, "longitude": -87.708 } },
             events: [],
             dispEventInfo: false,
             zIndex: 0,
@@ -22,25 +21,35 @@ class eventMapPage extends Component {
     }
 
     componentDidMount() {
-        //TODO get data from firebase
-        const testEvents = [{ title: "Social fun", description: "pick up basketball", address: "12345 Sheridan Rd, Evanston, IL", isClub: false, latlng: { latitude: 42.055984, longitude: -87.675171 } }, { title: "Chess Club", description: "chess tourney", address: "12345 Sheridan Rd, Evanston, IL", isClub: true, latlng: { latitude: 42.014, longitude: -87.675171 } }]
-        
-        this.setState({ events: testEvents })
-        this.getLocation()
+        this.setState({ events: [] })
+        const db = firebase.database()
+        // step 1: find the list of club IDs that I am part of
+        var myClubIdDict = {}
+        var myUserId = firebase.auth().currentUser ? firebase.auth().currentUser.uid : "testAdminId" // TODO: remove backdoor token later
+        db.ref('/users/' + myUserId).on('value', (snapshot) => {
+            if(snapshot.exists()){
+                console.log("my club ",snapshot.val().clubs)
+                myClubIdDict = snapshot.val().clubs
+                // step 2: match the club ids
+                db.ref('/events/').on('value', (snapshot) => {
+                    const myEvents = []
+                    if(snapshot.exists()) {
+                        snapshot.forEach(function (childSnapshot) {
+                            // only add if it is public or matches with the club id
+                            let childSnap = childSnapshot.toJSON();
+                            if (childSnap.isPublic || childSnap.clubId in myClubIdDict) {
+                                console.log("club id is ",childSnap.clubId)
+                                myEvents.push(childSnap)
+                            }
+                        })
+                    }
+                    this.setState({ events: myEvents })
+                    console.log("my events ", myEvents)
+                })
+            }
+        })
     }
 
-    async getLocation() {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            console.log('Permission to access location was denied');
-            return;
-        }
-
-        let location = await Location.getCurrentPositionAsync({});
-        this.setState({ currentLocation: location });
-    };
-
-    
     eventInfo(marker){
         this.setState({dispEventInfo: true})
         this.setState({currentEvent: marker})
@@ -51,9 +60,7 @@ class eventMapPage extends Component {
         this.setState({dispEventInfo: false})
     }
 
-    navigateToCreateEvent = () => {this.props.navigation.navigate('Create Event')}
-    //TODO decide what to display on event info popup
-    //TODO style event info popup text
+
     render() {
         return (
             <View style={{ flex: 1 }}>
@@ -74,22 +81,23 @@ class eventMapPage extends Component {
                     longitudeDelta: 0.1,
                 }}>
 
-                <Marker image={require('../assets/currentMarker.png')} coordinate={{ latitude: this.state.currentLocation.coords.latitude, longitude: this.state.currentLocation.coords.longitude }} />
-          {this.state.events.map((curMarker, index) => (
+                <Marker 
+                    image={require('../assets/currentMarker.png')} 
+                    coordinate={{ 
+                        latitude: this.state.currentLocation.coordinate.latitude, 
+                        longitude: this.state.currentLocation.coordinate.longitude }} />
+                    {this.state.events.map((curMarker, index) => (
                     <Marker
                         key={index}
-                        coordinate={curMarker.latlng}
-                        title={curMarker.title}
+                        coordinate={curMarker.coordinate}
+                        title={curMarker.clubName}
                         description="Click for more info"
                         onCalloutPress={() => {this.eventInfo(curMarker)}}
-                        pinColor={curMarker.isClub ? "red" : "blue"}
+                        pinColor={curMarker.isPublic ? "red" : "blue"}
                     />
                 ))}
             </MapView>
-             <View style={styles(this.state.dispEventInfo).buttonView}>
-          <TouchableOpacity onPress = {this.navigateToCreateEvent}>
-            <AntDesign name="pluscircleo" size={36} color="black" />
-          </TouchableOpacity>
+            <View style={styles(this.state.dispEventInfo).buttonView}>
         </View>
             </View>
         );
