@@ -23,16 +23,30 @@ class eventMapPage extends Component {
     componentDidMount() {
         this.setState({ events: [] })
         const db = firebase.database()
-        db.ref('/events/').on('value', (snapshot) => {
-            const myEvents = []
-            if(snapshot.exists()) {
-                snapshot.forEach(function (childSnapshot) {
-                    let childSnap = childSnapshot.toJSON();
-                    myEvents.push(childSnap)
+        // step 1: find the list of club IDs that I am part of
+        var myClubIdDict = {}
+        var myUserId = firebase.auth().currentUser ? firebase.auth().currentUser.uid : "testAdminId" // TODO: remove backdoor token later
+        db.ref('/users/' + myUserId).on('value', (snapshot) => {
+            if(snapshot.exists()){
+                console.log("my club ",snapshot.val().clubs)
+                myClubIdDict = snapshot.val().clubs
+                // step 2: match the club ids
+                db.ref('/events/').on('value', (snapshot) => {
+                    const myEvents = []
+                    if(snapshot.exists()) {
+                        snapshot.forEach(function (childSnapshot) {
+                            // only add if it is public or matches with the club id
+                            let childSnap = childSnapshot.toJSON();
+                            if (childSnap.isPublic || childSnap.clubId in myClubIdDict) {
+                                console.log("club id is ",childSnap.clubId)
+                                myEvents.push(childSnap)
+                            }
+                        })
+                    }
+                    this.setState({ events: myEvents })
+                    console.log("my events ", myEvents)
                 })
             }
-            this.setState({ events: myEvents })
-            console.log("my events ", myEvents)
         })
     }
 
@@ -76,7 +90,7 @@ class eventMapPage extends Component {
                     <Marker
                         key={index}
                         coordinate={curMarker.coordinate}
-                        title={curMarker.title}
+                        title={curMarker.clubName}
                         description="Click for more info"
                         onCalloutPress={() => {this.eventInfo(curMarker)}}
                         pinColor={curMarker.isPublic ? "red" : "blue"}
