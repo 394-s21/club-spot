@@ -4,6 +4,7 @@ import clubAnnouncementPage from "../screens/clubAnnouncementPage";
 import myClubPage from "../screens/myClubPage";
 import createEventPage from "../screens/createEventPage";
 import groupChatPage from "../screens/groupChatPage";
+import createAnnouncementPage from "../screens/createAnnouncementPage"
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,10 @@ export default function myClubPageStack(){
             <Stack.Screen
             name='Chat'
             component={groupChatPage}
+            />
+            <Stack.Screen
+            name='Create Announcement'
+            component={createAnnouncementPage}
             />
         </Stack.Navigator>
     )
