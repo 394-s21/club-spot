@@ -89,7 +89,6 @@ class clubAnnouncementPage extends Component{
       </SafeAreaView>
     )
   }
-  
 }
 
 const styles = StyleSheet.create({
