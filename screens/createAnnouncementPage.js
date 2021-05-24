@@ -48,7 +48,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   button: {
-    marginTop: 20
+    alignContent: "center",
+    justifyContent: "center",
+    backgroundColor: '#000000',
+    marginTop: 26,
+    width: "70%",
+    marginLeft: 5,
+    marginRight: 5,
   },
 })
 export default createAnnouncementPage
