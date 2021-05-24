@@ -21,7 +21,7 @@ export default function homeTab() {
         name="myClubPageStack"
         component={myClubPageStack}
         options={{
-          tabBarLabel: 'my club',
+          tabBarLabel: 'My Clubs',
           tabBarIcon: ({ color, size }) => (
             <Entypo name="home" size={24} color="black" />
           ),
@@ -51,7 +51,7 @@ export default function homeTab() {
         name="profilePage"
         component={profilePage}
         options={{
-          tabBarLabel: 'profile',
+          tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person" size={24} color="black" />
           ),

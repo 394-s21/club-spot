@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     //flex:  1,
     marginHorizontal:  15,
     justifyContent:  'center',
+    height: '100%'
   },
 })
 export default myHomePage
