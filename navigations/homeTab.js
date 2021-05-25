@@ -21,9 +21,9 @@ export default function homeTab() {
         name="myClubPageStack"
         component={myClubPageStack}
         options={{
-          tabBarLabel: 'my club',
+          tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
-            <Entypo name="home" size={24} color="black" />
+            <Entypo name="home" size={32} color="black" />
           ),
         }}
       />
@@ -31,9 +31,9 @@ export default function homeTab() {
         name="clubHomePageStack"
         component={clubHomePageStack}
         options={{
-          tabBarLabel: 'Find Clubs',
+          tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="search" size={24} color="black" />
+            <FontAwesome name="search" size={32} color="black" />
           ),
         }}
       />
@@ -41,9 +41,9 @@ export default function homeTab() {
         name="eventMapPageStack"
         component={eventMapPageStack}
         options={{
-          tabBarLabel: 'Event Map',
+          tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="map-marker" size={24} color="black" />
+            <FontAwesome name="map-marker" size={32} color="black" />
           ),
         }}
       />
@@ -51,9 +51,9 @@ export default function homeTab() {
         name="profilePage"
         component={profilePage}
         options={{
-          tabBarLabel: 'profile',
+          tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" size={24} color="black" />
+            <Ionicons name="person" size={32} color="black" />
           ),
         }}
       />
