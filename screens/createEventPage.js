@@ -63,8 +63,8 @@ class eventMapPage extends Component{
       description: this.state.description, 
       address: this.state.address, 
       isPublic: this.state.isPublic, 
-      date: this.state.date, 
-      time: this.state.time, 
+      date: "" + this.state.date, 
+      time: "" + this.state.time, 
       coordinate: { latitude: coordinate[0].latitude, longitude: coordinate[0].longitude },
       clubName: this.state.clubName,
       clubId: this.state.clubId,
@@ -120,6 +120,7 @@ class eventMapPage extends Component{
             isVisible={this.state.datePickerVisibility}
             mode={this.state.mode}
             minuteInterval={5}
+            minimumDate={new Date()}
             onConfirm={(x) => this.handleConfirm(x)}
             onCancel={(x) => this.hideDatePicker(x)}
             />
