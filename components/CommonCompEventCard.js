@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 
-const CommonCompEventCard = ({title, description, }) => {
+const CommonCompEventCard = ({title, description, address, date, time}) => {
 
     return(
         <View style={styles.container}>
@@ -12,11 +12,11 @@ const CommonCompEventCard = ({title, description, }) => {
                     </View>
                     <View style={{flexDirection: "column", width: "75%"}}>
                         <View style={{flexDirection: "row", width: "75%"}}>
-                            <Text style={styles.title}>TITLE  </Text>
-                            <Text style={styles.address}>2114 Maple Avenue, Evanston, IL USA</Text>
+                            <Text style={styles.title}>{title}  </Text>
+                            <Text style={styles.address}>{address}</Text>
                         </View>
-                        <Text>Event description </Text>
-                        <Text>Date: 01/07/2022   Time: 6:30 PM</Text>
+                        <Text>{description}</Text>
+                        <Text>Date: {date}  Time: {time}</Text>
                     </View>
                 </View>
             </View>

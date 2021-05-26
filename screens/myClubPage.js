@@ -84,12 +84,12 @@ class myHomePage extends Component{
           <View>
           {this.state.events.map(event => 
           <CommonCompEventCard 
-              clubName={event.title} 
+              title={event.title} 
               key={event.title} 
-              clubDesc={event.title} 
-              clubCategory= {event.title} 
-              clubEmail = {event.title} 
-              clubId = {event.title}/>)}
+              description={event.description} 
+              address= {event.address} 
+              date = {event.date} 
+              time = {event.time}/>)}
           </View>
         </ScrollView>
         </View>    
