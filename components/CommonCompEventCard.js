@@ -26,17 +26,15 @@ const CommonCompEventCard = ({title, description, address, date, time}) => {
     return(
         <View style={styles.container}>
             <View style={styles.card}>
-                <View style={{flexDirection: "row"}}>
-                    <View style={{width: "25%", alignItems: "center"}}>
-                        <Image style={styles.clubImage} source={require('../assets/clubLogo.png')}/>
+                <View style={{ flexDirection: "row" }}>
+                    <View style={{ width: "25%", alignItems: "center" }}>
+                        <Image style={styles.clubImage} source={require('../assets/clubLogo.png')} />
                     </View>
-                    <View style={{flexDirection: "column", width: "75%"}}>
-                        <View style={{flexDirection: "row", width: "75%"}}>
-                            <Text style={styles.title}>{title}  </Text>
-                            <Text style={styles.address}>{address}</Text>
-                        </View>
+                    <View style={{ flexDirection: "column", width: "75%" }}>
+                        <Text style={styles.title}>{title}  </Text>
+                        <Text style={styles.address}>{address}</Text>
+                        <Text style={styles.address}>Date: {getDateString()}  Time: {getTimeString()}</Text>
                         <Text>{description}</Text>
-                        <Text>Date: {getDateString()}  Time: {getTimeString()}</Text>
                     </View>
                 </View>
             </View>
