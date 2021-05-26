@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import React from "react";
-import { SafeAreaView, StyleSheet, View, ScrollView} from 'react-native';
+import { SafeAreaView, StyleSheet, View, ScrollView, Alert} from 'react-native';
 import { Provider, TextInput, RadioButton,Text, Subheading,Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 import { firebase }  from '../utils/firebase';
 
@@ -23,6 +23,13 @@ class createAnnouncementPage extends Component {
     console.log("data is ", data)
     const db = firebase.database().ref()
     db.child('/announcements/' + data.clubId).set(data)
+    Alert.alert(
+      "Create announcement successfully",
+      "Please go back to the club announcement page.",
+      [
+          { text: "OK" }
+      ]
+    );
   }
   render() {
     return(
