@@ -86,7 +86,22 @@ class loginPage extends Component {
                     clubAdminId: club
                     
                   })
-                  .then(function(snapshot) {
+                  .then(function(snap) {
+                    const clubRef = firebase.database().ref('/users/'+result.user.uid+'/clubs')
+                    clubRef.once("value")
+                      .then(snapshot => {
+                          if(snapshot === null || snapshot.val() === null){ // user's first time join a club
+                              console.log(`user's first time`)
+                              clubRef.child(club).set(1); // set user's clubId ref to be 1 (indicate the user is joined)
+                          } else {
+                              if(snapshot.val().hasOwnProperty(clubId)){
+                                  console.log(`found the club ${club}`);
+                               } else{
+                                  console.log(`not found the club ${club}`);
+                                  clubRef.child(club).set(1);
+                              }
+                          } 
+                      })
                   }); }
               else if (result.additionalUserInfo.isNewUser){
                 year = result.user.email.split('@')[0]

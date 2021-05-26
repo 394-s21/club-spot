@@ -14,6 +14,7 @@ class profilePage extends Component{
       new_name: null,
       new_major: null,
       new_year: null,
+      newDescription: null,
       admin: false,
       clubInfo: {}
     }
@@ -54,6 +55,13 @@ class profilePage extends Component{
       db.child('/'+userId +'/graduation_year').set(new_year)
       new_userInfo.graduation_year = new_year
     }
+    if (this.state.admin && (this.state.newDescription !== this.state.clubInfo.description)) {
+      var newClub = this.state.clubInfo
+      db.child('/'+this.state.clubInfo.id+'/description').set(this.state.newDescription)
+      newClub.description = this.state.newDescription
+      this.setState({clubInfo: newClub})
+
+    }
     this.setState({userInfo: new_userInfo})
 
 
@@ -90,7 +98,8 @@ class profilePage extends Component{
             console.log('clubInfo: ',club)
           }
           this.setState({
-            clubInfo: club
+            clubInfo: club,
+            newDescription: club.description
                       })
           
           });
@@ -135,33 +144,87 @@ class profilePage extends Component{
 
     if (admin) {
       const clubName = this.state.clubInfo.clubName
-      return (
+      const clubDesc = this.state.clubInfo.description
+      if (edit) {
+        return (
+          <SafeAreaView style={styles.container}>
+            <ScrollView>
+              <View style={styles.container}>
+                {this.get_profile_comp()}
+                <Title style={styles.subheading}>{full_name}</Title>
+              </View>
+              <Subheading>ADMIN ACCOUNT INFORMATION</Subheading>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <Text>Club Email: {email}</Text>
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <Text>Club Name: {clubName}</Text>
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
+                  <TextInput mode="flat"
+                                        label="Description"
+                                        value={this.state.newDescription}
+                                        dense="true"
+                                        multiline="true"
+                                        onChangeText={text => this.setState({newDescription:text})} />
+                    
+                  </Card.Content>
+              </Card>
+              <View style={styles.row}>
+              <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.save}>SAVE </Button>
+              <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.cancel_edit}>CANCEL </Button>
+              </View>
+              <View style={styles.row}>
+                <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.logout}>logout </Button>
+              </View>
+          </ScrollView>
+          </SafeAreaView>
 
-        <SafeAreaView style={styles.container}>
-          <ScrollView>
-            <View style={styles.container}>
-              {this.get_profile_comp()}
-              <Title style={styles.subheading}>{full_name}</Title>
-            </View>
-            <Subheading>ADMIN ACCOUNT INFORMATION</Subheading>
-            <Card style={styles.card}>
-                <Card.Content>
-                  <Text>Club Email: {email}</Text>
-                </Card.Content>
-            </Card>
-            <Card style={styles.card}>
-                <Card.Content>
-                  <Text>Club Name: {clubName}</Text>
-                </Card.Content>
-            </Card>
-            
-            <View style={styles.row}>
-              <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.logout}>logout </Button>
-            </View>
-        </ScrollView>
-        </SafeAreaView>
-        
-      ) }
+        )
+      }
+      else {
+        return (
+
+          <SafeAreaView style={styles.container}>
+            <ScrollView>
+              <View style={styles.container}>
+                {this.get_profile_comp()}
+                <Title style={styles.subheading}>{full_name}</Title>
+              </View>
+              <Subheading>ADMIN ACCOUNT INFORMATION</Subheading>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <Text>Club Email: {email}</Text>
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <Text>Club Name: {clubName}</Text>
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
+                  <Text>Club Description: {clubDesc}</Text>
+                  </Card.Content>
+              </Card>
+              <View style={styles.row}>
+              <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.edit}>EDIT </Button>
+              </View>
+              <View style={styles.row}>
+                <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.logout}>logout </Button>
+              </View>
+          </ScrollView>
+          </SafeAreaView>
+          
+        )
+      }
+      
+       }
     
 
 
