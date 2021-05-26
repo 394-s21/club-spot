@@ -20,8 +20,8 @@ class eventMapPage extends Component{
       eventName: "",
       address: "",
       description: "",
-      date: "",
-      time: "",
+      date: null,
+      time: null,
       datePickerVisibility: false,
       mode: "date",
       isPublic: true
@@ -74,80 +74,125 @@ class eventMapPage extends Component{
     db.child('/events/'+event.title).set(event)
   }
 
+  getDateString () {
+    var dateObj = this.state.date
+    var month = dateObj.getMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+    return (month + "/" + day + "/" + year)
+  }
+
+  getTimeString () {
+    var timeObj = this.state.time
+    var hour = timeObj.getHours();
+    var minute = timeObj.getMinutes();
+    var half = " AM"
+    if (hour > 12){
+        hour =  hour - 12
+        half = " PM"
+    }
+    return (hour + ":" + minute + half)
+  }
+
   render(){
     return(
-        <View style={styles.container}>
-            <View style={{ height: "100%", width: "100%", backgroundColor: "grey", alignItems: "center", padding: 20}}>
-            <View style={{ flexDirection: "row", width: "100%" }}>       
-                <TextInput label='Event Name'
-                    value={this.state.eventName}
-                    type="outlined"
-                    style={styles.field}
-                    onChangeText={text => this.setState({ eventName: text })} />
-                    <TouchableOpacity style={{height: 65, width: 100, backgroundColor: this.state.isPublic ? "lightblue": "#cec1e7", margin: 15, marginBottom: 0, borderRadius: 10, justifyContent: "center", alignItems: "center"}} onPress={() => this.toggleType()} >
-                        <Text style={styles.OBtext}>{this.state.isPublic ? "PUBLIC" : "MEMBER"}</Text>
-                        <Text style={styles.OBtext}>EVENT</Text>
-                    </TouchableOpacity>
-                </View>
-                <TextInput label='Description'
-                    value={this.state.description}
-                    multiline={true}
-                    numberOfLines={2}
-                    type="outlined"
-                    style={styles.multifield}
-                    onChangeText={text => this.setState({ description: text })} />
-                <DateTimePickerModal
-                    isVisible={this.state.datePickerVisibility}
-                    mode={this.state.mode}
-                    minimumDate={new Date()}
-                    minuteInterval={5}
-                    onConfirm={(x) => this.handleConfirm(x)}
-                    onCancel={(x) => this.hideDatePicker(x)}
-                />
-                <View style={{ width: "90%", height: 300, margin: 20 }}>
-                    <GooglePlacesAutocomplete
-                        placeholder='Address'
-                        onPress={(data, details = null) => {
-                            // 'details' is provided when fetchDetails = true
-                            this.setState({ address: data.description })
-                            console.log(data, details); 
-                        }}
-                        query={{
-                            key: 'AIzaSyBgcyM5Rx3Egi0ICUC_EF81gUWiKWr0Df4',
-                            language: 'en',
-                        }}
-                    />
-                </View>
-                <View style={{ flexDirection: "row", padding: 25, width: "100%" }}>
-                    <TouchableOpacity style={styles.OptionButton} onPress={() => this.showDatePicker()} >
-                        <Text style={styles.OBtext}>DATE</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.OptionButton} onPress={() => this.showTimePicker()} >
-                        <Text style={styles.OBtext}>TIME</Text>
-                    </TouchableOpacity>
-                </View>
-                <TouchableOpacity style={{ height: 50, width: 200, backgroundColor: "lightblue", borderRadius: 10, justifyContent: "center" }} onPress={() => this.handleCreate()}>
-                    <Text style={{alignSelf: "center", fontWeight: "bold", fontSize: 25}}>Create Event</Text>
+      <View style={styles.container}>
+        <View style={{ flexDirection: "row", width: "100%" }}>       
+          <TextInput label='Event Name'
+            value={this.state.eventName}
+            type="outlined"
+            style={styles.field}
+            onChangeText={text => this.setState({ eventName: text })} />
+          <TouchableOpacity style={styles.toggleButton} onPress={() => this.toggleType()} >
+              <Text style={styles.OBtext}>{this.state.isPublic ? "PUBLIC" : "MEMBER"}</Text>
+              <Text style={styles.OBtext}>EVENT</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{height: 80}}/>
+        <TextInput label='Description'
+          value={this.state.description}
+          multiline={true}
+          numberOfLines={2}
+          type="outlined"
+          style={styles.multifield}
+          onChangeText={text => this.setState({ description: text })} />
+        <DateTimePickerModal
+            isVisible={this.state.datePickerVisibility}
+            mode={this.state.mode}
+            minuteInterval={5}
+            minimumDate={new Date()}
+            onConfirm={(x) => this.handleConfirm(x)}
+            onCancel={(x) => this.hideDatePicker(x)}
+            />
+            {this.state.date && this.state.time ?
+                <View style={{ width: "95%", backgroundColor: "white", padding: 10, borderRadius: 10, margin: 20 }}>
+                    <Text style={styles.OBtext}>{"Date: " + this.getDateString()}</Text>
+                    <Text style={styles.OBtext}>{"Time: " + this.getTimeString()}</Text>
+                </View> : this.state.date ?
+                    <View style={{ width: "95%", backgroundColor: "white", padding: 10, borderRadius: 10, margin: 20 }}>
+                        <Text style={styles.OBtext}>{"Date: " + this.getDateString()}</Text>
+                    </View> : this.state.time ?
+                        <View style={{ width: "95%", backgroundColor: "white", padding: 10, borderRadius: 10, margin: 20 }}>
+                            <Text style={styles.OBtext}>{"Time: " + this.getTimeString()}</Text>
+                        </View>
+                        : <View />}
+            <View style={{ flexDirection: "row", padding: 25, width: "100%" }}>
+                <TouchableOpacity style={styles.OptionButton} onPress={() => this.showDatePicker()} >
+                    <Text style={styles.OBtext}>DATE</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.OptionButton} onPress={() => this.showTimePicker()} >
+                    <Text style={styles.OBtext}>TIME</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+            
+            <TouchableOpacity style={{ height: 50, width: 200, backgroundColor: "lightblue", borderRadius: 10, justifyContent: "center" }} onPress={() => this.handleCreate()}>
+                <Text style={{alignSelf: "center", fontWeight: "bold", fontSize: 25}}>Create Event</Text>
+            </TouchableOpacity>
+            <View style={{ width: "95%", height: 300, margin: 20, position: "absolute", top: 100 }}>
+                <GooglePlacesAutocomplete
+                    placeholder='Address'
+                    onPress={(data, details = null) => {
+                        // 'details' is provided when fetchDetails = true
+                        this.setState({ address: data.description })
+                        console.log(data, details);
+                    }}
+                    query={{
+                        key: 'AIzaSyBgcyM5Rx3Egi0ICUC_EF81gUWiKWr0Df4',
+                        language: 'en',
+                    }}
+                />
+            </View>
+      </View>
     )
   }
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-    width: "100%"
+    height: "100%", 
+    width: "100%", 
+    backgroundColor: "#ecf0f1", 
+    alignItems: "center", 
+    padding: 20
   },
   field: {
     marginTop: 15,
     height: 55,
-    width: 250,
-    padding: 5,
+    marginLeft: 5,
+    width: 265,
+    padding: 5, 
     backgroundColor: 'white',
+  },
+  toggleButton: {
+    height: 65, 
+    width: 100, 
+    // backgroundColor: this.state.isPublic ? "lightblue": "#cec1e7", 
+    backgroundColor: "lightblue",
+    margin: 15, 
+    marginRight: 5,
+    marginBottom: 0, 
+    borderRadius: 10, 
+    justifyContent: "center", 
+    alignItems: "center",
   },
   multifield: {
     marginTop: 15,
@@ -171,8 +216,8 @@ const styles = StyleSheet.create({
     alignItems: "center" 
   },
   OBtext: {
-      fontSize: 20,
-      fontWeight: "bold"
+    fontSize: 20,
+    fontWeight: "bold"
   }
 })
 export default eventMapPage;

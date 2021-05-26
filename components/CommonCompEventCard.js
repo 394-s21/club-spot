@@ -3,6 +3,26 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 
 const CommonCompEventCard = ({title, description, address, date, time}) => {
 
+    const getDateString = () => {
+        var dateObj = new Date(date)
+        var month = dateObj.getMonth() + 1; //months from 1-12
+        var day = dateObj.getUTCDate();
+        var year = dateObj.getUTCFullYear();
+        return (month + "/" + day + "/" + year)
+    }
+    
+    const getTimeString = () => {
+        var timeObj = this.state.time
+        var hour = timeObj.getHours();
+        var minute = timeObj.getMinutes();
+        var half = " AM"
+        if (hour > 12){
+            hour =  hour - 12
+            half = " PM"
+        }
+        return (hour + ":" + minute + half)
+    }
+
     return(
         <View style={styles.container}>
             <View style={styles.card}>
