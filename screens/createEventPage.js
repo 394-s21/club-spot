@@ -20,8 +20,8 @@ class eventMapPage extends Component{
       eventName: "",
       address: "",
       description: "",
-      date: new Date(),
-      time: new Date(),
+      date: null,
+      time: null,
       datePickerVisibility: false,
       mode: "date",
       isPublic: true
@@ -86,7 +86,12 @@ class eventMapPage extends Component{
     var timeObj = this.state.time
     var hour = timeObj.getHours();
     var minute = timeObj.getMinutes();
-    return (hour + ":" + minute)
+    var half = " AM"
+    if (hour > 12){
+        hour =  hour - 12
+        half = " PM"
+    }
+    return (hour + ":" + minute + half)
   }
 
   render(){
@@ -118,10 +123,18 @@ class eventMapPage extends Component{
             onConfirm={(x) => this.handleConfirm(x)}
             onCancel={(x) => this.hideDatePicker(x)}
             />
-            <View style={{ width: "95%", backgroundColor: "white", padding: 10, borderRadius: 10, margin: 20 }}>
-                <Text style={styles.OBtext}>{"date: " + this.getDateString()}</Text>
-                <Text style={styles.OBtext}>{"time: " + this.getTimeString()}</Text>
-            </View>
+            {this.state.date && this.state.time ?
+                <View style={{ width: "95%", backgroundColor: "white", padding: 10, borderRadius: 10, margin: 20 }}>
+                    <Text style={styles.OBtext}>{"date: " + this.getDateString()}</Text>
+                    <Text style={styles.OBtext}>{"time: " + this.getTimeString()}</Text>
+                </View> : this.state.date ?
+                    <View style={{ width: "95%", backgroundColor: "white", padding: 10, borderRadius: 10, margin: 20 }}>
+                        <Text style={styles.OBtext}>{"date: " + this.getDateString()}</Text>
+                    </View> : this.state.time ?
+                        <View style={{ width: "95%", backgroundColor: "white", padding: 10, borderRadius: 10, margin: 20 }}>
+                            <Text style={styles.OBtext}>{"time: " + this.getTimeString()}</Text>
+                        </View>
+                        : <View />}
             <View style={{ flexDirection: "row", padding: 25, width: "100%" }}>
                 <TouchableOpacity style={styles.OptionButton} onPress={() => this.showDatePicker()} >
                     <Text style={styles.OBtext}>DATE</Text>
