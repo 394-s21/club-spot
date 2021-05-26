@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 
-const CommonCompEventCard = ({title, description, address, date, time}) => {
+const CommonCompEventCard = ({ title, description, address, date, time }) => {
 
     const getDateString = () => {
         var dateObj = new Date(date)
@@ -10,20 +10,20 @@ const CommonCompEventCard = ({title, description, address, date, time}) => {
         var year = dateObj.getUTCFullYear();
         return (month + "/" + day + "/" + year)
     }
-    
+
     const getTimeString = () => {
         var timeObj = new Date(time)
         var hour = timeObj.getHours();
         var minute = timeObj.getMinutes();
         var half = " AM"
-        if (hour > 12){
-            hour =  hour - 12
+        if (hour > 12) {
+            hour = hour - 12
             half = " PM"
         }
         return (hour + ":" + minute + half)
     }
 
-    return(
+    return (
         <View style={styles.container}>
             <View style={styles.card}>
                 <View style={{ flexDirection: "row" }}>
@@ -39,49 +39,49 @@ const CommonCompEventCard = ({title, description, address, date, time}) => {
                 </View>
             </View>
         </View>
-      );
-  };
-  
-  const styles = StyleSheet.create({
+    );
+};
+
+const styles = StyleSheet.create({
     title: {
-      fontSize: 18,
-      fontWeight: "bold"
+        fontSize: 18,
+        fontWeight: "bold"
     },
     address: {
         fontSize: 12
     },
     container: {
-      flex: 1,
-      paddingTop: 10,
-      paddingBottom: 10,
-      borderRadius: 40,
-      alignItems: "center"
+        flex: 1,
+        paddingTop: 10,
+        paddingBottom: 10,
+        borderRadius: 40,
+        alignItems: "center"
     },
     clubImage: {
-      borderRadius: 25,
-      borderWidth: 2,
-      width: 50,
-      height: 50,
-      marginTop: 15,
-      alignContent: 'center',
-      justifyContent: 'center',
-      margin: 10
+        borderRadius: 25,
+        borderWidth: 2,
+        width: 50,
+        height: 50,
+        marginTop: 15,
+        alignContent: 'center',
+        justifyContent: 'center',
+        margin: 10
     },
     imageContainer: {
-      paddingHorizontal: 0,
-      //borderWidth: 2,
-      width: 60
+        paddingHorizontal: 0,
+        //borderWidth: 2,
+        width: 60
     },
     clubDescription: {
-      fontSize: 14,
-      
+        fontSize: 14,
+
     },
     card: {
-      height: 100,
-      width: "90%",
-      backgroundColor: "white",
-      borderRadius: 5,
-      justifyContent: "center",
+        height: 100,
+        width: "90%",
+        backgroundColor: "white",
+        borderRadius: 5,
+        justifyContent: "center",
     },
-  });
-  export default CommonCompEventCard;
+});
+export default CommonCompEventCard;
