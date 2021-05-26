@@ -3,6 +3,7 @@ import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Text} fro
 import CommonCompClubCard from '../components/CommonCompMyClubCard';
 import { firebase }  from '../utils/firebase';
 import 'firebase/database';
+import CommonCompEventCard from '../components/CommonCompEventCard';
 
 class myHomePage extends Component{
   constructor(props){
@@ -82,14 +83,13 @@ class myHomePage extends Component{
         <ScrollView>
           <View>
           {this.state.events.map(event => 
-          <CommonCompClubCard 
+          <CommonCompEventCard 
               clubName={event.title} 
               key={event.title} 
               clubDesc={event.title} 
               clubCategory= {event.title} 
               clubEmail = {event.title} 
-              clubId = {event.title}
-              navigation={this.props.navigation}/>)}
+              clubId = {event.title}/>)}
           </View>
         </ScrollView>
         </View>    
