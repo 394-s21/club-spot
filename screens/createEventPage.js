@@ -79,7 +79,7 @@ class eventMapPage extends Component{
     var month = dateObj.getMonth() + 1; //months from 1-12
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
-    return (year + "/" + month + "/" + day)
+    return (month + "/" + day + "/" + year)
   }
 
   getTimeString () {
@@ -125,14 +125,14 @@ class eventMapPage extends Component{
             />
             {this.state.date && this.state.time ?
                 <View style={{ width: "95%", backgroundColor: "white", padding: 10, borderRadius: 10, margin: 20 }}>
-                    <Text style={styles.OBtext}>{"date: " + this.getDateString()}</Text>
-                    <Text style={styles.OBtext}>{"time: " + this.getTimeString()}</Text>
+                    <Text style={styles.OBtext}>{"Date: " + this.getDateString()}</Text>
+                    <Text style={styles.OBtext}>{"Time: " + this.getTimeString()}</Text>
                 </View> : this.state.date ?
                     <View style={{ width: "95%", backgroundColor: "white", padding: 10, borderRadius: 10, margin: 20 }}>
-                        <Text style={styles.OBtext}>{"date: " + this.getDateString()}</Text>
+                        <Text style={styles.OBtext}>{"Date: " + this.getDateString()}</Text>
                     </View> : this.state.time ?
                         <View style={{ width: "95%", backgroundColor: "white", padding: 10, borderRadius: 10, margin: 20 }}>
-                            <Text style={styles.OBtext}>{"time: " + this.getTimeString()}</Text>
+                            <Text style={styles.OBtext}>{"Time: " + this.getTimeString()}</Text>
                         </View>
                         : <View />}
             <View style={{ flexDirection: "row", padding: 25, width: "100%" }}>
