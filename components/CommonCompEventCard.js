@@ -12,7 +12,7 @@ const CommonCompEventCard = ({title, description, address, date, time}) => {
     }
     
     const getTimeString = () => {
-        var timeObj = this.state.time
+        var timeObj = new Date(time)
         var hour = timeObj.getHours();
         var minute = timeObj.getMinutes();
         var half = " AM"
@@ -36,7 +36,7 @@ const CommonCompEventCard = ({title, description, address, date, time}) => {
                             <Text style={styles.address}>{address}</Text>
                         </View>
                         <Text>{description}</Text>
-                        <Text>Date: {date}  Time: {time}</Text>
+                        <Text>Date: {getDateString()}  Time: {getTimeString()}</Text>
                     </View>
                 </View>
             </View>
