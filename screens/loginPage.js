@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView, Alert } from 'react-native';
+import { View, SafeAreaView, Alert, Image } from 'react-native';
 import firebase from 'firebase';
 import SocialButton from "../components/CommonCompGoogleSignIn"
 import {firebaseConfig} from '../config';
@@ -206,16 +206,20 @@ class loginPage extends Component {
 
   render() {
     return (
-    <SafeAreaView style={{ backgroundColor: "#3DD5F4", flex: 1 }}>
-      <View style={{justifyContent: "center", alignItems: "center",}}>
-      
+    <SafeAreaView style={{ backgroundColor: "#4169E1", flex: 1 }}>
+      <View style={{justifyContent: "center", alignItems: "center"}}>
+        <View>
+      <Image style={{width: 350, height: 250, resizeMode: 'contain'}} source={require('../assets/ClubSpot.png')} />
+      </View>
+      <View style={{height: '60%', justifyContent: 'center'}}>
       <SocialButton
         buttonTitle='Sign In With Google'
         btnType='google'
-        color='#de4d41'
+        color='#4169E1'
         backgroundColor='#f5e7ea' 
         onPress = {() => this.signInWithGoogleAsync()}
         ></SocialButton>
+        </View>
         </View>
     </SafeAreaView>);
   }
