@@ -20,8 +20,8 @@ class eventMapPage extends Component{
       eventName: "",
       address: "",
       description: "",
-      date: "",
-      time: "",
+      date: new Date(),
+      time: new Date(),
       datePickerVisibility: false,
       mode: "date",
       isPublic: true
@@ -74,6 +74,21 @@ class eventMapPage extends Component{
     db.child('/events/'+event.title).set(event)
   }
 
+  getDateString () {
+    var dateObj = this.state.date
+    var month = dateObj.getMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+    return (year + "/" + month + "/" + day)
+  }
+
+  getTimeString () {
+    var timeObj = this.state.time
+    var hour = timeObj.getHours();
+    var minute = timeObj.getMinutes();
+    return (hour + ":" + minute)
+  }
+
   render(){
     return(
       <View style={styles.container}>
@@ -88,7 +103,7 @@ class eventMapPage extends Component{
               <Text style={styles.OBtext}>EVENT</Text>
           </TouchableOpacity>
         </View>
-
+        <View style={{height: 80}}/>
         <TextInput label='Description'
           value={this.state.description}
           multiline={true}
@@ -102,21 +117,11 @@ class eventMapPage extends Component{
             minuteInterval={5}
             onConfirm={(x) => this.handleConfirm(x)}
             onCancel={(x) => this.hideDatePicker(x)}
-        />
-        <View style={{ width: "90%", height: 300, margin: 20 }}>
-          <GooglePlacesAutocomplete
-              placeholder='Address'
-              onPress={(data, details = null) => {
-                  // 'details' is provided when fetchDetails = true
-                  this.setState({ address: data.description })
-                  console.log(data, details); 
-              }}
-              query={{
-                  key: 'AIzaSyBgcyM5Rx3Egi0ICUC_EF81gUWiKWr0Df4',
-                  language: 'en',
-              }}
-          />
-        </View>
+            />
+            <View style={{ width: "95%", backgroundColor: "white", padding: 10, borderRadius: 10, margin: 20 }}>
+                <Text style={styles.OBtext}>{"date: " + this.getDateString()}</Text>
+                <Text style={styles.OBtext}>{"time: " + this.getTimeString()}</Text>
+            </View>
             <View style={{ flexDirection: "row", padding: 25, width: "100%" }}>
                 <TouchableOpacity style={styles.OptionButton} onPress={() => this.showDatePicker()} >
                     <Text style={styles.OBtext}>DATE</Text>
@@ -129,6 +134,20 @@ class eventMapPage extends Component{
             <TouchableOpacity style={{ height: 50, width: 200, backgroundColor: "lightblue", borderRadius: 10, justifyContent: "center" }} onPress={() => this.handleCreate()}>
                 <Text style={{alignSelf: "center", fontWeight: "bold", fontSize: 25}}>Create Event</Text>
             </TouchableOpacity>
+            <View style={{ width: "95%", height: 300, margin: 20, position: "absolute", top: 100 }}>
+                <GooglePlacesAutocomplete
+                    placeholder='Address'
+                    onPress={(data, details = null) => {
+                        // 'details' is provided when fetchDetails = true
+                        this.setState({ address: data.description })
+                        console.log(data, details);
+                    }}
+                    query={{
+                        key: 'AIzaSyBgcyM5Rx3Egi0ICUC_EF81gUWiKWr0Df4',
+                        language: 'en',
+                    }}
+                />
+            </View>
       </View>
     )
   }
