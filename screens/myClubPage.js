@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Text} from 'react-native';
 import CommonCompClubCard from '../components/CommonCompMyClubCard';
 import { firebase }  from '../utils/firebase';
 import 'firebase/database';
+import CommonCompEventCard from '../components/CommonCompEventCard';
 
 class myHomePage extends Component{
   constructor(props){
     super(props)
     this.state = {
-      clubs: []
+      clubs: [],
+      events: []
     }
   }
 
@@ -37,6 +39,19 @@ class myHomePage extends Component{
               }
             })
             this.setState({clubs: clubArray})
+            db.ref('/events').on('value', (snapshot) => {
+                if(snapshot.exists()){
+                  const eventArray = [];
+                  snapshot.forEach(function (childSnapshot) {
+                    if(childSnapshot.val().clubId in myClubIdDict){
+                      console.log(`This event is hosted by this club ID ${childSnapshot.val().clubId}`)
+                      let childSnap = childSnapshot.toJSON()
+                      eventArray.push(childSnap)
+                    }
+                  })
+                  this.setState({events: eventArray})
+                }
+              })
           }
         })
       }
@@ -46,6 +61,7 @@ class myHomePage extends Component{
   render() {
     return(
       <SafeAreaView style={styles.container}>
+          <View style={{height: "45%", width: "100%"}}>
           <ScrollView>
           <View>
           {this.state.clubs.map(club => 
@@ -59,6 +75,24 @@ class myHomePage extends Component{
               navigation={this.props.navigation}/>)}
           </View>
         </ScrollView>
+        </View> 
+        <View style={{height: "10%", width: "100%", alignItems: "center", justifyContent: "center"}}>
+            <Text style= {{fontSize: 25, fontWeight: "bold"}}>My Events</Text>
+        </View>    
+        <View style={{height: "45%", width: "100%", backgroundColor: "black"}}>
+        <ScrollView>
+          <View>
+          {this.state.events.map(event => 
+          <CommonCompEventCard 
+              title={event.title} 
+              key={event.title} 
+              description={event.description} 
+              address= {event.address} 
+              date = {event.date} 
+              time = {event.time}/>)}
+          </View>
+        </ScrollView>
+        </View>    
       </SafeAreaView>
     )
   }
