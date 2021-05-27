@@ -70,6 +70,7 @@ class eventMapPage extends Component{
       clubId: this.state.clubId,
     }
     console.log(event)
+    
     const db = firebase.database().ref();
     db.child('/events/'+event.title).set(event)
   }

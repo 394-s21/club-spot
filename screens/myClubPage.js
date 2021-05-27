@@ -61,18 +61,21 @@ class myHomePage extends Component{
   render() {
     return(
       <SafeAreaView style={styles.container}>
-          <View style={{height: "45%", width: "100%"}}>
-          <ScrollView>
+        <View style={{height: "10%", width: "100%", alignItems: "center", justifyContent: "center"}}>
+          <Text style= {{fontSize: 25, fontWeight: "bold", paddingTop: 30}}>My Clubs</Text>
+        </View>  
+        <View style={{height: "45%", width: "100%", backgroundColor: "black"}}>
+        <ScrollView>
           <View>
-          {this.state.clubs.map(club => 
-          <CommonCompClubCard 
-              clubName={club.clubName} 
-              key={club.clubName} 
-              clubDesc={club.description} 
-              clubCategory= {club.category} 
-              clubEmail = {club.email} 
-              clubId = {club.id}
-              navigation={this.props.navigation}/>)}
+            {this.state.clubs.map(club => 
+            <CommonCompClubCard 
+                clubName={club.clubName} 
+                key={club.clubName} 
+                clubDesc={club.description} 
+                clubCategory= {club.category} 
+                clubEmail = {club.email} 
+                clubId = {club.id}
+                navigation={this.props.navigation}/>)}
           </View>
         </ScrollView>
         </View> 
@@ -80,18 +83,18 @@ class myHomePage extends Component{
             <Text style= {{fontSize: 25, fontWeight: "bold"}}>My Events</Text>
         </View>    
         <View style={{height: "45%", width: "100%", backgroundColor: "black"}}>
-        <ScrollView>
-          <View>
-          {this.state.events.map(event => 
-          <CommonCompEventCard 
-              title={event.title} 
-              key={event.title} 
-              description={event.description} 
-              address= {event.address} 
-              date = {event.date} 
-              time = {event.time}/>)}
-          </View>
-        </ScrollView>
+          <ScrollView>
+            <View>
+              {this.state.events.map(event => 
+              <CommonCompEventCard 
+                  title={event.title} 
+                  key={event.title} 
+                  description={event.description} 
+                  address= {event.address} 
+                  date = {event.date} 
+                  time = {event.time}/>)}
+            </View>
+          </ScrollView>
         </View>    
       </SafeAreaView>
     )
