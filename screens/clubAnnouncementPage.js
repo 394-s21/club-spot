@@ -56,7 +56,7 @@ class clubAnnouncementPage extends Component{
     })
   }
   render() {
-    const announcement = this.state.announcement !== null ? this.state.announcement : "Your club currently does not have any announcement!"
+    const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcement!" : this.state.announcement
     return(
       <SafeAreaView>
         <ScrollView>
@@ -71,7 +71,7 @@ class clubAnnouncementPage extends Component{
                 style={styles.card}>
                 <Card.Title
                   subtitle={announcement}
-                  subtitleStyle={styles.clubDescription}
+                  subtitleStyle={styles.clubAnnouncement}
                   subtitleNumberOfLines={2}
                 />
               </Card>
@@ -81,9 +81,15 @@ class clubAnnouncementPage extends Component{
                 Events
               </Title>
             </View>
-            <Button style={styles.button} mode="outlined" onPress = {this.createAnnouncement} > Create Announcement </Button>
-            <Button style={styles.button} mode="outlined" onPress = {this.createEvent} > Create Event </Button>
-            <Button style={styles.button} mode="outlined" onPress = {this.goToChat} > Go To Group Chat </Button>
+            <View style={styles.row}>
+            <Button mode="contained" dark="true" style={styles.button} onPress = {this.createAnnouncement} > Create Announcement </Button>
+            </View>
+            <View style={styles.row}>
+            <Button mode="contained" dark="true" style={styles.button} onPress = {this.createEvent} > Create Event </Button>
+            </View>
+            <View style={styles.row}>
+            <Button mode="contained" dark="true" style={styles.button} onPress = {this.goToChat} > Go To Group Chat </Button>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -107,13 +113,28 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   button: {
-    marginTop: 10
+    backgroundColor: '#000000',
+    marginTop: 26,
+    width: "65%",
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  row: {
+    marginLeft: 8,
+    marginRight: 8,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   card: {
     height: 100
   },
-  clubDescription: {
-    fontSize: 14,
+  clubAnnouncement: {
+    fontSize: 18,
+    paddingTop: 10,
+    fontWeight: "bold",
+    color: "black"
   },
   container: {
     flex: 1,
