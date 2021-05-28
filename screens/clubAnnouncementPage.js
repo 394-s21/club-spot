@@ -56,7 +56,7 @@ class clubAnnouncementPage extends Component{
     })
   }
   render() {
-    const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcement!" : this.state.announcement
+    const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcements!" : this.state.announcement
     return(
       <SafeAreaView style={{height: '100%'}}>
         <ScrollView>
@@ -81,6 +81,16 @@ class clubAnnouncementPage extends Component{
                 Events
               </Title>
             </View>
+            <View style={styles.container}>
+              <Card
+                style={styles.card}>
+                <Card.Title
+                  subtitle={announcement}
+                  subtitleStyle={styles.clubAnnouncement}
+                  subtitleNumberOfLines={2}
+                />
+              </Card>
+              </View>
             <View style={styles.row}>
             <Button mode="contained" dark="true" style={styles.button} onPress = {this.createAnnouncement} > Create Announcement </Button>
             </View>
@@ -99,7 +109,7 @@ class clubAnnouncementPage extends Component{
 
 const styles = StyleSheet.create({
   titleContainer: {
-    backgroundColor: 'blue',
+    backgroundColor: '#4169E1',
     height: 50,
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -108,14 +118,14 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   title: {
-    color: 'orange',
+    color: 'white',
     padding: 10,
     fontFamily: 'Helvetica',
     fontWeight: '500',
   },
   button: {
     backgroundColor: '#000000',
-    marginTop: 26,
+    marginTop: 10,
     width: "65%",
     marginLeft: 5,
     marginRight: 5,

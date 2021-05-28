@@ -162,7 +162,7 @@ class clubDetailsPage extends Component{
             return (null)
         }
         else {
-            return (<Button style={styles.button} mode="outlined" onPress = {this.joinClub}> Join This Club </Button>)
+            return (<Button style={styles.button} mode="outlined" onPress = {this.joinClub}> I'm a Member! </Button>)
         }
     }
 

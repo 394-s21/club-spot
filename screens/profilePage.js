@@ -234,7 +234,6 @@ class profilePage extends Component{
 
 
           <SafeAreaView style={styles.container} >
-            <ImageBackground style={{width: '100%', height: '100%', resizeMode: 'contain'}} source={require('../assets/gradient.png')}>
             <ScrollView>
               <View style={styles.container} source={require('../assets/gradient.png')}>
                 {this.get_profile_comp()}
@@ -275,7 +274,6 @@ class profilePage extends Component{
                 <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.logout}>logout </Button>
               </View>
           </ScrollView>
-          </ImageBackground>
           </SafeAreaView>
           
         )
@@ -283,7 +281,6 @@ class profilePage extends Component{
       else {
         return (
           <SafeAreaView style={styles.container}>
-            <ImageBackground style={{width: '100%', height: '100%', resizeMode: 'contain'}} source={require('../assets/gradient.png')}>
             <ScrollView>
               <View style={styles.container}>
                 {this.get_profile_comp()}
@@ -315,7 +312,6 @@ class profilePage extends Component{
                 <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.logout}>logout </Button>
               </View>
           </ScrollView>
-          </ImageBackground>
           </SafeAreaView>
           
         ) }
