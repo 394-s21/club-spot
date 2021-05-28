@@ -62,18 +62,21 @@ class myHomePage extends Component{
     return(
       // <ImageBackground style={{width: '100%', height: '100%', resizeMode: 'contain'}} source={require('../assets/gradient.png')}>
       <SafeAreaView style={styles.container}>
-          <View style={{height: "45%", width: "100%"}}>
-          <ScrollView>
+        <View style={{height: "10%", width: "100%", alignItems: "center", justifyContent: "center"}}>
+          <Text style= {{fontSize: 25, fontWeight: "bold", paddingTop: 30}}>My Clubs</Text>
+        </View>  
+        <View style={{height: "45%", width: "100%", backgroundColor: "black"}}>
+        <ScrollView>
           <View>
-          {this.state.clubs.map(club => 
-          <CommonCompClubCard 
-              clubName={club.clubName} 
-              key={club.clubName} 
-              clubDesc={club.description} 
-              clubCategory= {club.category} 
-              clubEmail = {club.email} 
-              clubId = {club.id}
-              navigation={this.props.navigation}/>)}
+            {this.state.clubs.map(club => 
+            <CommonCompClubCard 
+                clubName={club.clubName} 
+                key={club.clubName} 
+                clubDesc={club.description} 
+                clubCategory= {club.category} 
+                clubEmail = {club.email} 
+                clubId = {club.id}
+                navigation={this.props.navigation}/>)}
           </View>
         </ScrollView>
         </View> 

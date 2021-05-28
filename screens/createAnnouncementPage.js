@@ -17,6 +17,15 @@ class createAnnouncementPage extends Component {
     }
   }
   
+  alertUser(title, subtitle) {
+    Alert.alert(
+      title,
+      subtitle,
+      [
+          { text: "OK" }
+      ]
+    );
+  }
   createAnnouncement = () => {
     let data = {
       clubId : this.state.clubId,
@@ -26,15 +35,8 @@ class createAnnouncementPage extends Component {
     console.log("data is ", data)
     const db = firebase.database().ref()
     db.child('/announcements/' + data.clubId).set(data)
-    Alert.alert(
-      "Create announcement successfully",
-      "Please go back to the club announcement page.",
-      [
-          { text: "OK" }
-      ]
-    );
-    this.props.navigation.navigate('Club Announcement', {clubName: this.state.clubName, clubDesc: this.state.clubDesc, clubCategory: this.state.clubCategory, clubEmail: this.state.clubEmail, clubId: this.state.clubId})
-    
+    this.alertUser("Update Successful", "")
+    this.props.navigation.pop() // go back to the club announcement page
   }
   render() {
     return(

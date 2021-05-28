@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
     },
     clubDescription: {
         fontSize: 14,
-
     },
     card: {
         height: 100,

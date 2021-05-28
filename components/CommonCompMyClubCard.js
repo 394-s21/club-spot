@@ -39,8 +39,9 @@ const CommonCompMyClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navi
     container: {
       flex: 1,
       paddingTop: 10,
-      paddingBottom: 1,
-      borderRadius: 40
+      paddingBottom: 10,
+      borderRadius: 40,
+      alignItems: "center"
     },
     clubImage: {
       borderRadius: 25,
@@ -53,15 +54,17 @@ const CommonCompMyClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navi
     },
     imageContainer: {
       paddingHorizontal: 0,
-      //borderWidth: 2,
       width: 60
     },
     clubDescription: {
       fontSize: 14,
-      
     },
     card: {
-      height: 100
+      height: 100,
+      width: "90%",
+      backgroundColor: "white",
+      borderRadius: 5,
+      justifyContent: "center",
     },
   });
   export default CommonCompMyClubCard;
