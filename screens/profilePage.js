@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logoutButton: {
-    backgroundColor: '#000000',
+    backgroundColor: '#4169E1',
     marginTop: 26,
     width: "30%",
     marginLeft: 5,
