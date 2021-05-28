@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {firebase} from '../utils/firebase';
 import { StyleSheet, View, Text, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
 import { Button, Title, Card } from 'react-native-paper';
+import CommonCompEventCard from '../components/CommonCompEventCard';
 
 class clubAnnouncementPage extends Component{
   constructor(props){
@@ -15,7 +16,8 @@ class clubAnnouncementPage extends Component{
         userInfo: {},
         clubmember: false,
         userId: firebase.auth().currentUser ? firebase.auth().currentUser.uid : "testAdminId", //backdoor token (remove in production)
-        announcement: null
+        announcement: null,
+        events: []
     }
   }
 
@@ -45,6 +47,7 @@ class clubAnnouncementPage extends Component{
   }
 
   componentDidMount() {
+    const clubId = this.state.clubId
     this.setState({announcement: null})
     firebase.database().ref('/announcements/' + this.state.clubId).on('value', (snapshot) => {
       var updateAnnoucement = ""
@@ -54,55 +57,72 @@ class clubAnnouncementPage extends Component{
       console.log("my announcement ",updateAnnoucement)
       this.setState({announcement: updateAnnoucement})
     })
+    firebase.database().ref('/events').on('value', (snapshot) => {
+        if(snapshot.exists()){
+          const eventArray = [];
+          snapshot.forEach(function (childSnapshot) {
+            if(childSnapshot.val().clubId == clubId){
+              console.log(`This event is hosted by this club ID ${childSnapshot.val().clubId}`)
+              let childSnap = childSnapshot.toJSON()
+              eventArray.push(childSnap)
+            }
+          })
+          console.log("EVENT ARRAY" + eventArray)
+          this.setState({events: eventArray})
+        }
+      })
   }
   render() {
     const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcements!" : this.state.announcement
+    const events = this.state.events
     return(
-      <SafeAreaView style={{height: '100%'}}>
-        <ScrollView>
-          <View>
-            <View style={styles.titleContainer}>
-              <Title style={styles.title}>
-                  Announcements
-              </Title>
-            </View>
-            <View style={styles.container}>
-              <Card
-                style={styles.card}>
-                <Card.Title
-                  subtitle={announcement}
-                  subtitleStyle={styles.clubAnnouncement}
-                  subtitleNumberOfLines={2}
-                />
-              </Card>
-            </View>
-            <View style={styles.titleContainer}>
-              <Title style={styles.title}>
-                Events
-              </Title>
-            </View>
-            <View style={styles.container}>
-              <Card
-                style={styles.card}>
-                <Card.Title
-                  subtitle={announcement}
-                  subtitleStyle={styles.clubAnnouncement}
-                  subtitleNumberOfLines={2}
-                />
-              </Card>
-              </View>
-            <View style={styles.row}>
-            <Button mode="contained" dark="true" style={styles.button} onPress = {this.createAnnouncement} > Create Announcement </Button>
-            </View>
-            <View style={styles.row}>
-            <Button mode="contained" dark="true" style={styles.button} onPress = {this.createEvent} > Create Event </Button>
-            </View>
-            <View style={styles.row}>
-            <Button mode="contained" dark="true" style={styles.button} onPress = {this.goToChat} > Go To Group Chat </Button>
-            </View>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+        <View style={{height: "200%", width: "100%"}}>
+                <View>
+                    <View style={styles.titleContainer}>
+                        <Title style={styles.title}>
+                            Announcements
+                        </Title>
+                    </View>
+                    <View style={styles.container}>
+                        <Card
+                            style={styles.card}>
+                            <Card.Title
+                                subtitle={announcement}
+                                subtitleStyle={styles.clubAnnouncement}
+                                subtitleNumberOfLines={2}
+                            />
+                        </Card>
+                    </View>
+                    <View style={styles.titleContainer}>
+                        <Title style={styles.title}>
+                            Events
+                        </Title>
+                    </View>
+                    <View style={{ height: "30%", width: "100%", backgroundColor: "#4169E1", borderRadius: 6 }}>
+                        <ScrollView>
+                            <View>
+                                {events.map(event =>
+                                    <CommonCompEventCard
+                                        title={event.title}
+                                        key={event.title}
+                                        description={event.description}
+                                        address={event.address}
+                                        date={event.date}
+                                        time={event.time} />)}
+                            </View>
+                        </ScrollView>
+                    </View>
+                    <View style={styles.row}>
+                        <Button mode="contained" dark="true" style={styles.button} onPress={this.createAnnouncement} > Create Announcement </Button>
+                    </View>
+                    <View style={styles.row}>
+                        <Button mode="contained" dark="true" style={styles.button} onPress={this.createEvent} > Create Event </Button>
+                    </View>
+                    <View style={styles.row}>
+                        <Button mode="contained" dark="true" style={styles.button} onPress={this.goToChat} > Go To Group Chat </Button>
+                    </View>
+                </View>
+        </View>
     )
   }
 }
@@ -154,6 +174,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+    margin: 20,
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 40
