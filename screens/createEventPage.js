@@ -92,6 +92,9 @@ class eventMapPage extends Component{
     console.log(event)
     const db = firebase.database().ref();
     db.child('/events/'+event.title).set(event)
+    this.alertUser("Create Event Successful!")
+    this.props.navigation.pop()
+    this.props.navigation.pop() // pop twice to go back to the home page.
   }
 
   alertUser(title, subtitle) {

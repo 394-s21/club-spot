@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 10,
-        paddingBottom: 10,
+        paddingBottom: 1,
         borderRadius: 40,
         alignItems: "center"
     },

@@ -90,46 +90,50 @@ class eventMapPage extends Component {
         this.setState({dispEventInfo: false})
     }
 
+    navigateToCreateEvent = () => {this.props.navigation.navigate('Choose A Club')}
 
     render() {
         return (
             <View style={{ flex: 1 }}>
-            <TouchableOpacity onPress={() => this.closeInfo()} style={styles(this.state.dispEventInfo).exitButton}><Text style={{color: "white"}}>X</Text></TouchableOpacity>
-            <View style={styles(this.state.dispEventInfo).infoContainer}>
-                <View style={styles(this.state.dispEventInfo).infoView}>
-                    <Text style={styles(this.state.dispEventInfo).titleText} >{this.state.dispEventInfo ? this.state.currentEvent.title : ""}</Text>
-                    <Text style={styles(this.state.dispEventInfo).addressText} >{this.state.dispEventInfo ? this.state.currentEvent.address : ""}</Text>
-                    <Text style={styles(this.state.dispEventInfo).addressText} >Date: {this.state.dispEventInfo ? this.getDateString(this.state.currentEvent.date) : ""} {this.state.dispEventInfo ? this.getTimeString(this.state.currentEvent.time) : ""}</Text>
-                    <Text style={styles(this.state.dispEventInfo).descriptText} >{this.state.dispEventInfo ? this.state.currentEvent.description : ""}</Text>
+                <TouchableOpacity onPress={() => this.closeInfo()} style={styles(this.state.dispEventInfo).exitButton}><Text style={{color: "white"}}>X</Text></TouchableOpacity>
+                <View style={styles(this.state.dispEventInfo).infoContainer}>
+                    <View style={styles(this.state.dispEventInfo).infoView}>
+                        <Text style={styles(this.state.dispEventInfo).titleText} >{this.state.dispEventInfo ? this.state.currentEvent.title : ""}</Text>
+                        <Text style={styles(this.state.dispEventInfo).addressText} >{this.state.dispEventInfo ? this.state.currentEvent.address : ""}</Text>
+                        <Text style={styles(this.state.dispEventInfo).addressText} >Date: {this.state.dispEventInfo ? this.getDateString(this.state.currentEvent.date) : ""} {this.state.dispEventInfo ? this.getTimeString(this.state.currentEvent.time) : ""}</Text>
+                        <Text style={styles(this.state.dispEventInfo).descriptText} >{this.state.dispEventInfo ? this.state.currentEvent.description : ""}</Text>
+                    </View>
                 </View>
-            </View>
-            <MapView
-                style={{ flex: 1 }}
-                region={{
-                    latitude: this.state.initLocation.latitude,
-                    longitude: this.state.initLocation.longitude,
-                    latitudeDelta: 0.1,
-                    longitudeDelta: 0.1,
-                }}>
+                <MapView
+                    style={{ flex: 1 }}
+                    region={{
+                        latitude: this.state.initLocation.latitude,
+                        longitude: this.state.initLocation.longitude,
+                        latitudeDelta: 0.1,
+                        longitudeDelta: 0.1,
+                    }}>
 
-                <Marker 
-                    image={require('../assets/currentMarker.png')} 
-                    coordinate={{ 
-                        latitude: this.state.currentLocation.coordinate.latitude, 
-                        longitude: this.state.currentLocation.coordinate.longitude }} />
-                    {this.state.events.map((curMarker, index) => (
-                    <Marker
-                        key={index}
-                        coordinate={curMarker.coordinate}
-                        title={curMarker.clubName}
-                        description="Click for more info"
-                        onCalloutPress={() => {this.eventInfo(curMarker)}}
-                        pinColor={curMarker.isPublic ? "red" : "blue"}
-                    />
-                ))}
-            </MapView>
-            <View style={styles(this.state.dispEventInfo).buttonView}>
-        </View>
+                    <Marker 
+                        image={require('../assets/currentMarker.png')} 
+                        coordinate={{ 
+                            latitude: this.state.currentLocation.coordinate.latitude, 
+                            longitude: this.state.currentLocation.coordinate.longitude }} />
+                        {this.state.events.map((curMarker, index) => (
+                        <Marker
+                            key={index}
+                            coordinate={curMarker.coordinate}
+                            title={curMarker.clubName}
+                            description="Click for more info"
+                            onCalloutPress={() => {this.eventInfo(curMarker)}}
+                            pinColor={curMarker.isPublic ? "red" : "blue"}
+                        />
+                    ))}
+                </MapView>
+                <View style={styles(this.state.dispEventInfo).buttonView}>
+                    <TouchableOpacity onPress = {this.navigateToCreateEvent}>
+                        <AntDesign name="pluscircleo" size={36} color="black" />
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
