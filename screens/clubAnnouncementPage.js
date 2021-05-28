@@ -58,7 +58,7 @@ class clubAnnouncementPage extends Component{
   render() {
     const announcement = this.state.announcement !== null ? this.state.announcement : "Your club currently does not have any announcement!"
     return(
-      <SafeAreaView>
+      <SafeAreaView style={{height: '100%'}}>
         <ScrollView>
           <View>
             <View style={styles.titleContainer}>
@@ -81,9 +81,11 @@ class clubAnnouncementPage extends Component{
                 Events
               </Title>
             </View>
-            <Button style={styles.button} mode="outlined" onPress = {this.createAnnouncement} > Create Announcement </Button>
-            <Button style={styles.button} mode="outlined" onPress = {this.createEvent} > Create Event </Button>
-            <Button style={styles.button} mode="outlined" onPress = {this.goToChat} > Go To Group Chat </Button>
+            <View style={styles.buttonContainer}>
+              <Button style={styles.button} labelStyle={{color: "white"}} mode="outlined" onPress = {this.createAnnouncement} > Create Announcement </Button>
+              <Button style={styles.button} labelStyle={{color: "white"}} mode="outlined" onPress = {this.createEvent} > Create Event </Button>
+              <Button style={styles.button} labelStyle={{color: "white"}} mode="outlined" onPress = {this.goToChat} > Go To Group Chat </Button>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -98,28 +100,47 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
     justifyContent: 'center',
-    margin: 16
+    margin: 16,
+    borderRadius: 5
   },
   title: {
-    color: 'white',
+    color: 'orange',
     padding: 10,
     fontFamily: 'Helvetica',
     fontWeight: '500',
   },
   button: {
-    marginTop: 10
+    alignContent: "center",
+    justifyContent: "center",
+    backgroundColor: '#000000',
+    marginTop: 26,
+    width: "70%",
+    marginLeft: 5,
+    marginRight: 5,
   },
   card: {
-    height: 100
+    height: 100,
+    width: "90%"
+    
   },
   clubDescription: {
     fontSize: 14,
   },
   container: {
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
     flex: 1,
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 40
+  },
+  buttonContainer: {
+    marginLeft: 8,
+    marginRight: 8,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 export default clubAnnouncementPage;
