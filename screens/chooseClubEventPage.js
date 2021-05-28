@@ -3,7 +3,6 @@ import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Text, Ima
 import CommonCompClubCard from '../components/CommonCompMyClubCard';
 import { firebase }  from '../utils/firebase';
 import 'firebase/database';
-import CommonCompEventCard from '../components/CommonCompEventCard';
 
 class chooseClubEventPage extends Component{
   constructor(props){
@@ -61,10 +60,7 @@ class chooseClubEventPage extends Component{
   render() {
     return(
       <SafeAreaView style={styles.container}>
-        <View style={{height: "10%", width: "100%", alignItems: "center", justifyContent: "center"}}>
-          <Text style= {{fontSize: 25, fontWeight: "bold", paddingTop: 30}}>My Clubs</Text>
-        </View>  
-        <View style={{height: "39%", width: "100%", backgroundColor: "#4169E1", borderRadius: 6}}>
+        <View style={{height: "80%", width: "100%", backgroundColor: "#4169E1", borderRadius: 6}}>
         <ScrollView>
           <View>
             {this.state.clubs.map(club => 
@@ -75,7 +71,8 @@ class chooseClubEventPage extends Component{
                 clubCategory= {club.category} 
                 clubEmail = {club.email} 
                 clubId = {club.id}
-                navigation={this.props.navigation}/>)}
+                navigation={this.props.navigation}
+                isViewClub = {false}/>)}
           </View>
         </ScrollView>
         </View> 
@@ -86,9 +83,7 @@ class chooseClubEventPage extends Component{
 
 const styles = StyleSheet.create({
   container: {
-    flex:  1,
     marginHorizontal:  15,
-    justifyContent:  'center',
     height: '100%'
   },
 })

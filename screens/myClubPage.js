@@ -76,7 +76,8 @@ class myHomePage extends Component{
                 clubCategory= {club.category} 
                 clubEmail = {club.email} 
                 clubId = {club.id}
-                navigation={this.props.navigation}/>)}
+                navigation={this.props.navigation}
+                isViewClub = {true}/>)}
           </View>
         </ScrollView>
         </View> 
