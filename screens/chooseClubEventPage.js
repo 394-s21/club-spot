@@ -60,7 +60,6 @@ class chooseClubEventPage extends Component{
   render() {
     return(
       <SafeAreaView style={styles.container}>
-        <View style={{height: "80%", width: "100%", backgroundColor: "#4169E1", borderRadius: 6}}>
         <ScrollView>
           <View>
             {this.state.clubs.map(club => 
@@ -75,7 +74,6 @@ class chooseClubEventPage extends Component{
                 isViewClub = {false}/>)}
           </View>
         </ScrollView>
-        </View> 
       </SafeAreaView>
     )
   }
