@@ -12,6 +12,7 @@ export default function eventMapPageStack(){
             <Stack.Screen
             name='Event Map'
             component={eventMapPage}
+            options = {{headerShown: false}}
             />
         </Stack.Navigator>
     )

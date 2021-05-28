@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 export default function homeTab() {
   return (
     <Tab.Navigator
-      initialRouteName="clubHomePageStack"
+      initialRouteName="myClubPageStack"
       tabBarOptions={{
         activeTintColor: '#3DD5F4',
       }}>

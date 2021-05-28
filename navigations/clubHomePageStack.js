@@ -12,6 +12,7 @@ export default function ClubHomePageStack(){
             <Stack.Screen
             name='Club List'
             component={clubHomePage}
+            options = {{headerShown: false}}
             />
             <Stack.Screen
             name='Club Details'
