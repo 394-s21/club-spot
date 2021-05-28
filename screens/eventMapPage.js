@@ -25,7 +25,7 @@ class eventMapPage extends Component {
 
     getDateString = (date) => {
         if (date === "null") {
-            return ("")
+            return ("Not available")
         }
         var dateObj = new Date(date)
         var month = dateObj.getMonth() + 1; //months from 1-12
