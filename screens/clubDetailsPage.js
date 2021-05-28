@@ -79,6 +79,7 @@ class clubDetailsPage extends Component{
                 }
             } 
         })
+        this.props.navigation.pop()
     }
 
 
@@ -111,6 +112,7 @@ class clubDetailsPage extends Component{
         delete user.clubs[clubId]
         this.setState({userInfo: user, clubMember: false});
         this.leaveSuccessfully()
+        this.props.navigation.pop()
     }
 
 
