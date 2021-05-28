@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
 import { firebase }  from '../utils/firebase';
 import { Avatar,Provider, TextInput, RadioButton,Text, Subheading,Title, Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 
@@ -147,8 +147,8 @@ class profilePage extends Component{
       const clubDesc = this.state.clubInfo.description
       if (edit) {
         return (
-          <SafeAreaView style={styles.container}>
-            <ScrollView>
+          <SafeAreaView style={styles.container} >
+            <ScrollView >
               <View style={styles.container}>
                 {this.get_profile_comp()}
                 <Title style={styles.subheading}>{full_name}</Title>
@@ -233,9 +233,10 @@ class profilePage extends Component{
         return (
 
 
-          <SafeAreaView style={styles.container}>
+          <SafeAreaView style={styles.container} >
+            <ImageBackground style={{width: '100%', height: '100%', resizeMode: 'contain'}} source={require('../assets/gradient.png')}>
             <ScrollView>
-              <View style={styles.container}>
+              <View style={styles.container} source={require('../assets/gradient.png')}>
                 {this.get_profile_comp()}
                 <Title style={styles.subheading}>{full_name}</Title>
               </View>
@@ -274,14 +275,15 @@ class profilePage extends Component{
                 <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.logout}>logout </Button>
               </View>
           </ScrollView>
+          </ImageBackground>
           </SafeAreaView>
           
         )
       }
       else {
         return (
-
           <SafeAreaView style={styles.container}>
+            <ImageBackground style={{width: '100%', height: '100%', resizeMode: 'contain'}} source={require('../assets/gradient.png')}>
             <ScrollView>
               <View style={styles.container}>
                 {this.get_profile_comp()}
@@ -313,6 +315,7 @@ class profilePage extends Component{
                 <Button mode="contained" dark="true" style={styles.logoutButton} onPress={this.logout}>logout </Button>
               </View>
           </ScrollView>
+          </ImageBackground>
           </SafeAreaView>
           
         ) }
