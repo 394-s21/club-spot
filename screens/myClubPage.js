@@ -65,7 +65,7 @@ class myHomePage extends Component{
         <View style={{height: "10%", width: "100%", alignItems: "center", justifyContent: "center"}}>
           <Text style= {{fontSize: 25, fontWeight: "bold", paddingTop: 30}}>My Clubs</Text>
         </View>  
-        <View style={{height: "45%", width: "100%", backgroundColor: "black"}}>
+        <View style={{height: "39%", width: "100%", backgroundColor: "black", borderRadius: 6}}>
         <ScrollView>
           <View>
             {this.state.clubs.map(club => 
@@ -83,7 +83,7 @@ class myHomePage extends Component{
         <View style={{height: "10%", width: "100%", alignItems: "center", justifyContent: "center"}}>
             <Text style= {{fontSize: 25, fontWeight: "bold"}}>My Events</Text>
         </View>    
-        <View style={{height: "45%", width: "100%", backgroundColor: "#4169E1"}}>
+        <View style={{height: "39%", width: "100%", backgroundColor: "#4169E1", borderRadius: 6}}>
         <ScrollView>
           <View>
           {this.state.events.map(event => 
