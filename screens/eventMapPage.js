@@ -25,7 +25,7 @@ class eventMapPage extends Component {
 
     getDateString = (date) => {
         if (date === "null") {
-            return ("Not currently available.")
+            return ("")
         }
         var dateObj = new Date(date)
         var month = dateObj.getMonth() + 1; //months from 1-12
@@ -99,7 +99,7 @@ class eventMapPage extends Component {
                 <View style={styles(this.state.dispEventInfo).infoView}>
                     <Text style={styles(this.state.dispEventInfo).titleText} >{this.state.dispEventInfo ? this.state.currentEvent.title : ""}</Text>
                     <Text style={styles(this.state.dispEventInfo).addressText} >{this.state.dispEventInfo ? this.state.currentEvent.address : ""}</Text>
-                    <Text style={styles(this.state.dispEventInfo).descriptText} >Event date: {this.state.dispEventInfo ? this.getDateString(this.state.currentEvent.date) : ""} {this.state.dispEventInfo ? this.getTimeString(this.state.currentEvent.time) : ""}</Text>
+                    <Text style={styles(this.state.dispEventInfo).addressText} >Date: {this.state.dispEventInfo ? this.getDateString(this.state.currentEvent.date) : ""} {this.state.dispEventInfo ? this.getTimeString(this.state.currentEvent.time) : ""}</Text>
                     <Text style={styles(this.state.dispEventInfo).descriptText} >{this.state.dispEventInfo ? this.state.currentEvent.description : ""}</Text>
                 </View>
             </View>
