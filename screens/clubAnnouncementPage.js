@@ -76,8 +76,8 @@ class clubAnnouncementPage extends Component{
     const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcements!" : this.state.announcement
     const events = this.state.events
     return(
-        <View style={{height: "200%", width: "100%"}}>
-                <View>
+        <View style={{height: "100%", width: "100%", backgroundColor: "lightgray"}}>
+                <View style={{alignItems: "center"}}>
                     <View style={styles.titleContainer}>
                         <Title style={styles.title}>
                             Announcements
@@ -98,7 +98,7 @@ class clubAnnouncementPage extends Component{
                             Events
                         </Title>
                     </View>
-                    <View style={{ height: "30%", width: "100%", backgroundColor: "#4169E1", borderRadius: 6 }}>
+                    <View style={{ height: "30%", width: "95%", backgroundColor: "#4169E1", borderRadius: 6, margin: 5 }}>
                         <ScrollView>
                             <View>
                                 {events.map(event =>
@@ -112,15 +112,9 @@ class clubAnnouncementPage extends Component{
                             </View>
                         </ScrollView>
                     </View>
-                    <View style={styles.row}>
                         <Button mode="contained" dark="true" style={styles.button} onPress={this.createAnnouncement} > Create Announcement </Button>
-                    </View>
-                    <View style={styles.row}>
                         <Button mode="contained" dark="true" style={styles.button} onPress={this.createEvent} > Create Event </Button>
-                    </View>
-                    <View style={styles.row}>
                         <Button mode="contained" dark="true" style={styles.button} onPress={this.goToChat} > Go To Group Chat </Button>
-                    </View>
                 </View>
         </View>
     )
@@ -135,7 +129,8 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     justifyContent: 'center',
     margin: 16,
-    borderRadius: 5
+    borderRadius: 5,
+    width: "95%"
   },
   title: {
     color: 'white',
@@ -144,19 +139,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   button: {
-    backgroundColor: '#000000',
+    backgroundColor: 'black',
     marginTop: 10,
     width: "65%",
     marginLeft: 5,
     marginRight: 5,
-  },
-  row: {
-    marginLeft: 8,
-    marginRight: 8,
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   card: {
     height: 100,
@@ -173,18 +160,10 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
     alignItems: "center",
-    flex: 1,
-    margin: 20,
     paddingTop: 10,
     paddingBottom: 10,
-    borderRadius: 40
-  },
-  buttonContainer: {
-    marginLeft: 8,
-    marginRight: 8,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: 40,
+    width: "95%"
   },
 })
 export default clubAnnouncementPage;
