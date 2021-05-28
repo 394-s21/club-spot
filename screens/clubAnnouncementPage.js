@@ -56,9 +56,9 @@ class clubAnnouncementPage extends Component{
     })
   }
   render() {
-    const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcement!" : this.state.announcement
+    const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcements!" : this.state.announcement
     return(
-      <SafeAreaView>
+      <SafeAreaView style={{height: '100%'}}>
         <ScrollView>
           <View>
             <View style={styles.titleContainer}>
@@ -81,6 +81,16 @@ class clubAnnouncementPage extends Component{
                 Events
               </Title>
             </View>
+            <View style={styles.container}>
+              <Card
+                style={styles.card}>
+                <Card.Title
+                  subtitle={announcement}
+                  subtitleStyle={styles.clubAnnouncement}
+                  subtitleNumberOfLines={2}
+                />
+              </Card>
+              </View>
             <View style={styles.row}>
             <Button mode="contained" dark="true" style={styles.button} onPress = {this.createAnnouncement} > Create Announcement </Button>
             </View>
@@ -99,12 +109,13 @@ class clubAnnouncementPage extends Component{
 
 const styles = StyleSheet.create({
   titleContainer: {
-    backgroundColor: 'blue',
+    backgroundColor: '#4169E1',
     height: 50,
     textAlign: 'center',
     textAlignVertical: 'center',
     justifyContent: 'center',
-    margin: 16
+    margin: 16,
+    borderRadius: 5
   },
   title: {
     color: 'white',
@@ -114,7 +125,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#000000',
-    marginTop: 26,
+    marginTop: 10,
     width: "65%",
     marginLeft: 5,
     marginRight: 5,
@@ -128,7 +139,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   card: {
-    height: 100
+    height: 100,
+    width: "90%"
+    
   },
   clubAnnouncement: {
     fontSize: 18,
@@ -137,10 +150,20 @@ const styles = StyleSheet.create({
     color: "black"
   },
   container: {
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
     flex: 1,
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 40
+  },
+  buttonContainer: {
+    marginLeft: 8,
+    marginRight: 8,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 export default clubAnnouncementPage;

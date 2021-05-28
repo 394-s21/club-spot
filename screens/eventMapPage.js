@@ -18,7 +18,37 @@ class eventMapPage extends Component {
             zIndex: 0,
             currentEvent: {}
         }
+        this.getDateString = this.getDateString.bind(this)
+        this.getTimeString = this.getTimeString.bind(this)
     }
+
+
+    getDateString = (date) => {
+        if (date === "null") {
+            return ("Not available")
+        }
+        var dateObj = new Date(date)
+        var month = dateObj.getMonth() + 1; //months from 1-12
+        var day = dateObj.getUTCDate();
+        var year = dateObj.getUTCFullYear();
+        return (month + "/" + day + "/" + year)
+    }
+
+    getTimeString = (time) => {
+        if (time === "null") {
+            return ("")
+        }
+        var timeObj = new Date(time)
+        var hour = timeObj.getHours();
+        var minute = timeObj.getMinutes();
+        var half = " AM"
+        if (hour > 12) {
+            hour = hour - 12
+            half = " PM"
+        }
+        return (hour + ":" + minute + half)
+    }
+
 
     componentDidMount() {
         this.setState({ events: [] })
@@ -69,6 +99,7 @@ class eventMapPage extends Component {
                 <View style={styles(this.state.dispEventInfo).infoView}>
                     <Text style={styles(this.state.dispEventInfo).titleText} >{this.state.dispEventInfo ? this.state.currentEvent.title : ""}</Text>
                     <Text style={styles(this.state.dispEventInfo).addressText} >{this.state.dispEventInfo ? this.state.currentEvent.address : ""}</Text>
+                    <Text style={styles(this.state.dispEventInfo).addressText} >Date: {this.state.dispEventInfo ? this.getDateString(this.state.currentEvent.date) : ""} {this.state.dispEventInfo ? this.getTimeString(this.state.currentEvent.time) : ""}</Text>
                     <Text style={styles(this.state.dispEventInfo).descriptText} >{this.state.dispEventInfo ? this.state.currentEvent.description : ""}</Text>
                 </View>
             </View>

@@ -26,12 +26,14 @@ const SocialButton = ({
   );
 };
 
+
+
 export default SocialButton;
 
 const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 10,
-    width: '100%',
+    width: '93%',
     height: windowHeight / 15,
     padding: 10,
     flexDirection: 'row',

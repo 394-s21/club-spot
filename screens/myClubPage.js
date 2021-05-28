@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Text} from 'react-native';
+import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Text, ImageBackground} from 'react-native';
 import CommonCompClubCard from '../components/CommonCompMyClubCard';
 import { firebase }  from '../utils/firebase';
 import 'firebase/database';
@@ -60,11 +60,12 @@ class myHomePage extends Component{
 
   render() {
     return(
+      // <ImageBackground style={{width: '100%', height: '100%', resizeMode: 'contain'}} source={require('../assets/gradient.png')}>
       <SafeAreaView style={styles.container}>
         <View style={{height: "10%", width: "100%", alignItems: "center", justifyContent: "center"}}>
           <Text style= {{fontSize: 25, fontWeight: "bold", paddingTop: 30}}>My Clubs</Text>
         </View>  
-        <View style={{height: "45%", width: "100%", backgroundColor: "black"}}>
+        <View style={{height: "39%", width: "100%", backgroundColor: "#4169E1", borderRadius: 6}}>
         <ScrollView>
           <View>
             {this.state.clubs.map(club => 
@@ -82,21 +83,22 @@ class myHomePage extends Component{
         <View style={{height: "10%", width: "100%", alignItems: "center", justifyContent: "center"}}>
             <Text style= {{fontSize: 25, fontWeight: "bold"}}>My Events</Text>
         </View>    
-        <View style={{height: "45%", width: "100%", backgroundColor: "black"}}>
-          <ScrollView>
-            <View>
-              {this.state.events.map(event => 
-              <CommonCompEventCard 
-                  title={event.title} 
-                  key={event.title} 
-                  description={event.description} 
-                  address= {event.address} 
-                  date = {event.date} 
-                  time = {event.time}/>)}
-            </View>
-          </ScrollView>
+        <View style={{height: "39%", width: "100%", backgroundColor: "#4169E1", borderRadius: 6}}>
+        <ScrollView>
+          <View>
+          {this.state.events.map(event => 
+          <CommonCompEventCard 
+              title={event.title} 
+              key={event.title} 
+              description={event.description} 
+              address= {event.address} 
+              date = {event.date} 
+              time = {event.time}/>)}
+          </View>
+        </ScrollView>
         </View>    
       </SafeAreaView>
+      // </ImageBackground>
     )
   }
 }
@@ -106,6 +108,7 @@ const styles = StyleSheet.create({
     //flex:  1,
     marginHorizontal:  15,
     justifyContent:  'center',
+    height: '100%'
   },
 })
 export default myHomePage

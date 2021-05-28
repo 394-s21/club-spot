@@ -16,6 +16,10 @@ export default function homeTab() {
       initialRouteName="myClubPageStack"
       tabBarOptions={{
         activeTintColor: '#3DD5F4',
+        activeBackgroundColor: "#4169E1",
+        showLabel: 'false',
+        tabStyle: {borderBottomLeftRadius: 10, borderBottomRightRadius: 10, paddingTop: 0, height: 50, paddingTop: 4}
+        
       }}>
       <Tab.Screen
         name="myClubPageStack"
