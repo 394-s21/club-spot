@@ -9,7 +9,7 @@ const CommonCompMyClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navi
       navigation.navigate('Club Announcement',{clubName:name, clubDesc:desc, clubCategory:category, clubEmail:email, clubId: id })
     }
 
-    const createEvent = (navigation,name,desc,category,email,id)=>{
+    const createEvent = (navigation,name,id)=>{
       navigation.navigate('Create Event',{clubName:name, clubId: id })
     }
     return(
