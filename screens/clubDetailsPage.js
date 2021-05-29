@@ -81,6 +81,7 @@ class clubDetailsPage extends Component{
                 }
             } 
         })
+        this.props.navigation.pop()
     }
 
 
@@ -113,6 +114,7 @@ class clubDetailsPage extends Component{
         delete user.clubs[clubId]
         this.setState({userInfo: user, clubMember: false});
         this.leaveSuccessfully()
+        this.props.navigation.pop()
     }
 
 
@@ -188,7 +190,7 @@ class clubDetailsPage extends Component{
             return (null)
         }
         else {
-            return (<Button style={styles.button} mode="outlined" onPress = {this.joinClub}> Join This Club </Button>)
+            return (<Button style={styles.button} mode="outlined" onPress = {this.joinClub}> I'm a Member! </Button>)
         }
     }
 

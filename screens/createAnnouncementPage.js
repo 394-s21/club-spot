@@ -10,26 +10,33 @@ class createAnnouncementPage extends Component {
     this.state = {
       clubId : this.props.route.params.clubId,
       clubName : this.props.route.params.clubName,
+      clubDesc : this.props.route.params.clubDesc,
+      clubCategory: this.props.route.params.clubCategory,
+      clubEmail: this.props.route.params.clubEmail,
       announcement : "",
     }
   }
   
-  createAnnouncement = () => {
-    let data = {
-      clubId : this.state.clubId,
-      clubName: this.state.clubName,
-      announcement: this.state.announcement
-    }
-    console.log("data is ", data)
-    const db = firebase.database().ref()
-    db.child('/announcements/' + data.clubId).set(data)
+  alertUser(title, subtitle) {
     Alert.alert(
-      "Create announcement successfully",
-      "Please go back to the club announcement page.",
+      title,
+      subtitle,
       [
           { text: "OK" }
       ]
     );
+  }
+  createAnnouncement = () => {
+    let data = {
+      clubId : this.state.clubId,
+      clubName: this.state.clubName,
+      announcement: this.state.announcement,
+    }
+    console.log("data is ", data)
+    const db = firebase.database().ref()
+    db.child('/announcements/' + data.clubId).set(data)
+    this.alertUser("Update Successful", "")
+    this.props.navigation.pop() // go back to the club announcement page
   }
   render() {
     return(
@@ -41,7 +48,9 @@ class createAnnouncementPage extends Component {
           
           style={styles.field}
           onChangeText={text => this.setState({announcement:text})} />
-        <Button style={styles.button} mode="outlined" onPress = {this.createAnnouncement} > Create Announcement </Button>
+        <View  style={{alignItems: "center"}}>
+        <Button labelStyle={{color: "white"}} style={styles.button} mode="outlined" onPress = {this.createAnnouncement} > Create Announcement </Button>
+        </View>
       </View>
     )
   }
@@ -55,7 +64,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   button: {
-    marginTop: 20
+    alignContent: "center",
+    justifyContent: "center",
+    backgroundColor: '#000000',
+    marginTop: 26,
+    width: "70%",
+    marginLeft: 5,
+    marginRight: 5,
   },
 })
 export default createAnnouncementPage

@@ -79,7 +79,6 @@ const CommonCompClubCard = ({clubName, clubDesc, clubCategory, clubEmail, imageR
     },
     clubDescription: {
       fontSize: 14,
-      
     },
     card: {
       height: 100
