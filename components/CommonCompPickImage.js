@@ -5,9 +5,32 @@ import 'firebase/storage';
 //import * as firebase from 'firebase/app';
 import {firebase} from '../utils/firebase';
 
-const CommonCompPickImage = ({imageInput, clubID})=>{
-    const [image,setImage] = useState(imageInput);
+//import addFirebaseProperites from '../utils/addFirebaseProperities';
+
+const CommonCompPickImage = ({imageReset, clubID})=>{
     const clubIdStr = String(clubID);
+    const [image,setImage] = useState();
+
+    if(imageReset){
+      var imageRef = firebase.storage().ref('clubs/'+clubID+'.jpg')
+    }
+    else{
+      var imageRef = firebase.storage().ref('/clubLogo.png')
+    }
+
+    useEffect(() => {
+      imageRef
+        .getDownloadURL()
+        .then((url) => {
+          setImage(url);
+        })
+        .catch((e) => console.log('Errors while downloading => ', e));
+    }, []);
+
+
+    // Warning: Only use this function doing reset! Don't comment it off!
+    //addFirebaseProperites();
+
     useEffect(() => {
         (async () => {
           if (Platform.OS !== 'web') {
@@ -71,7 +94,7 @@ const CommonCompPickImage = ({imageInput, clubID})=>{
           console.log(typeof(clubID))
           console.log(clubIdStr)
     
-          storageRef.child('clubs/'+clubIdStr+'.jpg').put(blob, {
+          storageRef.child('clubs/'+clubID+'.jpg').put(blob, {
             contentType: 'image/jpeg'
           }).then((snapshot)=>{
     
@@ -103,37 +126,28 @@ const CommonCompPickImage = ({imageInput, clubID})=>{
       ).then(
         (snapshot)=>{
           console.log('File uploaded');
+          let imageRef = firebase.storage().ref('clubs/'+clubIdStr+'.jpg');
+          imageRef
+          .getDownloadURL()
+          .then(
+            (url)=>{
+              setImage(url);
+              var cref = firebase.database().ref('clubs/'+clubID);
+              cref.child('imageReset').set(true);
+            }
+          )
         }
       ).catch(
         (error)=>{
           throw error;
         }
       );
-
     }
-    
-    
-
-    if(!image){
-        return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <Image source= {require('../assets/clubLogo.png')} style={{ width: 200, height: 200 }} />
-              <Button title="Pick an image from camera roll" onPress={handlePickingUpload} />
-            </View>
-        );
-
-    }
-    else{
-        return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <Image source= {{uri:image}} style={{ width: 200, height: 200 }} />
-              <Button title="Pick an image from camera roll" onPress={handlePickingUpload} />
-            </View>
-        );
-
-    }
-
-    
+    return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Image source= {{uri:image}} style={{ width: 200, height: 200 }} />
+          <Button title="Pick an image from camera roll" onPress={handlePickingUpload} />
+        </View>
+    );
 }
-
 export default CommonCompPickImage;

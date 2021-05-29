@@ -125,6 +125,7 @@ class clubHomePage extends Component{
               clubCategory= {club.category} 
               clubEmail = {club.email} 
               clubId = {club.id}
+              imageReset = {club.imageReset}
               navigation={this.props.navigation}/>)}
           </View>
         </ScrollView>

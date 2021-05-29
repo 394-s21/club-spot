@@ -23,7 +23,7 @@ class clubDetailsPage extends Component{
             newCat: this.props.route.params.clubCategory,
             newDescription: this.props.route.params.clubDesc,
             newName: this.props.route.params.clubName,
-            image:null
+            imageReset:this.props.route.params.resetFlag
         }
         this.handleEmailClick = this.handleEmailClick.bind(this)
         this.groupButton = this.groupButton.bind(this)
@@ -277,7 +277,7 @@ class clubDetailsPage extends Component{
                         {this.state.clubName}
                             {'\n'}
                         </Text>
-                        <CommonCompPickImage imageInput={this.state.image} clubID={this.state.clubId}/>
+                        <CommonCompPickImage imageReset={this.state.imageReset} clubID={this.state.clubId}/>
 
                         <Card style={styles.card}>
                             <Card.Content>
@@ -320,7 +320,7 @@ class clubDetailsPage extends Component{
                     <Title style={styles.subheading}>{this.state.clubName}</Title>
                     </View>
                     <CommonCompPickImage 
-                    imageInput={this.state.image}
+                    imageReset={this.state.imageReset}
                     clubID={this.state.clubId}
                     />
                     <Subheading>CATEGORY</Subheading>

@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { Card } from 'react-native-paper';
 
-const CommonCompClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navigation, clubId}) => {
+const CommonCompClubCard = ({clubName, clubDesc, clubCategory, clubEmail, imageReset ,navigation, clubId}) => {
     const LeftContent = () => <Image style={styles.clubImage} source={require('../assets/clubLogo.png')}/>;
     
     const viewClub = (navigation,name,desc,category,email,id)=>{
-      navigation.navigate('Club Details',{clubName:name, clubDesc:desc, clubCategory:category, clubEmail:email, clubId: id })
+      navigation.navigate('Club Details',{clubName:name, clubDesc:desc, clubCategory:category, clubEmail:email, clubId: id, resetFlag: imageReset })
     }
 
     return(
