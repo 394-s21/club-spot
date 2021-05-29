@@ -277,7 +277,7 @@ class clubDetailsPage extends Component{
                         {this.state.clubName}
                             {'\n'}
                         </Text>
-                        <CommonCompPickImage imageInput={this.state.image}/>
+                        <CommonCompPickImage imageInput={this.state.image} clubID={this.state.clubId}/>
 
                         <Card style={styles.card}>
                             <Card.Content>
@@ -319,7 +319,10 @@ class clubDetailsPage extends Component{
                     <View style={styles.container}>
                     <Title style={styles.subheading}>{this.state.clubName}</Title>
                     </View>
-                    <CommonCompPickImage imageInput={this.state.image}/>
+                    <CommonCompPickImage 
+                    imageInput={this.state.image}
+                    clubID={this.state.clubId}
+                    />
                     <Subheading>CATEGORY</Subheading>
                     <Card style={styles.card}>
                         <Card.Content>

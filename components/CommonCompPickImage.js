@@ -5,9 +5,9 @@ import 'firebase/storage';
 //import * as firebase from 'firebase/app';
 import {firebase} from '../utils/firebase';
 
-const CommonCompPickImage = (imageInput)=>{
+const CommonCompPickImage = ({imageInput, clubID})=>{
     const [image,setImage] = useState(imageInput);
-    console.log(image);
+    const clubIdStr = String(clubID);
     useEffect(() => {
         (async () => {
           if (Platform.OS !== 'web') {
@@ -67,8 +67,11 @@ const CommonCompPickImage = (imageInput)=>{
         return new Promise((resolve, reject)=>{
     
           var storageRef = firebase.storage().ref();
+          console.log(clubID)
+          console.log(typeof(clubID))
+          console.log(clubIdStr)
     
-          storageRef.child('uploads/photo.jpg').put(blob, {
+          storageRef.child('clubs/'+clubIdStr+'.jpg').put(blob, {
             contentType: 'image/jpeg'
           }).then((snapshot)=>{
     
