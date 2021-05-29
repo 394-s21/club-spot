@@ -76,7 +76,7 @@ class clubAnnouncementPage extends Component{
     const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcements!" : this.state.announcement
     const events = this.state.events
     return(
-        <View style={{height: "100%", width: "100%", backgroundColor: "lightgray"}}>
+        <View style={{height: "100%", width: "100%", backgroundColor: " #ecf0f1"}}>
                 <View style={{alignItems: "center"}}>
                     <View style={styles.titleContainer}>
                         <Title style={styles.title}>
@@ -98,7 +98,7 @@ class clubAnnouncementPage extends Component{
                             Events
                         </Title>
                     </View>
-                    <View style={{ height: "30%", width: "95%", backgroundColor: "#4169E1", borderRadius: 6, margin: 5 }}>
+                    <View style={{ height: "45%", width: "95%", backgroundColor: "#4169E1", borderRadius: 6, margin: 5 }}>
                         <ScrollView>
                             <View>
                                 {events.map(event =>
