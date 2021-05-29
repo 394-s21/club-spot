@@ -6,6 +6,7 @@ import {firebase} from '../utils/firebase';
 import { Linking } from 'react-native'
 
 import * as ImagePicker from 'expo-image-picker';
+import CommonCompPickImage from '../components/CommonCompPickImage';
 class clubDetailsPage extends Component{
     constructor(props){
         super(props);
@@ -22,7 +23,7 @@ class clubDetailsPage extends Component{
             newCat: this.props.route.params.clubCategory,
             newDescription: this.props.route.params.clubDesc,
             newName: this.props.route.params.clubName,
-            image:'../assets/clubLogo.png'
+            image:null
         }
         this.handleEmailClick = this.handleEmailClick.bind(this)
         this.groupButton = this.groupButton.bind(this)
@@ -276,12 +277,7 @@ class clubDetailsPage extends Component{
                         {this.state.clubName}
                             {'\n'}
                         </Text>
-                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                            <Image source={this.state.image} style={{ width: 200, height: 200 }} />
-                            <Button onPress={this.pickImage}>
-                                Pick an image from camera roll
-                            </Button>
-                        </View>
+                        <CommonCompPickImage imageInput={this.state.image}/>
 
                         <Card style={styles.card}>
                             <Card.Content>
@@ -323,12 +319,7 @@ class clubDetailsPage extends Component{
                     <View style={styles.container}>
                     <Title style={styles.subheading}>{this.state.clubName}</Title>
                     </View>
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Image source={this.state.image} style={{ width: 200, height: 200 }} />
-                        <Button onPress={this.pickImage}>
-                        Pick an image from camera roll
-                        </Button>
-                    </View>
+                    <CommonCompPickImage imageInput={this.state.image}/>
                     <Subheading>CATEGORY</Subheading>
                     <Card style={styles.card}>
                         <Card.Content>
