@@ -145,6 +145,7 @@ class profilePage extends Component{
     if (admin) {
       const clubName = this.state.clubInfo.clubName
       const clubDesc = this.state.clubInfo.description
+      const numMems = this.state.clubInfo.numMems
       if (edit) {
         return (
           <SafeAreaView style={styles.container} >
@@ -162,6 +163,11 @@ class profilePage extends Component{
               <Card style={styles.card}>
                   <Card.Content>
                     <Text>Club Name: {clubName}</Text>
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <Text>Number of Members: {numMems}</Text>
                   </Card.Content>
               </Card>
               <Card style={styles.card}>
@@ -205,6 +211,11 @@ class profilePage extends Component{
               <Card style={styles.card}>
                   <Card.Content>
                     <Text>Club Name: {clubName}</Text>
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <Text>Number of Members: {numMems}</Text>
                   </Card.Content>
               </Card>
               <Card style={styles.card}>
