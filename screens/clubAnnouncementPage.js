@@ -76,7 +76,8 @@ class clubAnnouncementPage extends Component{
     const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcements!" : this.state.announcement
     const events = this.state.events
     return(
-        <View style={{height: "100%", width: "100%", backgroundColor: " #ecf0f1"}}>
+      <SafeAreaView style={styles.container}>
+        <View style={{height: "100%", width: "100%", backgroundColor: " #ecf0f1", justifyContent: 'center'}}>
                 <View style={{alignItems: "center"}}>
                     <View style={styles.titleContainer}>
                         <Title style={styles.title}>
@@ -98,7 +99,7 @@ class clubAnnouncementPage extends Component{
                             Events
                         </Title>
                     </View>
-                    <View style={{ height: "45%", width: "95%", backgroundColor: "#4169E1", borderRadius: 6, margin: 5 }}>
+                    <View style={{ height: "30%", width: "95%", backgroundColor: "#4169E1", borderRadius: 6, margin: 5 }}>
                         <ScrollView>
                             <View>
                                 {events.map(event =>
@@ -116,12 +117,21 @@ class clubAnnouncementPage extends Component{
                         <Button mode="contained" dark="true" style={styles.button} onPress={this.createEvent} > Create Event </Button>
                         <Button mode="contained" dark="true" style={styles.button} onPress={this.goToChat} > Go To Group Chat </Button>
                 </View>
-        </View>
+        </View>        
+        </SafeAreaView>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingLeft: 10,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1',
+    width: '100%'
+  },
   titleContainer: {
     backgroundColor: '#4169E1',
     height: 50,
@@ -147,12 +157,14 @@ const styles = StyleSheet.create({
   },
   card: {
     height: 100,
-    width: "90%"
-    
+    width: "100%",
+    backgroundColor: "white",
+    borderRadius: 5,
   },
   clubAnnouncement: {
     fontSize: 18,
     paddingTop: 10,
+    paddingRight: 4,
     fontWeight: "bold",
     color: "black"
   },
