@@ -138,7 +138,7 @@ class eventMapPage extends Component{
               <Text style={styles.OBtext}>EVENT</Text>
           </TouchableOpacity>
         </View>
-        <View style={{height: 80}}/>
+        <View style={{height: 300}}/>
         <TextInput label='Description'
           value={this.state.description}
           multiline={true}
