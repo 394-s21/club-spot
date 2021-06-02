@@ -11,7 +11,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName="homeTab" // TODO: change back to login in the final stage
+        initialRouteName="loginPage" 
         screenOptions={{
           headerShown: false
         }}>

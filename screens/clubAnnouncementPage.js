@@ -76,8 +76,8 @@ class clubAnnouncementPage extends Component{
     const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcements!" : this.state.announcement
     const events = this.state.events
     return(
-      <SafeAreaView>
-        <ScrollView>
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={{height: "100%", width: "100%", backgroundColor: " #ecf0f1"}}>
         <View style={{height: "100%", width: "100%", backgroundColor: " #ecf0f1"}}>
                 <View style={{alignItems: "center"}}>
                     <View style={styles.titleContainer}>
@@ -126,6 +126,12 @@ class clubAnnouncementPage extends Component{
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1'
+  },
   titleContainer: {
     backgroundColor: '#4169E1',
     height: 50,
@@ -157,6 +163,7 @@ const styles = StyleSheet.create({
   clubAnnouncement: {
     fontSize: 18,
     paddingTop: 10,
+    paddingRight: 4,
     fontWeight: "bold",
     color: "black"
   },
