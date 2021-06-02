@@ -81,6 +81,7 @@ class clubDetailsPage extends Component{
                 }
             } 
         })
+        const clubMemRef = firebase.database().ref('/clubs/'+clubId+'/numMems').set(firebase.database.ServerValue.increment(1))
         this.props.navigation.pop()
     }
 
@@ -113,6 +114,7 @@ class clubDetailsPage extends Component{
         const user = this.state.userInfo
         delete user.clubs[clubId]
         this.setState({userInfo: user, clubMember: false});
+        const clubMemRef = firebase.database().ref('/clubs/'+clubId+'/numMems').set(firebase.database.ServerValue.increment(-1))
         this.leaveSuccessfully()
         this.props.navigation.pop()
     }
