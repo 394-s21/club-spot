@@ -76,6 +76,8 @@ class clubAnnouncementPage extends Component{
     const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcements!" : this.state.announcement
     const events = this.state.events
     return(
+      <SafeAreaView>
+        <ScrollView>
         <View style={{height: "100%", width: "100%", backgroundColor: " #ecf0f1"}}>
                 <View style={{alignItems: "center"}}>
                     <View style={styles.titleContainer}>
@@ -117,6 +119,8 @@ class clubAnnouncementPage extends Component{
                         <Button mode="contained" dark="true" style={styles.button} onPress={this.goToChat} > Go To Group Chat </Button>
                 </View>
         </View>
+        </ScrollView>
+        </SafeAreaView>
     )
   }
 }
