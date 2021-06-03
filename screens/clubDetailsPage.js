@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
+import React, { Component, useState, useEffect} from 'react';
+import { StyleSheet, View, Image, SafeAreaView, ScrollView, Alert, Platform } from 'react-native';
 import { Avatar,Provider, TextInput, RadioButton,Text, Subheading,Title, Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 
 import {firebase} from '../utils/firebase';
 import { Linking } from 'react-native'
 
+import * as ImagePicker from 'expo-image-picker';
+import CommonCompPickImage from '../components/CommonCompPickImage';
 class clubDetailsPage extends Component{
     constructor(props){
         super(props);
@@ -20,8 +22,8 @@ class clubDetailsPage extends Component{
             edit: false,
             newCat: this.props.route.params.clubCategory,
             newDescription: this.props.route.params.clubDesc,
-            newName: this.props.route.params.clubName
-
+            newName: this.props.route.params.clubName,
+            imageReset:this.props.route.params.resetFlag
         }
         this.handleEmailClick = this.handleEmailClick.bind(this)
         this.groupButton = this.groupButton.bind(this)
@@ -79,6 +81,8 @@ class clubDetailsPage extends Component{
                 }
             } 
         })
+        const clubMemRef = firebase.database().ref('/clubs/'+clubId+'/numMems').set(firebase.database.ServerValue.increment(1))
+        this.props.navigation.pop()
     }
 
 
@@ -110,7 +114,9 @@ class clubDetailsPage extends Component{
         const user = this.state.userInfo
         delete user.clubs[clubId]
         this.setState({userInfo: user, clubMember: false});
+        const clubMemRef = firebase.database().ref('/clubs/'+clubId+'/numMems').set(firebase.database.ServerValue.increment(-1))
         this.leaveSuccessfully()
+        this.props.navigation.pop()
     }
 
 
@@ -144,8 +150,32 @@ class clubDetailsPage extends Component{
          //           })
         //console.log('userInfo: ',this.state.userInfo)
         });
+        this.askPermission()
     }
+    pickImage = async()=>{
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes:ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect:[4,3],
+            quality:1,
+        });
+
+        console.log(result);
+        if (!result.cancelled){
+            setState({image:result.uri});
+        }
+        console.log(this.state.image)
+    };
+
     
+    askPermission = async()=>{
+        if(Platform.OS !== 'web'){
+            const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted'){
+                alert('Sorry, we need camera roll permission!');
+            }
+        }
+    }
 
     groupButton() {
         const mem = this.state.clubMember
@@ -251,6 +281,7 @@ class clubDetailsPage extends Component{
                         {this.state.clubName}
                             {'\n'}
                         </Text>
+                        <CommonCompPickImage imageReset={this.state.imageReset} clubID={this.state.clubId}/>
 
                         <Card style={styles.card}>
                             <Card.Content>
@@ -292,6 +323,10 @@ class clubDetailsPage extends Component{
                     <View style={styles.container}>
                     <Title style={styles.subheading}>{this.state.clubName}</Title>
                     </View>
+                    <CommonCompPickImage 
+                    imageReset={this.state.imageReset}
+                    clubID={this.state.clubId}
+                    />
                     <Subheading>CATEGORY</Subheading>
                     <Card style={styles.card}>
                         <Card.Content>

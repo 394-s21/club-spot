@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {firebase} from '../utils/firebase';
 import { StyleSheet, View, Text, Image, SafeAreaView, ScrollView, Alert } from 'react-native';
 import { Button, Title, Card } from 'react-native-paper';
+import CommonCompEventCard from '../components/CommonCompEventCard';
 
 class clubAnnouncementPage extends Component{
   constructor(props){
@@ -15,7 +16,8 @@ class clubAnnouncementPage extends Component{
         userInfo: {},
         clubmember: false,
         userId: firebase.auth().currentUser ? firebase.auth().currentUser.uid : "testAdminId", //backdoor token (remove in production)
-        announcement: null
+        announcement: null,
+        events: []
     }
   }
 
@@ -45,6 +47,7 @@ class clubAnnouncementPage extends Component{
   }
 
   componentDidMount() {
+    const clubId = this.state.clubId
     this.setState({announcement: null})
     firebase.database().ref('/announcements/' + this.state.clubId).on('value', (snapshot) => {
       var updateAnnoucement = ""
@@ -54,60 +57,81 @@ class clubAnnouncementPage extends Component{
       console.log("my announcement ",updateAnnoucement)
       this.setState({announcement: updateAnnoucement})
     })
+    firebase.database().ref('/events').on('value', (snapshot) => {
+        if(snapshot.exists()){
+          const eventArray = [];
+          snapshot.forEach(function (childSnapshot) {
+            if(childSnapshot.val().clubId == clubId){
+              console.log(`This event is hosted by this club ID ${childSnapshot.val().clubId}`)
+              let childSnap = childSnapshot.toJSON()
+              eventArray.push(childSnap)
+            }
+          })
+          console.log("EVENT ARRAY" + eventArray)
+          this.setState({events: eventArray})
+        }
+      })
   }
   render() {
     const announcement = !this.state.announcement || this.state.announcement === "" ? "Your club currently does not have any announcements!" : this.state.announcement
+    const events = this.state.events
     return(
-      <SafeAreaView style={{height: '100%'}}>
-        <ScrollView>
-          <View>
-            <View style={styles.titleContainer}>
-              <Title style={styles.title}>
-                  Announcements
-              </Title>
-            </View>
-            <View style={styles.container}>
-              <Card
-                style={styles.card}>
-                <Card.Title
-                  subtitle={announcement}
-                  subtitleStyle={styles.clubAnnouncement}
-                  subtitleNumberOfLines={2}
-                />
-              </Card>
-            </View>
-            <View style={styles.titleContainer}>
-              <Title style={styles.title}>
-                Events
-              </Title>
-            </View>
-            <View style={styles.container}>
-              <Card
-                style={styles.card}>
-                <Card.Title
-                  subtitle={announcement}
-                  subtitleStyle={styles.clubAnnouncement}
-                  subtitleNumberOfLines={2}
-                />
-              </Card>
-              </View>
-            <View style={styles.row}>
-            <Button mode="contained" dark="true" style={styles.button} onPress = {this.createAnnouncement} > Create Announcement </Button>
-            </View>
-            <View style={styles.row}>
-            <Button mode="contained" dark="true" style={styles.button} onPress = {this.createEvent} > Create Event </Button>
-            </View>
-            <View style={styles.row}>
-            <Button mode="contained" dark="true" style={styles.button} onPress = {this.goToChat} > Go To Group Chat </Button>
-            </View>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <View style={{height: "100%", width: "100%", backgroundColor: " #ecf0f1", justifyContent: 'center'}}>
+                <View style={{alignItems: "center"}}>
+                    <View style={styles.titleContainer}>
+                        <Title style={styles.title}>
+                            Announcements
+                        </Title>
+                    </View>
+                    <View style={styles.container}>
+                        <Card
+                            style={styles.card}>
+                            <Card.Title
+                                subtitle={announcement}
+                                subtitleStyle={styles.clubAnnouncement}
+                                subtitleNumberOfLines={2}
+                            />
+                        </Card>
+                    </View>
+                    <View style={styles.titleContainer}>
+                        <Title style={styles.title}>
+                            Events
+                        </Title>
+                    </View>
+                    <View style={{ height: "30%", width: "95%", backgroundColor: "#4169E1", borderRadius: 6, margin: 5 }}>
+                        <ScrollView>
+                            <View>
+                                {events.map(event =>
+                                    <CommonCompEventCard
+                                        title={event.title}
+                                        key={event.title}
+                                        description={event.description}
+                                        address={event.address}
+                                        date={event.date}
+                                        time={event.time} />)}
+                            </View>
+                        </ScrollView>
+                    </View>
+                        <Button mode="contained" dark="true" style={styles.button} onPress={this.createAnnouncement} > Create Announcement </Button>
+                        <Button mode="contained" dark="true" style={styles.button} onPress={this.createEvent} > Create Event </Button>
+                        <Button mode="contained" dark="true" style={styles.button} onPress={this.goToChat} > Go To Group Chat </Button>
+                </View>
+        </View>        
+        </SafeAreaView>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingLeft: 10,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1',
+    width: '100%'
+  },
   titleContainer: {
     backgroundColor: '#4169E1',
     height: 50,
@@ -115,7 +139,8 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     justifyContent: 'center',
     margin: 16,
-    borderRadius: 5
+    borderRadius: 5,
+    width: "95%"
   },
   title: {
     color: 'white',
@@ -124,28 +149,22 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   button: {
-    backgroundColor: '#000000',
+    backgroundColor: 'black',
     marginTop: 10,
     width: "65%",
     marginLeft: 5,
     marginRight: 5,
   },
-  row: {
-    marginLeft: 8,
-    marginRight: 8,
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   card: {
     height: 100,
-    width: "90%"
-    
+    width: "100%",
+    backgroundColor: "white",
+    borderRadius: 5,
   },
   clubAnnouncement: {
     fontSize: 18,
     paddingTop: 10,
+    paddingRight: 4,
     fontWeight: "bold",
     color: "black"
   },
@@ -153,17 +172,10 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
     alignItems: "center",
-    flex: 1,
     paddingTop: 10,
     paddingBottom: 10,
-    borderRadius: 40
-  },
-  buttonContainer: {
-    marginLeft: 8,
-    marginRight: 8,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: 40,
+    width: "95%"
   },
 })
 export default clubAnnouncementPage;
