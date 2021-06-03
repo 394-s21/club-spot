@@ -8,14 +8,14 @@
 
 ## Overview 
 ### Description
-Our development team is purple, a project team for CS 394 in Spring 2021. We are creating a React Native app named Cosava that would help people form good habits either as a group or individually. The app will support functionalities such as create new habit, join a group, streak logging, and messaging.
+We are creating a React Native app named ClubSpot that would help students find a club that suits their identities. The app will support functionalities such as search for new club, join a club, create events, and messaging.
 
-This React Native app uses Expo managed workflow with Google Firebase as backend. The user needs to have a Gmail address in order to login. 
+This React Native app uses Expo managed workflow with Google Firebase as backend. The user needs to have a valid admin Gmail address or a Northwestern Gmail address in order to login. 
 
 ### App Evaluation
 - **Category:** Service
 - **Mobile:** This app would be developed for both android and IOS using Rect Native. 
-- **Story:** The application allows you to create different groups with different habits. User Data is pushed to the application and processed into an easily digestible form for users.
+- **Story:** The application allows you to  search for new club, join a club, create events, and messaging. User Data is pushed to the application and processed into an easily digestible form for users.
 - **Market:** People who want to form good habits with other people.
 - **Habit:** This app would ideally be used at least once a day
 
@@ -23,6 +23,7 @@ This React Native app uses Expo managed workflow with Google Firebase as backend
 
 | Name                   | 
 |------------------------|
+| Haley Hooper           |
 | Patrick Pei            |
 | Daniel Bang            |
 | Jake Rogers            |
@@ -37,23 +38,32 @@ This React Native app uses Expo managed workflow with Google Firebase as backend
 
 **Required Must-have Stories**
 
-* User logs in to home page and other pertinent information
-* User creates new groups
-* User joins new groups
-* User logs streaks daily
+* User can search clubs based on criteria
+* User can post announcements to club members
+* User can update club information and photo
+* User can see how many club members joined
 
 **Optional Nice-have Stories**
-* User chats with other friends in a group
+* User can message friends/groups in the same club
+* User can create and view club events that are happening on or near campus
 
 ### 2. Screen Archetypes
 * Login 
-* Dashboard 
-* Create Group
-* Join Group
-* Chat
+* My Club
+* Choose Club Event
+* Club Announcement
+* Club Deatils
+* Club Home
+* Create Announcement 
+* Create Event
+* Event Map
+* Group Chat
+* Profile
 
 ### 3. Navigation
-**Flow Navigation** (Screen to Screen)
+**Stack Navigation** (Screen to Screen) 
+
+**Tab Navigation** (bottom tabs)
 
 ## Installation
 
