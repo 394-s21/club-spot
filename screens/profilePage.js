@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
 import { firebase }  from '../utils/firebase';
 import { Avatar,Provider, TextInput, RadioButton,Text, Subheading,Title, Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 
@@ -145,10 +145,11 @@ class profilePage extends Component{
     if (admin) {
       const clubName = this.state.clubInfo.clubName
       const clubDesc = this.state.clubInfo.description
+      const numMems = this.state.clubInfo.numMems
       if (edit) {
         return (
-          <SafeAreaView style={styles.container}>
-            <ScrollView>
+          <SafeAreaView style={styles.container} >
+            <ScrollView >
               <View style={styles.container}>
                 {this.get_profile_comp()}
                 <Title style={styles.subheading}>{full_name}</Title>
@@ -162,6 +163,11 @@ class profilePage extends Component{
               <Card style={styles.card}>
                   <Card.Content>
                     <Text>Club Name: {clubName}</Text>
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
+                    <Text>Number of Members: {numMems}</Text>
                   </Card.Content>
               </Card>
               <Card style={styles.card}>
@@ -209,6 +215,11 @@ class profilePage extends Component{
               </Card>
               <Card style={styles.card}>
                   <Card.Content>
+                    <Text>Number of Members: {numMems}</Text>
+                  </Card.Content>
+              </Card>
+              <Card style={styles.card}>
+                  <Card.Content>
                   <Text>Club Description: {clubDesc}</Text>
                   </Card.Content>
               </Card>
@@ -233,9 +244,9 @@ class profilePage extends Component{
         return (
 
 
-          <SafeAreaView style={styles.container}>
+          <SafeAreaView style={styles.container} >
             <ScrollView>
-              <View style={styles.container}>
+              <View style={styles.container} source={require('../assets/gradient.png')}>
                 {this.get_profile_comp()}
                 <Title style={styles.subheading}>{full_name}</Title>
               </View>
@@ -280,7 +291,6 @@ class profilePage extends Component{
       }
       else {
         return (
-
           <SafeAreaView style={styles.container}>
             <ScrollView>
               <View style={styles.container}>
@@ -330,7 +340,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logoutButton: {
-    backgroundColor: '#000000',
+    backgroundColor: '#4169E1',
     marginTop: 26,
     width: "30%",
     marginLeft: 5,

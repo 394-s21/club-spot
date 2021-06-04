@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Provider, TextInput, RadioButton,Text, Subheading,Card, Button,Paragraph, Dialog, Portal } from 'react-native-paper';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
+import { StyleSheet, View, SafeAreaView, Alert, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import * as Location from 'expo-location';
@@ -57,6 +57,26 @@ class eventMapPage extends Component{
   };
 
   async handleCreate (){
+    if (this.state.eventName === "" || !this.state.eventName) { // if user does not input any event name
+      this.alertUser("Create Event Failed!", "Please enter the event name!")
+      return
+    } 
+    if(!this.state.address || this.state.address === "") { // if user does not input any addresses
+      this.alertUser("Create Event Failed!", "Please enter a valid address!")
+      return 
+    }
+    if(!this.state.description || this.state.description === "") { // if user does not input any description
+      this.alertUser("Create Event Failed!", "Please enter a valid description!")
+      return 
+    }
+    if(!this.state.date || this.state.date === "") { // if user does not input any date
+      this.alertUser("Create Event Failed!", "Please enter a valid date!")
+      return 
+    }
+    if(!this.state.time || this.state.time === "") { // if user does not input any time
+      this.alertUser("Create Event Failed!", "Please enter a valid time!")
+      return 
+    }
     const coordinate = await Location.geocodeAsync(this.state.address)
     let event = {
       title: this.state.eventName, 
@@ -72,6 +92,19 @@ class eventMapPage extends Component{
     console.log(event)
     const db = firebase.database().ref();
     db.child('/events/'+event.title).set(event)
+    this.alertUser("Create Event Successful!")
+    this.props.navigation.pop()
+    this.props.navigation.pop() // pop twice to go back to the home page.
+  }
+
+  alertUser(title, subtitle) {
+    Alert.alert(
+      title,
+      subtitle,
+      [
+          { text: "OK" }
+      ]
+    );
   }
 
   getDateString () {
@@ -96,6 +129,7 @@ class eventMapPage extends Component{
 
   render(){
     return(
+        <ScrollView>
       <View style={styles.container}>
         <View style={{ flexDirection: "row", width: "100%" }}>       
           <TextInput label='Event Name'
@@ -108,7 +142,20 @@ class eventMapPage extends Component{
               <Text style={styles.OBtext}>EVENT</Text>
           </TouchableOpacity>
         </View>
-        <View style={{height: 80}}/>
+        <View style={{ width: "95%", height: 300, margin: 20, position: "relative" }}>
+                <GooglePlacesAutocomplete
+                    placeholder='Address'
+                    onPress={(data, details = null) => {
+                        // 'details' is provided when fetchDetails = true
+                        this.setState({ address: data.description })
+                        console.log(data, details);
+                    }}
+                    query={{
+                        key: 'AIzaSyBgcyM5Rx3Egi0ICUC_EF81gUWiKWr0Df4',
+                        language: 'en',
+                    }}
+                />
+            </View>
         <TextInput label='Description'
           value={this.state.description}
           multiline={true}
@@ -148,21 +195,8 @@ class eventMapPage extends Component{
             <TouchableOpacity style={{ height: 50, width: 200, backgroundColor: "lightblue", borderRadius: 10, justifyContent: "center" }} onPress={() => this.handleCreate()}>
                 <Text style={{alignSelf: "center", fontWeight: "bold", fontSize: 25}}>Create Event</Text>
             </TouchableOpacity>
-            <View style={{ width: "95%", height: 300, margin: 20, position: "absolute", top: 100 }}>
-                <GooglePlacesAutocomplete
-                    placeholder='Address'
-                    onPress={(data, details = null) => {
-                        // 'details' is provided when fetchDetails = true
-                        this.setState({ address: data.description })
-                        console.log(data, details);
-                    }}
-                    query={{
-                        key: 'AIzaSyBgcyM5Rx3Egi0ICUC_EF81gUWiKWr0Df4',
-                        language: 'en',
-                    }}
-                />
-            </View>
       </View>
+      </ScrollView>
     )
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, SafeAreaView, ScrollView, ImageBackground, TouchableOpacity} from 'react-native';
 import CommonCompClubCard from '../components/CommonCompClubCard';
 import DropDown from "react-native-paper-dropdown";
 import { firebase }  from '../utils/firebase';
@@ -88,7 +88,8 @@ class clubHomePage extends Component{
 
   render(){
     return(
-      <Provider > 
+      <Provider> 
+      <ImageBackground style={{width: '100%', height: '100%', resizeMode: 'contain'}} source={require('../assets/gradient.png')}>
       <SafeAreaView style={styles.container}>
         <View style={styles.dropdown}>
           <DropDown
@@ -125,10 +126,12 @@ class clubHomePage extends Component{
               clubCategory= {club.category} 
               clubEmail = {club.email} 
               clubId = {club.id}
+              imageReset = {club.imageReset}
               navigation={this.props.navigation}/>)}
           </View>
         </ScrollView>
       </SafeAreaView>
+      </ImageBackground>
       </Provider>
     ) 
   }

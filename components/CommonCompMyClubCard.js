@@ -2,19 +2,21 @@ import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { Card } from 'react-native-paper';
 
-const CommonCompMyClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navigation, clubId}) => {
+const CommonCompMyClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navigation, clubId, isViewClub}) => {
     const LeftContent = () => <Image style={styles.clubImage} source={require('../assets/clubLogo.png')}/>;
     
-    //TODO: to implement later
     const viewClub = (navigation,name,desc,category,email,id)=>{
       navigation.navigate('Club Announcement',{clubName:name, clubDesc:desc, clubCategory:category, clubEmail:email, clubId: id })
     }
 
+    const createEvent = (navigation,name,id)=>{
+      navigation.navigate('Create Event',{clubName:name, clubId: id })
+    }
     return(
         <View style={styles.container}>
             <Card 
             style={styles.card}
-            onPress={()=>{viewClub(navigation,clubName,clubDesc,clubCategory,clubEmail, clubId)}}>
+            onPress={()=>{isViewClub ? viewClub(navigation,clubName,clubDesc,clubCategory,clubEmail, clubId) : createEvent(navigation, clubName, clubId)}}>
                 <Card.Title
                 left={LeftContent}
                 leftStyle={styles.imageContainer}
@@ -40,7 +42,8 @@ const CommonCompMyClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navi
       flex: 1,
       paddingTop: 10,
       paddingBottom: 1,
-      borderRadius: 40
+      borderRadius: 40,
+      alignItems: "center"
     },
     clubImage: {
       borderRadius: 25,
@@ -53,15 +56,17 @@ const CommonCompMyClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navi
     },
     imageContainer: {
       paddingHorizontal: 0,
-      //borderWidth: 2,
       width: 60
     },
     clubDescription: {
       fontSize: 14,
-      
     },
     card: {
-      height: 100
+      height: 100,
+      width: "90%",
+      backgroundColor: "white",
+      borderRadius: 5,
+      justifyContent: "center",
     },
   });
   export default CommonCompMyClubCard;

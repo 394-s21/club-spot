@@ -1,12 +1,34 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { Card } from 'react-native-paper';
+import {firebase} from '../utils/firebase';
 
-const CommonCompClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navigation, clubId}) => {
-    const LeftContent = () => <Image style={styles.clubImage} source={require('../assets/clubLogo.png')}/>;
+const CommonCompClubCard = ({clubName, clubDesc, clubCategory, clubEmail, imageReset ,navigation, clubId}) => {
+    const [image,setImage] = useState();
+    const LeftContent = () => {
+      if(!imageReset){
+        return(
+        <Image style={styles.clubImage} source={require('../assets/clubLogo.png')}/>
+        )
+      }
+      else{
+        useEffect(() => {
+          var imageRef = firebase.storage().ref('clubs/'+clubId+'.jpg')
+          imageRef
+            .getDownloadURL()
+            .then((url) => {
+              setImage(url);
+            })
+            .catch((e) => console.log('Errors while downloading => ', e));
+        }, []);
+        //console.log(url);
+        return(
+        <Image style={styles.clubImage} source={{uri:image}}/>)
+      }
+  };
     
     const viewClub = (navigation,name,desc,category,email,id)=>{
-      navigation.navigate('Club Details',{clubName:name, clubDesc:desc, clubCategory:category, clubEmail:email, clubId: id })
+      navigation.navigate('Club Details',{clubName:name, clubDesc:desc, clubCategory:category, clubEmail:email, clubId: id, resetFlag: imageReset })
     }
 
     return(
@@ -57,7 +79,6 @@ const CommonCompClubCard = ({clubName, clubDesc, clubCategory, clubEmail, naviga
     },
     clubDescription: {
       fontSize: 14,
-      
     },
     card: {
       height: 100
