@@ -15,11 +15,11 @@ jobs:
         run: npm install --legacy-peer-deps && sudo npm install -g expo-cli
       - name: Build
         run:  npm run build
-      - name: Deploy To Firebase
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CLUB_SPOT }}'
-          projectId: club-spot
-        env:
-          FIREBASE_CLI_PREVIEWS: hostingchannels
+      # - name: Deploy To Firebase
+      #   uses: FirebaseExtended/action-hosting-deploy@v0
+      #   with:
+      #     repoToken: '${{ secrets.GITHUB_TOKEN }}'
+      #     firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CLUB_SPOT }}'
+      #     projectId: club-spot
+      #   env:
+      #     FIREBASE_CLI_PREVIEWS: hostingchannels

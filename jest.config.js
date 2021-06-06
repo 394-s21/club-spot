@@ -10,6 +10,7 @@ module.exports = {
       '|react-native-card-flip' +
       '|@react-navigation' +
       '|@react-native-community' +
+      '|@react-native-vector-icons/FontAwesome' +
       '/)'
   ]
 };
