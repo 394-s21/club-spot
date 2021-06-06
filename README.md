@@ -177,7 +177,7 @@ Upload the "final_clubspot_json.json" file to load all existing club data.
 
 You can also use the built-in CI/CD option to allow automatic build and deployment to firebase as well.
 
-### Address autocomplete:
+### Address Autocomplete:
 In order for the address autocomplete to work when creating an event you must add a google maps API key in event map page
  
 Go to https://developers.google.com/maps and follow steps to get API key
