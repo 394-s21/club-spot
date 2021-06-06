@@ -7,7 +7,7 @@ import {
   mockDate,
   mockTime
 } from "../utils/mock";
-import Card from '../components/CommonCompMyClubCard';
+import Card from '../components/CommonCompEventCard';
 
 // Describing our event card test
 describe('<EventCard />', () => {

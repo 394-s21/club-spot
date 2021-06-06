@@ -14,3 +14,6 @@ export const mockDescription = ""
 export const mockAddress = ""
 export const mockDate = ""
 export const mockTime = ""
+
+// mock objects for picking image
+// export const mock

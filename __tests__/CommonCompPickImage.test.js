@@ -1,33 +1,16 @@
 import React from  'react';
 import { render,fireEvent } from '@testing-library/react-native';
+import renderer from 'react-test-renderer';
 import { 
-  mockClubName,
-  mockClubDesc,
-  mockClubCategory,
-  mockClubEmail,
-  mockNavigation,
   mockClubId,
   mockIsViewClub,
 } from "../utils/mock";
-import Card from '../components/CommonCompMyClubCard';
+import Image from '../components/CommonCompPickImage';
 
-// Describing our club card test
-describe('<MyClubCard />', () => {
-  it('test my club card should be rendered properly', ()=> {
-    const {getByTestId} = render(
-      <Card 
-        clubName = {mockClubName}
-        clubDesc = {mockClubDesc}
-        clubCategory = {mockClubCategory}
-        navigation = {mockNavigation}
-        clubEmail = {mockClubEmail}
-        clubId = {mockClubId}
-        isViewClub = {mockIsViewClub}
-      />
-    );
-    // get the card component
-    const clubCard = getByTestId("myCard")
-    expect(getByTestId).not.toBeNull()
-    expect(clubCard).not.toBeNull()
-  }) 
-})
+// mock the image picker object
+jest.mock('expo-image-picker', () => 'ImagePicker')
+
+test('renders pick image correctly', () => {
+  const page = renderer.create(<Image/>).toJSON();
+  expect(page).toMatchSnapshot();
+}); 
