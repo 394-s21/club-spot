@@ -52,7 +52,7 @@ This React Native app uses Expo managed workflow with Google Firebase as backend
 * My Club
 * Choose Club Event
 * Club Announcement
-* Club Deatils
+* Club Details
 * Club Home
 * Create Announcement 
 * Create Event
@@ -143,3 +143,62 @@ If the issue persist,
 ```bash
 rm -r node_modules/expo/node_modules/react-native-gesture-handler
 ```
+
+### Creating a Firebase Database and adding Configuration
+Go to https://console.firebase.google.com/u/0/ and create an account.
+
+Create a new project with hosting and database capabilities.
+
+Install the following 2 packages:
+
+```
+npm install -g firebase-tools
+expo install firebase (if on Windows, run npm install firebase instead)
+```
+Then in your command line, you will create the configuration files to tell Firebase where to deploy your code.
+Run:
+```
+firebase init
+```
+This will prompt you with several questions:
+- Select "Use existing project" and then select the project you just created from the list that appears
+- Select only DATABASE and HOSTING
+- When it asks you where the web code is, enter WEB-BUILD
+- When it asks if this is a single page app, say YES
+- When it asks if you want Github integration, say NO
+- Hit return to give the default answers for all other questions 
+
+Next, go to your project app settings on the Firebase console, and scroll down to "Your apps".  
+Select "config" in the SDK setup and configuration options, and copy the code that appears into the file "firebase.js", replacing ALL existing code in the file.
+
+Next, go to the "database" tab on Firebase console. In the top right corner, click "import JSON".
+
+Upload the "final_clubspot_json.json" file to load all existing club data.
+
+You can also use the built-in CI/CD option to allow automatic build and deployment to firebase as well.
+
+### Address autocomplete:
+In order for the address autocomplete to work when creating an event you must add a google maps API key in event map page
+ 
+Go to https://developers.google.com/maps and follow steps to get API key
+
+In the file screens/createEventPage.js, on line 154, replace 'REPLACE WITH YOUR OWN GOOGLE MAPS API KEY' with your google maps API key
+Example: 
+```
+key: 'ABCDWYGJG1373GHJ13732'
+```
+
+### Testing the App
+Enter the directory in your command line environment and run:
+```
+expo start
+```
+### Running the App
+
+Enter the directory in your command line environment and run:
+```
+expo build:web
+firebase deploy
+```
+
+

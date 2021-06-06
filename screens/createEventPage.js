@@ -151,7 +151,7 @@ class eventMapPage extends Component{
                         console.log(data, details);
                     }}
                     query={{
-                        key: 'AIzaSyBgcyM5Rx3Egi0ICUC_EF81gUWiKWr0Df4',
+                        key: 'REPLACE WITH YOUR OWN GOOGLE MAPS API KEY',
                         language: 'en',
                     }}
                 />
