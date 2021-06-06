@@ -7,6 +7,7 @@ import {
   mockClubEmail,
   mockNavigation,
   mockClubId,
+  mockIsViewClub,
 } from "../utils/mock";
 import Card from '../components/CommonCompMyClubCard';
 
@@ -21,7 +22,7 @@ describe('<MyClubCard />', () => {
         navigation = {mockNavigation}
         clubEmail = {mockClubEmail}
         clubId = {mockClubId}
-        isViewClub = {false}
+        isViewClub = {mockIsViewClub}
       />
     );
     // get the card component
