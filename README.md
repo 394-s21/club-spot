@@ -175,6 +175,8 @@ Next, go to the "database" tab on Firebase console. In the top right corner, cli
 
 Upload the "final_clubspot_json.json" file to load all existing club data.
 
+You can also use the built-in CI/CD option to allow automatic build and deployment to firebase as well.
+
 ### Address autocomplete:
 In order for the address autocomplete to work when creating an event you must add a google maps API key in event map page
  
@@ -198,3 +200,5 @@ Enter the directory in your command line environment and run:
 expo build:web
 firebase deploy
 ```
+
+
