@@ -15,6 +15,7 @@ const CommonCompMyClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navi
     return(
         <View style={styles.container}>
             <Card 
+            testID = "myCard"
             style={styles.card}
             onPress={()=>{isViewClub ? viewClub(navigation,clubName,clubDesc,clubCategory,clubEmail, clubId) : createEvent(navigation, clubName, clubId)}}>
                 <Card.Title
@@ -23,7 +24,6 @@ const CommonCompMyClubCard = ({clubName, clubDesc, clubCategory, clubEmail, navi
                 title={clubName}
                 titleStyle={styles.title}
                 subtitle={clubDesc}
-                
                 subtitleStyle={styles.clubDescription}
                 subtitleNumberOfLines={2}
                 />

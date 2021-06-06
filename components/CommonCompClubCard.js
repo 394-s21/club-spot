@@ -34,6 +34,7 @@ const CommonCompClubCard = ({clubName, clubDesc, clubCategory, clubEmail, imageR
     return(
         <View style={styles.container}>
             <Card 
+            testID = "myCard"
             style={styles.card}
             onPress={()=>{viewClub(navigation,clubName,clubDesc,clubCategory,clubEmail, clubId)}}>
                 <Card.Title
