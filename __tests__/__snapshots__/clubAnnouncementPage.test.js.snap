@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders clubAnnouncementPage correctly 1`] = `<clubAnnouncementPage />`;
